@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+    <title>Ehmi</title>
+    <link href="https://blog.ehmad.site/feed.xml" rel="self" />
+    <link href="https://blog.ehmad.site" />
+    <updated>2024-11-14T11:21:23+05:00</updated>
+    <author>
+        <name>Ehmad</name>
+    </author>
+    <id>https://blog.ehmad.site</id>
+
+    <entry>
+        <title>Authentication token manipulation error</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/authentication-token-manipulation-error-2/"/>
+        <id>https://blog.ehmad.site/authentication-token-manipulation-error-2/</id>
+
+        <updated>2024-11-14T11:21:23+05:00</updated>
+            <summary>
+                <![CDATA[
+                    The “Authentication token manipulation error” in Debian usually indicates an issue with permissions or file corruption in authentication-related files. Here’s a step-by-step guide to troubleshoot and fix this: sudo passwd ahmad If you’re still encountering the same issue, proceed with the next steps. 2. Ensure&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>The “Authentication token manipulation error” in Debian usually indicates an issue with permissions or file corruption in authentication-related files. Here’s a step-by-step guide to troubleshoot and fix this:</p><h3 id="1-check-if-youre-root-or-have-sudo-privileges">1. <strong>Check if You’re Root or Have Sudo Privileges</strong></h3>
+<ul>
+<li>Make sure you’re running the <code>passwd</code> command as a root user or with <code>sudo</code> privileges. Run:<pre><code class="language-bash">sudo passwd ahmad
+</code></pre>
+</li>
+<li>If you’re still encountering the same issue, proceed with the next steps.</li>
+</ul>
+<h3 id="2-ensure-filesystem-is-not-mounted-as-read-only">2. <strong>Ensure Filesystem is Not Mounted as Read-Only</strong></h3>
+<ul>
+<li>Sometimes, the filesystem is in read-only mode, which prevents changes to authentication files.</li>
+<li>To check if the root filesystem is read-only, run:<pre><code class="language-bash">mount | grep &#39; / &#39;
+</code></pre>
+</li>
+<li>If you see <code>ro</code> (read-only), remount it as read-write:<pre><code class="language-bash">sudo mount -o remount,rw /
+</code></pre>
+</li>
+</ul>
+<h3 id="3-check-disk-space">3. <strong>Check Disk Space</strong></h3>
+<ul>
+<li>Lack of disk space can cause this error. Check available disk space with:<pre><code class="language-bash">df -h
+</code></pre>
+</li>
+<li>If your root partition (usually <code>/</code>) is full, try to free up space.</li>
+</ul>
+<h3 id="4-check-permissions-of-authentication-files">4. <strong>Check Permissions of Authentication Files</strong></h3>
+<ul>
+<li>Make sure the permissions on key files are correct:<pre><code class="language-bash">sudo ls -l /etc/passwd /etc/shadow /etc/gshadow
+</code></pre>
+</li>
+<li>The permissions should look like this:<pre><code>-rw-r--r-- 1 root root  /etc/passwd
+-rw------- 1 root shadow /etc/shadow
+-rw------- 1 root shadow /etc/gshadow
+</code></pre>
+</li>
+<li>If they don’t match, set them manually:<pre><code class="language-bash">sudo chmod 644 /etc/passwd
+sudo chmod 640 /etc/shadow
+sudo chmod 640 /etc/gshadow
+</code></pre>
+</li>
+</ul>
+<h3 id="5-try-resetting-the-password-again">5. <strong>Try Resetting the Password Again</strong></h3>
+<p>   After performing the above steps, try resetting the password again:</p><pre><code class="language-bash">sudo passwd ahmad
+</code></pre>
+<h3 id="6-reboot-as-a-last-resort">6. <strong>Reboot as a Last Resort</strong></h3>
+<ul>
+<li>If none of the above steps work, try rebooting the system to see if it resolves the issue:<pre><code class="language-bash">sudo reboot
+</code></pre>
+</li>
+</ul>
+<p>If the error persists after following these steps, there may be a deeper issue with the system files.</p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>block ICMP (Internet Control Message Protocol) echo requests &quot;Ping&quot;</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/block-icmp-internet-control-message-protocol-echo-requests-ping/"/>
+        <id>https://blog.ehmad.site/block-icmp-internet-control-message-protocol-echo-requests-ping/</id>
+
+        <updated>2024-11-14T11:19:08+05:00</updated>
+            <summary>
+                <![CDATA[
+                    To configure a server so that it does not respond to ping requests, you can block ICMP (Internet Control Message Protocol) echo requests, which are what ping uses to check if a server is reachable. Here are some ways to achieve this depending on your&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>To configure a server so that it does not respond to ping requests, you can block ICMP (Internet Control Message Protocol) echo requests, which are what <code>ping</code> uses to check if a server is reachable. Here are some ways to achieve this depending on your server’s operating system.</p><h3 id="for-linux-using-iptables-or-ufw">For Linux (using <code>iptables</code> or <code>ufw</code>)</h3>
+<h4 id="using-iptables">Using <code>iptables</code></h4>
+<ol>
+<li><p>Open a terminal on your server.</p></li>
+<li><p>Run the following command to drop ICMP echo requests:</p><pre><code class="language-bash">sudo iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
+</code></pre>
+<p>This command adds a rule to the firewall to drop all incoming ping requests.</p></li>
+<li><p>To make this rule persistent (so it survives a reboot), save your iptables rules:</p><pre><code class="language-bash">sudo iptables-save &gt; /etc/iptables/rules.v4
+</code></pre>
+<p>(Location of <code>rules.v4</code> may vary depending on distribution; for example, it might be <code>/etc/iptables.up.rules</code>.)</p></li>
+</ol>
+<h4 id="using-ufw-if-ufw-is-installed">Using <code>ufw</code> (if <code>ufw</code> is installed)</h4>
+<ol>
+<li><p>Open a terminal on your server.</p></li>
+<li><p>Disable ICMP echo requests with:</p><pre><code class="language-bash">sudo ufw deny proto icmp
+</code></pre>
+<p>This will configure <code>ufw</code> to block all ICMP requests, including pings.</p></li>
+</ol>
+<h3 id="for-windows-server-using-windows-firewall">For Windows Server (using Windows Firewall)</h3>
+<ol>
+<li>Open <strong>Windows Defender Firewall</strong> with Advanced Security.</li>
+<li>Go to <strong>Inbound Rules</strong>.</li>
+<li>Look for <strong>File and Printer Sharing (Echo Request - ICMPv4-In)</strong> and <strong>File and Printer Sharing (Echo Request - ICMPv6-In)</strong> rules.</li>
+<li>Right-click on these rules and select <strong>Disable</strong>.</li>
+</ol>
+<h3 id="to-re-enable-ping-responses">To Re-enable Ping Responses</h3>
+<p>To allow ping responses again:</p><ul>
+<li><p><strong>Linux (iptables)</strong>: Remove the rule by running:</p><pre><code class="language-bash">sudo iptables -D INPUT -p icmp --icmp-type echo-request -j DROP
+</code></pre>
+</li>
+<li><p><strong>Linux (ufw)</strong>: Run:</p><pre><code class="language-bash">sudo ufw allow proto icmp
+</code></pre>
+</li>
+<li><p><strong>Windows</strong>: Re-enable the <strong>File and Printer Sharing (Echo Request)</strong> rules in the Windows Firewall.</p></li>
+</ul>
+<p>These steps will configure your server to ignore ping requests, effectively making it “invisible” to ping commands while still accessible for other network services.</p>
+            ]]>
+        </content>
+    </entry>
+</feed>

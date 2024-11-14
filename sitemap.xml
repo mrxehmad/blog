@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="https://blog.ehmad.site/sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<url>
+<loc>https://blog.ehmad.site/</loc>
+</url>
+<url>
+<loc>https://blog.ehmad.site/authentication-token-manipulation-error-2/</loc>
+<lastmod>2024-11-14T11:21:23+05:00</lastmod>
+</url>
+<url>
+<loc>https://blog.ehmad.site/block-icmp-internet-control-message-protocol-echo-requests-ping/</loc>
+<lastmod>2024-11-14T11:19:08+05:00</lastmod>
+</url>
+</urlset>
