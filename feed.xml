@@ -3,12 +3,68 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2024-11-14T12:08:13+05:00</updated>
+    <updated>2024-11-15T12:24:15+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>How to Mount a WebDAV Server as a Network Drive in Windows 10</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/how-to-mount-a-webdav-server-as-a-network-drive-in-windows-10/"/>
+        <id>https://blog.ehmad.site/how-to-mount-a-webdav-server-as-a-network-drive-in-windows-10/</id>
+
+        <updated>2024-11-15T12:24:15+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Introduction Mapping a WebDAV server to a drive letter in Windows 10 allows for seamless file access, making it feel just like a local drive. This guide will walk you through the steps to connect your WebDAV server at https://example.com/webdev as a network drive in&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h3 id="introduction">Introduction</h3>
+<p>Mapping a WebDAV server to a drive letter in Windows 10 allows for seamless file access, making it feel just like a local drive. This guide will walk you through the steps to connect your WebDAV server at <code>https://example.com/webdev</code> as a network drive in Windows 10, allowing easy drag-and-drop functionality for managing files.</p><h3 id="prerequisites">Prerequisites</h3>
+<p>Before we begin, ensure you have:</p><ul>
+<li>The WebDAV server URL (<code>https://example.com/webdev</code>).</li>
+<li>Credentials (username and password) for accessing the WebDAV server.</li>
+</ul>
+<h3 id="step-1-open-file-explorer">Step 1: Open File Explorer</h3>
+<p>Start by opening <strong>File Explorer</strong> on your Windows 10 computer. You can do this quickly by pressing <strong>Windows + E</strong> on your keyboard.</p><h3 id="step-2-navigate-to-this-pc">Step 2: Navigate to “This PC”</h3>
+<p>In File Explorer, click on <strong>This PC</strong> in the left sidebar. This is where we’ll add the WebDAV server as a network drive.</p><h3 id="step-3-map-network-drive">Step 3: Map Network Drive</h3>
+<ol>
+<li>In the <strong>This PC</strong> window, go to the top menu and select <strong>Computer</strong>.</li>
+<li>Click on <strong>Map network drive</strong> from the dropdown menu. This will open the Map Network Drive wizard.</li>
+</ol>
+<h3 id="step-4-choose-a-drive-letter">Step 4: Choose a Drive Letter</h3>
+<p>In the Map Network Drive wizard:</p><ul>
+<li><strong>Drive</strong>: Choose an available drive letter for the WebDAV server (e.g., <code>Z:</code>).</li>
+</ul>
+<p>Choosing a memorable drive letter will make it easy to find later.</p><h3 id="step-5-enter-the-webdav-url">Step 5: Enter the WebDAV URL</h3>
+<p>In the <strong>Folder</strong> field, enter your WebDAV server URL:  </p><pre><code>https://example.com/webdev
+</code></pre>
+<h3 id="step-6-connect-using-different-credentials">Step 6: Connect Using Different Credentials</h3>
+<p>Check the box labeled <strong>Connect using different credentials</strong>. This is important if your WebDAV server requires a username and password for access.</p><h3 id="step-7-finish-and-authenticate">Step 7: Finish and Authenticate</h3>
+<ol>
+<li>Click <strong>Finish</strong> to complete the setup.</li>
+<li>A prompt will appear, asking you to enter your <strong>username</strong> and <strong>password</strong> for the WebDAV server. Input your credentials.</li>
+<li>Optionally, check <strong>Remember my credentials</strong> if you want Windows to save this information for future connections.</li>
+</ol>
+<h3 id="step-8-verify-the-connection">Step 8: Verify the Connection</h3>
+<p>If the connection is successful, the WebDAV folder will be accessible as a network drive in <strong>This PC</strong> under the drive letter you selected. You can now access the WebDAV server directly from File Explorer, just like any other folder on your computer.</p><figure class="post__image"><img loading="lazy" src="https://blog.ehmad.site/media/posts/9/rtaImage.jpeg" alt="How to Mount a WebDAV Server as a Network Drive in Windows 10" width="1047" height="606"  sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://blog.ehmad.site/media/posts/9/responsive/rtaImage-xs.webp 640w ,https://blog.ehmad.site/media/posts/9/responsive/rtaImage-sm.webp 768w ,https://blog.ehmad.site/media/posts/9/responsive/rtaImage-md.webp 1024w ,https://blog.ehmad.site/media/posts/9/responsive/rtaImage-lg.webp 1366w ,https://blog.ehmad.site/media/posts/9/responsive/rtaImage-xl.webp 1600w ,https://blog.ehmad.site/media/posts/9/responsive/rtaImage-2xl.webp 1920w"></figure><h3 id="troubleshooting-common-issues">Troubleshooting Common Issues</h3>
+<p>If you encounter any problems connecting, here are a few solutions to try:</p><ul>
+<li><p><strong>WebDAV Client Compatibility</strong>: Windows’ built-in WebDAV client may not work with all servers. If you have connection issues, consider using a third-party client like <strong>Cyberduck</strong> or <strong>WinSCP</strong>.</p></li>
+<li><p><strong>Firewall or Antivirus Interference</strong>: Occasionally, firewall or antivirus settings may block WebDAV connections. Temporarily disable them to see if that resolves the issue.</p></li>
+<li><p><strong>Ensure HTTPS Compatibility</strong>: If your WebDAV server only supports HTTP, replace <code>https://</code> with <code>http://</code> in the URL. However, HTTPS is recommended for security.</p></li>
+</ul>
+<hr>
+<h3 id="conclusion">Conclusion</h3>
+<p>Mapping a WebDAV server to a network drive in Windows 10 offers the convenience of cloud storage with the familiarity of a local drive. Now, you can manage files on your WebDAV server just as you would on any other drive. Enjoy the streamlined workflow and easy access to your files!</p><p>Let us know if you need help troubleshooting any issues or have questions about WebDAV setup on other platforms!</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>How to Use ADB Wirelessly Over Wi-Fi</title>
         <author>
