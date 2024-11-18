@@ -45,8 +45,19 @@
 </image:image>
 </url>
 <url>
+<loc>https://blog.ehmad.site/page/2/</loc>
+</url>
+<url>
 <loc>https://blog.ehmad.site/privacy-policy-for-ehmi/</loc>
 <lastmod>2024-11-14T11:51:49+05:00</lastmod>
+</url>
+<url>
+<loc>https://blog.ehmad.site/setting-up-a-secure-and-optimized-searxng-instance-with-docker-compose/</loc>
+<lastmod>2024-11-18T16:53:54+05:00</lastmod>
+<image:image>
+<image:loc>https://blog.ehmad.site/media/posts/11/0_wt6Gd9kkdlifAPKr.png</image:loc>
+<image:title><![CDATA[Setting Up a Secure and Optimized SearXNG Instance with Docker Compose]]></image:title>
+</image:image>
 </url>
 <url>
 <loc>https://blog.ehmad.site/terms-and-conditions-for-ehmi/</loc>
