@@ -3,12 +3,177 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2024-11-18T16:53:54+05:00</updated>
+    <updated>2024-11-20T18:17:04+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>Setup a V2Ray server</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/setup-a-v2ray-server/"/>
+        <id>https://blog.ehmad.site/setup-a-v2ray-server/</id>
+
+        <updated>2024-11-20T18:17:04+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Setup a V2Ray server allows you to create a custom VPN or proxy server with advanced features such as multiple protocols, routing rules, and security measures. V2Ray is often used to bypass internet censorship, improve privacy, or enhance speed for certain applications. Below is a&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Setup a <strong>V2Ray server</strong> allows you to create a custom VPN or proxy server with advanced features such as multiple protocols, routing rules, and security measures. V2Ray is often used to bypass internet censorship, improve privacy, or enhance speed for certain applications. Below is a guide for setting up a V2Ray server on a VPS (e.g., on an Ubuntu server) and configuring it to run securely.</p><figure class="post__image"><img loading="lazy" src="https://blog.ehmad.site/media/posts/12/v2ray-2.jpg" alt="Setup a V2Ray server" width="1600" height="900"  sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-xs.webp 640w ,https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-sm.webp 768w ,https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-md.webp 1024w ,https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-lg.webp 1366w ,https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-xl.webp 1600w ,https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-2xl.webp 1920w"></figure><h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>A VPS with a public IP address, running <strong>Ubuntu 18.04+</strong> or <strong>Debian 9+</strong>.</li>
+<li>Basic knowledge of command-line operations.</li>
+<li>A domain name (optional, but recommended for easier access and setting up TLS encryption).</li>
+</ul>
+<h3 id="step-1-update-and-install-necessary-packages">Step 1: Update and Install Necessary Packages</h3>
+<p>Log into your server and update it:</p><pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt upgrade -y
+</code></pre>
+<p>Install necessary packages:</p><pre><code class="language-bash">sudo apt install -y curl vim unzip
+</code></pre>
+<h3 id="step-2-install-v2ray">Step 2: Install V2Ray</h3>
+<p>The official V2Ray team offers a script to simplify installation:</p><pre><code class="language-bash">bash &lt;(curl -L https://install.direct/go.sh)
+</code></pre>
+<p>This will:</p><ul>
+<li>Download the latest version of V2Ray.</li>
+<li>Install it to <code>/usr/local/bin/v2ray</code>.</li>
+<li>Create necessary configuration directories (<code>/etc/v2ray</code>).</li>
+<li>Set up systemd services.</li>
+</ul>
+<p>Once the script completes, V2Ray will be installed and ready to configure.</p><h3 id="step-3-configure-v2ray-server">Step 3: Configure V2Ray Server</h3>
+<p>The main configuration file for V2Ray is located at <code>/etc/v2ray/config.json</code>. Here is a basic configuration for a V2Ray server using <strong>VMess protocol</strong> with WebSocket transport:</p><ol>
+<li><p>Open the configuration file:</p><pre><code class="language-bash">sudo vim /etc/v2ray/config.json
+</code></pre>
+</li>
+<li><p>Replace its contents with a simple configuration:</p><pre><code class="language-json">{
+  &quot;inbounds&quot;: [
+    {
+      &quot;port&quot;: 443,
+      &quot;protocol&quot;: &quot;vmess&quot;,
+      &quot;settings&quot;: {
+        &quot;clients&quot;: [
+          {
+            &quot;id&quot;: &quot;YOUR_UUID&quot;,
+            &quot;alterId&quot;: 64
+          }
+        ]
+      },
+      &quot;streamSettings&quot;: {
+        &quot;network&quot;: &quot;ws&quot;,
+        &quot;wsSettings&quot;: {
+          &quot;path&quot;: &quot;/v2ray&quot;
+        }
+      }
+    }
+  ],
+  &quot;outbounds&quot;: [
+    {
+      &quot;protocol&quot;: &quot;freedom&quot;,
+      &quot;settings&quot;: {}
+    }
+  ]
+}
+</code></pre>
+<ul>
+<li><p><strong>Replace <code>YOUR_UUID</code></strong> with a unique UUID for your client. Generate a UUID with:</p><pre><code class="language-bash">uuidgen
+</code></pre>
+</li>
+<li><p><strong>Adjust the <code>port</code></strong> if 443 is already in use, or if you want to use a custom port.</p></li>
+</ul>
+</li>
+</ol>
+<h3 id="step-4-set-up-tls-optional-but-recommended">Step 4: Set Up TLS (Optional but Recommended)</h3>
+<p>TLS encrypts your traffic, making it harder to detect or block.</p><ol>
+<li><p><strong>Install Certbot</strong>:</p><pre><code class="language-bash">sudo apt install -y certbot
+</code></pre>
+</li>
+<li><p><strong>Request a certificate</strong> for your domain:</p><pre><code class="language-bash">sudo certbot certonly --standalone -d yourdomain.com
+</code></pre>
+</li>
+<li><p>Update the <code>config.json</code> to include TLS settings:</p><pre><code class="language-json">{
+  &quot;inbounds&quot;: [
+    {
+      &quot;port&quot;: 443,
+      &quot;protocol&quot;: &quot;vmess&quot;,
+      &quot;settings&quot;: {
+        &quot;clients&quot;: [
+          {
+            &quot;id&quot;: &quot;YOUR_UUID&quot;,
+            &quot;alterId&quot;: 64
+          }
+        ]
+      },
+      &quot;streamSettings&quot;: {
+        &quot;network&quot;: &quot;ws&quot;,
+        &quot;security&quot;: &quot;tls&quot;,
+        &quot;tlsSettings&quot;: {
+          &quot;certificates&quot;: [
+            {
+              &quot;certificateFile&quot;: &quot;/etc/letsencrypt/live/yourdomain.com/fullchain.pem&quot;,
+              &quot;keyFile&quot;: &quot;/etc/letsencrypt/live/yourdomain.com/privkey.pem&quot;
+            }
+          ]
+        },
+        &quot;wsSettings&quot;: {
+          &quot;path&quot;: &quot;/v2ray&quot;
+        }
+      }
+    }
+  ],
+  &quot;outbounds&quot;: [
+    {
+      &quot;protocol&quot;: &quot;freedom&quot;,
+      &quot;settings&quot;: {}
+    }
+  ]
+}
+</code></pre>
+</li>
+<li><p>Restart V2Ray to apply the new settings:</p><pre><code class="language-bash">sudo systemctl restart v2ray
+</code></pre>
+</li>
+</ol>
+<h3 id="step-5-open-the-firewall-ports">Step 5: Open the Firewall Ports</h3>
+<p>Ensure that your firewall allows traffic on the port you’ve chosen for V2Ray (443 in this example):</p><pre><code class="language-bash">sudo ufw allow 443/tcp
+sudo ufw allow 443/udp
+</code></pre>
+<h3 id="step-6-configure-v2ray-client">Step 6: Configure V2Ray Client</h3>
+<p>To connect to your server, you’ll need a V2Ray client app (e.g., V2RayN for Windows or Shadowrocket for iOS).</p><ol>
+<li><p>In the client app, use these settings:</p><ul>
+<li><strong>Address</strong>: <code>yourdomain.com</code> or server IP</li>
+<li><strong>Port</strong>: <code>443</code></li>
+<li><strong>UUID</strong>: The UUID you generated for <code>YOUR_UUID</code></li>
+<li><strong>AlterID</strong>: <code>64</code></li>
+<li><strong>Network</strong>: <code>WebSocket</code></li>
+<li><strong>Path</strong>: <code>/v2ray</code></li>
+<li><strong>TLS</strong>: Enable, if you’ve set up TLS.</li>
+</ul>
+</li>
+<li><p>Save and connect.</p></li>
+</ol>
+<h3 id="step-7-start-and-enable-v2ray-service">Step 7: Start and Enable V2Ray Service</h3>
+<p>Enable and start V2Ray as a service to keep it running:</p><pre><code class="language-bash">sudo systemctl enable v2ray
+sudo systemctl start v2ray
+</code></pre>
+<h3 id="troubleshooting-tips">Troubleshooting Tips</h3>
+<ul>
+<li><strong>Logs</strong>: If V2Ray is not working, check the logs with:<pre><code class="language-bash">sudo journalctl -u v2ray -f
+</code></pre>
+</li>
+<li><strong>Firewall</strong>: Double-check that the firewall settings match your V2Ray configuration.</li>
+<li><strong>Config Validation</strong>: Use <code>jq</code> to validate <code>config.json</code> syntax:<pre><code class="language-bash">jq . /etc/v2ray/config.json
+</code></pre>
+</li>
+</ul>
+<p>You now have a working V2Ray server!</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Setting Up a Secure and Optimized SearXNG Instance with Docker Compose</title>
         <author>
