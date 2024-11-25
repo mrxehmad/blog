@@ -3,12 +3,100 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2024-11-22T17:39:15+05:00</updated>
+    <updated>2024-11-25T19:39:13+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>configure Nginx with a self-signed SSL certificate for a domain</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/configure-nginx-with-a-self-signed-ssl-certificate-for-a-domain/"/>
+        <id>https://blog.ehmad.site/configure-nginx-with-a-self-signed-ssl-certificate-for-a-domain/</id>
+
+        <updated>2024-11-25T19:39:13+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Here’s a step-by-step guide to configure Nginx with a self-signed SSL certificate for a domain, directing requests to a local service running on port 5006. First, you need to create a self-signed SSL certificate for the domain. You can use openssl to generate the certificate&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Here’s a step-by-step guide to configure Nginx with a self-signed SSL certificate for a domain, directing requests to a local service running on port <code>5006</code>.</p><h3 id="1-create-a-self-signed-ssl-certificate">1. Create a Self-Signed SSL Certificate</h3>
+<p>First, you need to create a self-signed SSL certificate for the domain. You can use <code>openssl</code> to generate the certificate and private key.</p><ol>
+<li><p><strong>Generate the SSL Certificate and Private Key:</strong></p><pre><code class="language-bash">sudo mkdir -p /etc/nginx/ssl
+sudo openssl req -newkey rsa:2048 -nodes -keyout /etc/nginx/ssl/yourdomain.key -x509 -days 365 -out /etc/nginx/ssl/yourdomain.crt
+</code></pre>
+<p>Replace <code>yourdomain</code> with your actual domain name (e.g., <code>example.com</code>). During this command, you’ll be prompted to provide details for the certificate, such as Country Name, Organization, and so on. You can leave these fields blank if not required.</p></li>
+</ol>
+<h3 id="2-configure-nginx">2. Configure Nginx</h3>
+<p>Now, configure Nginx to use the self-signed SSL certificate and to forward traffic to port <code>5006</code>.</p><ol>
+<li><p><strong>Edit Nginx Configuration File:</strong></p><p>Open (or create) your domain configuration file in Nginx. Typically, it’s located in <code>/etc/nginx/sites-available/yourdomain</code>:</p><pre><code class="language-bash">sudo nano /etc/nginx/sites-available/yourdomain
+</code></pre>
+</li>
+<li><p><strong>Add the SSL Configuration and Reverse Proxy Settings:</strong></p><p>Add the following configuration to the file:</p><pre><code class="language-nginx">server {
+    listen 80;
+    server_name yourdomain.com www.yourdomain.com;
+
+    # Redirect all HTTP traffic to HTTPS
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name yourdomain.com www.yourdomain.com;
+
+    # SSL Certificate and Key
+    ssl_certificate /etc/nginx/ssl/yourdomain.crt;
+    ssl_certificate_key /etc/nginx/ssl/yourdomain.key;
+
+    # SSL Settings
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
+    # Proxy Pass to Local Port 5006
+    location / {
+        proxy_pass http://127.0.0.1:5006;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+</code></pre>
+<p>This configuration does the following:</p><ul>
+<li>Redirects HTTP traffic to HTTPS.</li>
+<li>Configures SSL on port <code>443</code> with the self-signed certificate.</li>
+<li>Proxies all HTTPS requests to the local server on port <code>5006</code>.</li>
+</ul>
+</li>
+<li><p><strong>Enable the Site Configuration:</strong></p><p>Link the configuration file from <code>sites-available</code> to <code>sites-enabled</code> to enable it:</p><pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/yourdomain /etc/nginx/sites-enabled/
+</code></pre>
+</li>
+<li><p><strong>Test the Nginx Configuration:</strong></p><p>Test the configuration to ensure there are no syntax errors:</p><pre><code class="language-bash">sudo nginx -t
+</code></pre>
+</li>
+<li><p><strong>Reload Nginx:</strong></p><p>If the test is successful, reload Nginx to apply the changes:</p><pre><code class="language-bash">sudo systemctl reload nginx
+</code></pre>
+</li>
+</ol>
+<h3 id="3-verify-the-setup">3. Verify the Setup</h3>
+<ul>
+<li>Visit <code>https://yourdomain.com</code> in your browser. You should see a warning because the certificate is self-signed.</li>
+<li>You can proceed to the site, and the requests should be proxied to the service running on port <code>5006</code>.</li>
+</ul>
+<h3 id="notes">Notes:</h3>
+<ul>
+<li>To bypass the certificate warning, you’ll need to add the certificate as a trusted authority in your browser or use a Certificate Authority (CA) to get a trusted SSL certificate for production environments.</li>
+</ul>
+
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Create a simple seismograph with BMI160 6-DOF</title>
         <author>
