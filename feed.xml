@@ -3,12 +3,138 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2024-11-25T19:39:13+05:00</updated>
+    <updated>2024-11-28T09:55:30+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>api.cloud.tenda.com.cn debuging a router</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/apicloudtendacomcn-debuging-a-router/"/>
+        <id>https://blog.ehmad.site/apicloudtendacomcn-debuging-a-router/</id>
+
+        <updated>2024-11-28T09:53:48+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Tenda Listener - PHP Script This PHP script is designed to receive, display, and log HTTP requests sent to the server. It is particularly useful for debugging and inspecting the data sent by devices connecting to a Tenda router. Specifically, it can capture data sent&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h1 id="tenda-listener---php-script">Tenda Listener - PHP Script</h1>
+<p>This <a href="https://github.com/mrxehmad/api.cloud.tenda.com.cn"> PHP script</a> is designed to receive, display, and log HTTP requests sent to the server. It is particularly useful for debugging and inspecting the data sent by devices connecting to a Tenda router. Specifically, it can capture data sent to <code>api.cloud.tenda.com.cn</code> by redirecting it to a local server.</p><hr>
+<h2 id="features">Features</h2>
+<ul>
+<li>Displays received HTTP headers.</li>
+<li>Captures and prints <code>GET</code> and <code>POST</code> request data.</li>
+<li>Shows the raw body of the request (e.g., JSON, XML, or other formats).</li>
+<li>Allows monitoring of data sent to <code>api.cloud.tenda.com.cn</code> when a new device connects to the router.</li>
+</ul>
+<hr>
+<h2 id="installation">Installation</h2>
+<h3 id="1-deploy-the-php-script">1. Deploy the PHP Script</h3>
+<ol>
+<li><p>Place the <code>index.php</code> file in the desired directory on your web server:</p><pre><code class="language-bash">sudo mkdir -p /var/www/html/tenda-listener
+sudo nano /var/www/html/tenda-listener/index.php
+</code></pre>
+<p>Add the PHP script content as described in this repository.</p></li>
+<li><p>Set proper ownership and permissions for the web directory:</p><pre><code class="language-bash">sudo chown -R www-data:www-data /var/www/html/tenda-listener
+sudo chmod -R 755 /var/www/html/tenda-listener
+</code></pre>
+</li>
+<li><p>Configure Nginx to serve the PHP script. Create a new site configuration file:</p><pre><code class="language-bash">sudo nano /etc/nginx/sites-available/tenda-listener
+</code></pre>
+<p>Add the following configuration:</p><pre><code class="language-nginx">server {
+    listen 80;
+    server_name 192.168.0.x;
+
+    root /var/www/html/tenda-listener;
+    index index.php;
+
+    location / {
+        try_files $uri /index.php;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock; # Adjust PHP version if necessary
+    }
+}
+</code></pre>
+</li>
+<li><p>Enable the site:</p><pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/tenda-listener /etc/nginx/sites-enabled/
+</code></pre>
+</li>
+<li><p>Test the configuration and reload Nginx:</p><pre><code class="language-bash">sudo nginx -t
+sudo systemctl reload nginx
+</code></pre>
+</li>
+</ol>
+<hr>
+<h3 id="2-configure-dns-request-forwarding">2. Configure DNS Request Forwarding</h3>
+<p>To capture the data sent to <code>api.cloud.tenda.com.cn</code>, set up DNS request forwarding to redirect requests to your local server:</p><ol>
+<li><p><strong>Modify the DNS Configuration on the Router:</strong></p><ul>
+<li>Set up a DNS server (like Pi-hole or any DNS resolver) to resolve <code>api.cloud.tenda.com.cn</code> to your local server’s IP (<code>192.168.0.x</code>).</li>
+<li>For example, if using Pi-hole:<ul>
+<li>Navigate to <strong>Internet Settings</strong>.</li>
+<li>Add a  dns to <code>192.168.0.x</code> (your dns server).
+ <figure class="post__image"><img loading="lazy" src="https://blog.ehmad.site/media/posts/15/dns_setting.png" alt="DNS Setting tenda router" width="990" height="1001"  sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://blog.ehmad.site/media/posts/15/responsive/dns_setting-xs.webp 640w ,https://blog.ehmad.site/media/posts/15/responsive/dns_setting-sm.webp 768w ,https://blog.ehmad.site/media/posts/15/responsive/dns_setting-md.webp 1024w ,https://blog.ehmad.site/media/posts/15/responsive/dns_setting-lg.webp 1366w ,https://blog.ehmad.site/media/posts/15/responsive/dns_setting-xl.webp 1600w ,https://blog.ehmad.site/media/posts/15/responsive/dns_setting-2xl.webp 1920w"></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Verify DNS Resolution:</strong>
+Run the following command from a device on the same network:</p><pre><code class="language-bash">nslookup api.cloud.tenda.com.cn
+</code></pre>
+<p>It should return <code>192.168.0.x</code>.</p></li>
+<li><p>Once configured, all traffic intended for <code>api.cloud.tenda.com.cn</code> will now be forwarded to your PHP listener.</p></li>
+</ol>
+<hr>
+<h2 id="usage">Usage</h2>
+<p>When a new device connects to the Tenda router, it sends data to <code>api.cloud.tenda.com.cn</code>. This data will be redirected to your PHP listener at <code>http://192.168.0.x</code>, where it can be inspected.</p><h3 id="viewing-data">Viewing Data</h3>
+<ul>
+<li>Open <code>http://192.168.0.x</code> in a browser to view incoming requests.</li>
+<li>The page displays:<ol>
+<li><strong>HTTP Headers</strong>: Headers sent with the request.</li>
+<li><strong>GET/POST Data</strong>: Any data sent as query parameters or form data.</li>
+<li><strong>Raw Body</strong>: The unprocessed body of the request, such as JSON or XML payloads.</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="sample-data-captured">Sample Data Captured</h2>
+<p>Below is an example of data captured when a new device connects to the router:</p><h3 id="http-headers">HTTP Headers:</h3>
+<pre><code>Array
+(
+    [Host] =&gt; api.cloud.tenda.com.cn
+    [User-Agent] =&gt; TendaRouter/1.0
+    [Content-Type] =&gt; application/json
+    [Accept] =&gt; */*
+)
+</code></pre>
+<h3 id="raw-input-data">Raw Input Data:</h3>
+<pre><code class="language-json">{
+    &quot;device_id&quot;: &quot;123456789&quot;,
+    &quot;device_name&quot;: &quot;Smartphone&quot;,
+    &quot;mac_address&quot;: &quot;AA:BB:CC:DD:EE:FF&quot;,
+    &quot;connection_time&quot;: &quot;2024-10-31T10:00:00Z&quot;
+}
+</code></pre>
+<p>This data shows the device ID, name, MAC address, and the connection timestamp.</p><hr>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>This script is for <strong>debugging purposes only</strong> and should not be exposed publicly without additional security measures.</li>
+<li>Ensure the PHP version on your server supports the <code>getallheaders</code> function.</li>
+<li>Use HTTPS for added security if exposing this listener outside your local network.</li>
+</ul>
+
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>configure Nginx with a self-signed SSL certificate for a domain</title>
         <author>
