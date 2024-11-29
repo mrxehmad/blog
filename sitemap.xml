@@ -64,8 +64,15 @@
 <loc>https://blog.ehmad.site/page/2/</loc>
 </url>
 <url>
+<loc>https://blog.ehmad.site/page/3/</loc>
+</url>
+<url>
 <loc>https://blog.ehmad.site/privacy-policy-for-ehmi/</loc>
 <lastmod>2024-11-14T11:51:49+05:00</lastmod>
+</url>
+<url>
+<loc>https://blog.ehmad.site/securely-connecting-to-an-rdp-server-using-cloudflare-zero-trust-and-warp/</loc>
+<lastmod>2024-11-29T13:34:41+05:00</lastmod>
 </url>
 <url>
 <loc>https://blog.ehmad.site/setting-up-a-secure-and-optimized-searxng-instance-with-docker-compose/</loc>
