@@ -3,12 +3,98 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2024-12-04T09:25:55+05:00</updated>
+    <updated>2024-12-07T10:20:01+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>TCP/IP model</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/tcpip-model/"/>
+        <id>https://blog.ehmad.site/tcpip-model/</id>
+
+        <updated>2024-12-07T10:20:01+05:00</updated>
+            <summary>
+                <![CDATA[
+                    The TCP/IP model is a framework used for network communication. It outlines how data is transmitted across interconnected devices and ensures compatibility across different systems. It is the foundation of the Internet and consists of four layers, each with specific responsibilities. Application Layer Transport Layer&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>The <strong>TCP/IP model</strong> is a framework used for network communication. It outlines how data is transmitted across interconnected devices and ensures compatibility across different systems. It is the foundation of the Internet and consists of four layers, each with specific responsibilities.</p><hr>
+<h3 id="layers-of-the-tcpip-model"><strong>Layers of the TCP/IP Model:</strong></h3>
+<ol>
+<li><p><strong>Application Layer</strong>  </p><ul>
+<li><strong>Purpose:</strong> Provides network services to applications and users. It enables communication between software and the network.</li>
+<li><strong>Examples:</strong> HTTP (web browsing), SMTP (email), FTP (file transfer), DNS (domain name resolution).</li>
+<li><strong>Functions:</strong>  <ul>
+<li>Handles data formatting, encoding, and processing.</li>
+<li>Ensures user interactions are effectively transmitted over the network.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Transport Layer</strong>  </p><ul>
+<li><strong>Purpose:</strong> Ensures reliable data transfer between devices.</li>
+<li><strong>Examples:</strong> TCP (Transmission Control Protocol), UDP (User Datagram Protocol).</li>
+<li><strong>Functions:</strong>  <ul>
+<li><strong>TCP:</strong> Reliable, connection-oriented communication (e.g., web pages, emails).</li>
+<li><strong>UDP:</strong> Faster, connectionless communication (e.g., video streaming, online gaming).</li>
+<li>Error detection, flow control, and data segmentation.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Internet Layer</strong>  </p><ul>
+<li><strong>Purpose:</strong> Handles routing and addressing, allowing data to move across networks.</li>
+<li><strong>Examples:</strong> IP (Internet Protocol), ICMP (Internet Control Message Protocol), ARP (Address Resolution Protocol).</li>
+<li><strong>Functions:</strong>  <ul>
+<li>Defines logical addressing (IP addresses).</li>
+<li>Routes data packets between devices across networks.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Network Access Layer (or Link Layer)</strong>  </p><ul>
+<li><strong>Purpose:</strong> Governs how data is physically transmitted over the network.</li>
+<li><strong>Examples:</strong> Ethernet, Wi-Fi, ARP.</li>
+<li><strong>Functions:</strong>  <ul>
+<li>Defines how data frames are transmitted over the physical medium (e.g., cables, wireless).</li>
+<li>Handles hardware addressing (MAC addresses) and error detection at the physical level.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="key-features-of-the-tcpip-model"><strong>Key Features of the TCP/IP Model:</strong></h3>
+<ol>
+<li><strong>Scalability:</strong> Designed for large-scale networks like the Internet.</li>
+<li><strong>Flexibility:</strong> Supports multiple types of hardware and software.</li>
+<li><strong>Interoperability:</strong> Ensures diverse systems can communicate effectively.</li>
+<li><strong>Layer Independence:</strong> Each layer operates independently but works cohesively with others.</li>
+</ol>
+<hr>
+<h3 id="comparison-with-osi-model"><strong>Comparison with OSI Model</strong></h3>
+<ul>
+<li>The <strong>TCP/IP model</strong> has four layers, while the <strong>OSI model</strong> has seven layers.</li>
+<li>TCP/IP focuses more on practical implementation, whereas OSI is more theoretical.</li>
+<li>Layers in TCP/IP map roughly to OSI as follows:<ul>
+<li><strong>Application (TCP/IP)</strong> = Application, Presentation, and Session (OSI)</li>
+<li><strong>Transport (TCP/IP)</strong> = Transport (OSI)</li>
+<li><strong>Internet (TCP/IP)</strong> = Network (OSI)</li>
+<li><strong>Network Access (TCP/IP)</strong> = Data Link + Physical (OSI)</li>
+</ul>
+</li>
+</ul>
+<p>Understanding the TCP/IP model is crucial for networking, as it underpins the modern Internet and its communication protocols.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Streaming live audio over Wi-Fi with an ESP8266</title>
         <author>
@@ -1009,68 +1095,6 @@ This should give you insights into your app’s network activity specifically.</
 <hr>
 <h3 id="conclusion">Conclusion</h3>
 <p>Mapping a WebDAV server to a network drive in Windows 10 offers the convenience of cloud storage with the familiarity of a local drive. Now, you can manage files on your WebDAV server just as you would on any other drive. Enjoy the streamlined workflow and easy access to your files!</p><p>Let us know if you need help troubleshooting any issues or have questions about WebDAV setup on other platforms!</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>How to Use ADB Wirelessly Over Wi-Fi</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/how-to-use-adb-wirelessly-over-wi-fi/"/>
-        <id>https://blog.ehmad.site/how-to-use-adb-wirelessly-over-wi-fi/</id>
-
-        <updated>2024-11-14T12:08:13+05:00</updated>
-            <summary>
-                <![CDATA[
-                    To use ADB (Android Debug Bridge) wirelessly, you’ll need to connect your Android device and your computer over the same Wi-Fi network. Here are the steps to do this: adb devices Your device should appear in the list. 3. Enable ADB over TCP/IP Run this&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>To use ADB (Android Debug Bridge) wirelessly, you’ll need to connect your Android device and your computer over the same Wi-Fi network. Here are the steps to do this:</p><h3 id="1-connect-your-device-via-usb-first">1. Connect your device via USB first</h3>
-<ul>
-<li>Start by connecting your Android device to your computer with a USB cable.</li>
-<li>Ensure you have <strong>USB debugging</strong> enabled on your device. You can enable this by going to:<ul>
-<li><strong>Settings</strong> &gt; <strong>About Phone</strong> &gt; <strong>Build Number</strong> (tap 7 times to enable Developer Options).</li>
-<li>Then go to <strong>Developer Options</strong> &gt; <strong>USB Debugging</strong>.</li>
-</ul>
-</li>
-</ul>
-<figure class="post__image"><img loading="lazy" src="https://blog.ehmad.site/media/posts/8/adb_wifi-wireless_debugging.png" alt="Use ADB Wirelessly Over Wi-Fi" width="365" height="675"  sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://blog.ehmad.site/media/posts/8/responsive/adb_wifi-wireless_debugging-xs.webp 640w ,https://blog.ehmad.site/media/posts/8/responsive/adb_wifi-wireless_debugging-sm.webp 768w ,https://blog.ehmad.site/media/posts/8/responsive/adb_wifi-wireless_debugging-md.webp 1024w ,https://blog.ehmad.site/media/posts/8/responsive/adb_wifi-wireless_debugging-lg.webp 1366w ,https://blog.ehmad.site/media/posts/8/responsive/adb_wifi-wireless_debugging-xl.webp 1600w ,https://blog.ehmad.site/media/posts/8/responsive/adb_wifi-wireless_debugging-2xl.webp 1920w"></figure><h3 id="2-open-a-terminal-or-command-prompt-on-your-computer">2. Open a terminal or command prompt on your computer</h3>
-<ul>
-<li>Open the Command Prompt (Windows) or Terminal (Mac/Linux) where ADB is installed.</li>
-<li>Type the following command to ensure your device is recognized:<pre><code class="language-bash">adb devices
-</code></pre>
-Your device should appear in the list.</li>
-</ul>
-<h3 id="3-enable-adb-over-tcpip">3. Enable ADB over TCP/IP</h3>
-<ul>
-<li>Run this command to switch ADB to TCP/IP mode:<pre><code class="language-bash">adb tcpip 5555
-</code></pre>
-This sets ADB to listen for connections on port 5555.</li>
-</ul>
-<h3 id="4-find-your-devices-ip-address">4. Find your device’s IP address</h3>
-<ul>
-<li>On your Android device, go to <strong>Settings</strong> &gt; <strong>About Phone</strong> &gt; <strong>Status</strong> &gt; <strong>IP address</strong> (or similar path, depending on the device).</li>
-<li>Note down the IP address (e.g., <code>192.168.1.5</code>).</li>
-</ul>
-<h3 id="5-connect-to-your-device-wirelessly">5. Connect to your device wirelessly</h3>
-<ul>
-<li>Run the following command using your device’s IP address:<pre><code class="language-bash">adb connect 192.168.1.5:5555
-</code></pre>
-</li>
-<li>Replace <code>192.168.1.5</code> with the actual IP address of your device.</li>
-</ul>
-<h3 id="6-disconnect-the-usb-cable">6. Disconnect the USB cable</h3>
-<ul>
-<li>Now you can disconnect the USB cable. Your ADB connection should remain active over Wi-Fi.</li>
-<li>Verify the connection by running:<pre><code class="language-bash">adb devices
-</code></pre>
-You should see your device listed with the IP address instead of a USB ID.</li>
-</ul>
-<h3 id="7-use-adb-commands-wirelessly">7. Use ADB commands wirelessly</h3>
-<p>Now you can run any ADB command wirelessly as long as your computer and the Android device remain on the same Wi-Fi network.</p>
             ]]>
         </content>
     </entry>
