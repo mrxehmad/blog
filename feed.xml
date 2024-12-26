@@ -3,12 +3,205 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2024-12-14T15:14:46+05:00</updated>
+    <updated>2024-12-26T08:24:56+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>Windows package managers (CLI)</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/windows-package-managers-cli/"/>
+        <id>https://blog.ehmad.site/windows-package-managers-cli/</id>
+
+        <updated>2024-12-26T08:24:56+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Windows offers several package managers that can simplify the process of installing and managing software. Here are some of the most popular ones: winget install &lt;package-name&gt; Example:winget install firefox List available packages:winget search &lt;package-name&gt; 2. Chocolatey Description: Chocolatey is one of the most popular package&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Windows offers several package managers that can simplify the process of installing and managing software. Here are some of the most popular ones:</p><h3 id="1-winget-windows-package-manager">1. <strong>winget (Windows Package Manager)</strong></h3>
+<ul>
+<li><strong>Description</strong>: <code>winget</code> is a native Windows package manager developed by Microsoft. It allows you to search, install, update, and manage software from the command line.</li>
+<li><strong>How to use</strong>:<ul>
+<li><strong>Install</strong>: <code>winget</code> comes pre-installed on Windows 10 (starting with version 1809) and Windows 11.</li>
+<li><strong>Install a package</strong>:<pre><code class="language-bash">winget install &lt;package-name&gt;
+</code></pre>
+</li>
+<li><strong>Example</strong>:<pre><code class="language-bash">winget install firefox
+</code></pre>
+</li>
+<li><strong>List available packages</strong>:<pre><code class="language-bash">winget search &lt;package-name&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-chocolatey">2. <strong>Chocolatey</strong></h3>
+<ul>
+<li><strong>Description</strong>: Chocolatey is one of the most popular package managers for Windows. It works similarly to <code>apt</code> (on Linux) or <code>brew</code> (on macOS) and allows you to install software, update it, and manage dependencies easily.</li>
+<li><strong>How to use</strong>:<ul>
+<li><strong>Install</strong>:<ul>
+<li>Open PowerShell as Administrator and run:<pre><code class="language-powershell">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString(&#39;https://chocolatey.org/install.ps1&#39;))
+</code></pre>
+</li>
+</ul>
+</li>
+<li><strong>Install a package</strong>:<pre><code class="language-bash">choco install &lt;package-name&gt;
+</code></pre>
+</li>
+<li><strong>Example</strong>:<pre><code class="language-bash">choco install googlechrome
+</code></pre>
+</li>
+<li><strong>Update a package</strong>:<pre><code class="language-bash">choco upgrade &lt;package-name&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-scoop">3. <strong>Scoop</strong></h3>
+<ul>
+<li><strong>Description</strong>: Scoop is a simple and powerful command-line installer for Windows. It focuses on simplicity and is popular among developers for installing development tools.</li>
+<li><strong>How to use</strong>:<ul>
+<li><strong>Install</strong>:
+Open PowerShell and run:<pre><code class="language-powershell">Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+iwr -useb get.scoop.sh | iex
+</code></pre>
+</li>
+<li><strong>Install a package</strong>:<pre><code class="language-bash">scoop install &lt;package-name&gt;
+</code></pre>
+</li>
+<li><strong>Example</strong>:<pre><code class="language-bash">scoop install git
+</code></pre>
+</li>
+<li><strong>List available buckets</strong>:<pre><code class="language-bash">scoop bucket add &lt;bucket-name&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-ninite">4. <strong>Ninite</strong></h3>
+<ul>
+<li><strong>Description</strong>: Ninite is a simple and easy-to-use tool that allows you to batch install popular software. It’s not exactly a package manager, but it automates the process of downloading and installing apps.</li>
+<li><strong>How to use</strong>:<ul>
+<li><strong>Download</strong> the Ninite installer from the Ninite website.</li>
+<li><strong>Select the apps</strong> you want to install from the list on the Ninite website and download the custom installer.</li>
+<li><strong>Run the installer</strong> to automatically install all selected software.</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-appget">5. <strong>AppGet</strong></h3>
+<ul>
+<li><strong>Description</strong>: AppGet is another package manager for Windows that provides a streamlined way to install software. It aims to be a more modern and stable package manager but is less widely used than the others.</li>
+<li><strong>How to use</strong>:<ul>
+<li><strong>Install</strong>: First, you need to install AppGet from its GitHub page or from the <a href="https://appget.net">AppGet website</a>.</li>
+<li><strong>Install a package</strong>:<pre><code class="language-bash">appget install &lt;package-name&gt;
+</code></pre>
+</li>
+<li><strong>Example</strong>:<pre><code class="language-bash">appget install vscode
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-portableapps">6. <strong>PortableApps</strong></h3>
+<ul>
+<li><strong>Description</strong>: PortableApps isn’t a package manager in the traditional sense, but it provides a platform for running portable versions of popular software. It’s ideal if you prefer not to install software directly onto your system.</li>
+<li><strong>How to use</strong>:<ul>
+<li><strong>Download</strong> and install the <a href="https://portableapps.com/">PortableApps platform</a>.</li>
+<li><strong>Install apps</strong> from the platform’s app store or manually by downloading portable versions.</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-msi-package-via-powershell">7. <strong>MSI Package (via PowerShell)</strong></h3>
+<ul>
+<li><strong>Description</strong>: You can install MSI (Microsoft Installer) packages using PowerShell. This is more manual compared to the other package managers but gives you control over specific installations.</li>
+<li><strong>How to use</strong>:<ul>
+<li><strong>Install an MSI package</strong>:<pre><code class="language-powershell">msiexec /i &quot;C:\path\to\installer.msi&quot;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="8-fdm-free-download-manager">8. <strong>FDM (Free Download Manager)</strong></h3>
+<ul>
+<li><strong>Description</strong>: Free Download Manager isn’t exactly a package manager, but it supports downloading installers and automating installation tasks.</li>
+<li><strong>How to use</strong>:<ul>
+<li>Use it to download software or package files, and it will assist in managing the downloads.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="comparison-overview">Comparison Overview:</h3>
+<table>
+<thead>
+<tr>
+<th>Package Manager</th>
+<th>Ease of Use</th>
+<th>Package Availability</th>
+<th>Best For</th>
+<th>Official Site</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>winget</strong></td>
+<td>Easy</td>
+<td>Good</td>
+<td>General use, Windows apps</td>
+<td><a href="https://github.com/microsoft/winget-cli">https://github.com/microsoft/winget-cli</a></td>
+</tr>
+<tr>
+<td><strong>Chocolatey</strong></td>
+<td>Easy</td>
+<td>Excellent</td>
+<td>General use, productivity software</td>
+<td><a href="https://chocolatey.org">https://chocolatey.org</a></td>
+</tr>
+<tr>
+<td><strong>Scoop</strong></td>
+<td>Easy</td>
+<td>Good</td>
+<td>Developer tools</td>
+<td><a href="https://scoop.sh">https://scoop.sh</a></td>
+</tr>
+<tr>
+<td><strong>Ninite</strong></td>
+<td>Very Easy</td>
+<td>Limited</td>
+<td>Quick batch installation</td>
+<td><a href="https://ninite.com">https://ninite.com</a></td>
+</tr>
+<tr>
+<td><strong>AppGet</strong></td>
+<td>Easy</td>
+<td>Moderate</td>
+<td>Software management</td>
+<td><a href="https://appget.net">https://appget.net</a></td>
+</tr>
+<tr>
+<td><strong>PortableApps</strong></td>
+<td>Very Easy</td>
+<td>Limited</td>
+<td>Portable apps</td>
+<td><a href="https://portableapps.com">https://portableapps.com</a></td>
+</tr>
+<tr>
+<td><strong>MSI via PowerShell</strong></td>
+<td>Manual</td>
+<td>Depends on the MSI file</td>
+<td>Specific app installs</td>
+<td>N/A</td>
+</tr>
+</tbody></table>
+<p>Each of these package managers has its strengths and use cases. <strong>winget</strong>, <strong>Chocolatey</strong>, and <strong>Scoop</strong> are widely used for general-purpose package management, while <strong>Ninite</strong> is useful for batch installation, and <strong>PortableApps</strong> is great for portable software.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>How to Fix WebDAV Connection Issues in Windows and Map a WebDAV Drive</title>
         <author>
@@ -1099,71 +1292,6 @@ services:
 </ol>
 <h3 id="conclusion">Conclusion</h3>
 <p>With this optimized Docker Compose configuration, you’re set up for a secure, efficient, and user-friendly SearXNG experience. This configuration balances security, performance, and simplicity, making it ideal for anyone looking to deploy their own private search engine.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Monitor the network traffic of a specific APP on Windows </title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/monitor-the-network-traffic-of-a-specific-app-on-windows/"/>
-        <id>https://blog.ehmad.site/monitor-the-network-traffic-of-a-specific-app-on-windows/</id>
-
-        <updated>2024-11-16T20:01:30+05:00</updated>
-            <summary>
-                <![CDATA[
-                    To monitor the network traffic of a specific app on Windows using Wireshark, follow these steps: To filter traffic from a specific app, first identify the app’s PID (Process ID): Alternatively: netstat -ano | findstr :&lt;Port Number&gt; Replace &lt;Port Number&gt; with the specific port number&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>To monitor the network traffic of a specific app on Windows using <strong>Wireshark</strong>, follow these steps:</p><h3 id="1-install-wireshark-if-not-already-installed">1. <strong>Install Wireshark (if not already installed)</strong></h3>
-<ul>
-<li>Download and install Wireshark from <a href="https://www.wireshark.org/">wireshark.org</a>.</li>
-<li>Make sure to also install <code>Npcap</code> during the installation, which is required for network capture.</li>
-</ul>
-<h3 id="2-identify-the-apps-process-id-pid">2. <strong>Identify the App’s Process ID (PID)</strong></h3>
-<p>   To filter traffic from a specific app, first identify the app’s PID (Process ID):</p><ul>
-<li>Open <strong>Task Manager</strong> by pressing <code>Ctrl + Shift + Esc</code> or right-clicking the taskbar and selecting <strong>Task Manager</strong>.</li>
-<li>Go to the <strong>Details</strong> tab, find the app, and note the <strong>PID</strong>.</li>
-</ul>
-<p>   Alternatively:</p><ul>
-<li>Use the <code>netstat</code> command in Command Prompt to list processes with network connections:<pre><code>netstat -ano | findstr :&lt;Port Number&gt;
-</code></pre>
-<ul>
-<li>Replace <code>&lt;Port Number&gt;</code> with the specific port number if you know it.</li>
-</ul>
-</li>
-</ul>
-<h3 id="3-open-wireshark-and-select-network-interface">3. <strong>Open Wireshark and Select Network Interface</strong></h3>
-<ul>
-<li>Launch Wireshark and select the network interface connected to the internet (usually <code>Wi-Fi</code> or <code>Ethernet</code>).</li>
-<li>Start capturing traffic by double-clicking the interface.</li>
-</ul>
-<h3 id="4-apply-a-filter-to-capture-traffic-of-the-specific-app">4. <strong>Apply a Filter to Capture Traffic of the Specific App</strong></h3>
-<p>   Now, you can filter traffic based on the PID of the app.</p><ul>
-<li>In the Wireshark <strong>Display Filter</strong> bar, use the following filter format:<pre><code>tcp.port == &lt;port_number&gt;
-</code></pre>
-Replace <code>&lt;port_number&gt;</code> with the port used by the application.</li>
-</ul>
-<p>   Or if you don’t know the port:</p><ul>
-<li>Use the <strong>Capture Filter</strong> for IPs if you know the IP range of the traffic expected, or</li>
-<li>To track down which traffic belongs to your app dynamically, you might need to manually inspect connections, then fine-tune your filter.</li>
-</ul>
-<h3 id="5-analyze-the-captured-packets">5. <strong>Analyze the Captured Packets</strong></h3>
-<ul>
-<li>Once you’ve filtered the packets to your application, analyze details like source and destination IPs, protocols, and data flow.</li>
-<li>Stop the capture when you have enough data to review.</li>
-</ul>
-<h3 id="additional-tips">Additional Tips</h3>
-<ul>
-<li><strong>Use the <code>Process Monitor (ProcMon)</code></strong>: ProcMon can help to track which ports are opened by specific processes.</li>
-<li><strong>Use Wireshark’s Protocol Hierarchy and Statistics</strong>: To understand traffic types used by the app.
-<figure class="post__image"><img loading="lazy" src="https://blog.ehmad.site/media/posts/10/Screenshot-2024-11-16-200027.png" alt="Monitor the network traffic of a specific APP on Windows" width="1920" height="1080"  sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://blog.ehmad.site/media/posts/10/responsive/Screenshot-2024-11-16-200027-xs.webp 640w ,https://blog.ehmad.site/media/posts/10/responsive/Screenshot-2024-11-16-200027-sm.webp 768w ,https://blog.ehmad.site/media/posts/10/responsive/Screenshot-2024-11-16-200027-md.webp 1024w ,https://blog.ehmad.site/media/posts/10/responsive/Screenshot-2024-11-16-200027-lg.webp 1366w ,https://blog.ehmad.site/media/posts/10/responsive/Screenshot-2024-11-16-200027-xl.webp 1600w ,https://blog.ehmad.site/media/posts/10/responsive/Screenshot-2024-11-16-200027-2xl.webp 1920w"></figure>
-This should give you insights into your app’s network activity specifically.</li>
-</ul>
-
             ]]>
         </content>
     </entry>
