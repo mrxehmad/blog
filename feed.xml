@@ -3,12 +3,183 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-01-05T11:01:13+05:00</updated>
+    <updated>2025-01-08T08:53:46+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>Introduction to Network Layer</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/introduction-to-network-layer/"/>
+        <id>https://blog.ehmad.site/introduction-to-network-layer/</id>
+
+        <updated>2025-01-08T08:53:46+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Chapter 18: Introduction to Network Layer Network Layer Services Packetizing Process of breaking data into smaller packets for transmission Essential for efficient data transfer across networks Includes adding necessary headers with control information Routing and Forwarding Routing: Determining the best path for packets to reach&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h1 id="chapter-18-introduction-to-network-layer">Chapter 18: Introduction to Network Layer</h1>
+<h2 id="network-layer-services">Network Layer Services</h2>
+<h3 id="packetizing">Packetizing</h3>
+<ul>
+<li>Process of breaking data into smaller packets for transmission</li>
+<li>Essential for efficient data transfer across networks</li>
+<li>Includes adding necessary headers with control information</li>
+</ul>
+<h3 id="routing-and-forwarding">Routing and Forwarding</h3>
+<ul>
+<li>Routing: Determining the best path for packets to reach their destination</li>
+<li>Forwarding: Moving packets from input ports to output ports in network devices</li>
+<li>Both processes work together to ensure efficient packet delivery</li>
+</ul>
+<h3 id="other-services">Other Services</h3>
+<ul>
+<li>Quality of Service (QoS) management</li>
+<li>Error control</li>
+<li>Flow control</li>
+<li>Congestion control</li>
+<li>Packet sequencing</li>
+</ul>
+<h2 id="packet-switching">Packet Switching</h2>
+<h3 id="datagram-approach-connectionless-service">Datagram Approach (Connectionless Service)</h3>
+<ul>
+<li>Each packet treated independently</li>
+<li>No predetermined path</li>
+<li>Packets may take different routes</li>
+<li>More flexible but less reliable</li>
+<li>Similar to postal service model</li>
+</ul>
+<h3 id="virtual-circuit-approach-connection-oriented-service">Virtual-Circuit Approach (Connection-Oriented Service)</h3>
+<ul>
+<li>Establishes dedicated path before data transfer</li>
+<li>Three phases:<ol>
+<li>Setup phase: Establishes the virtual circuit</li>
+<li>Data transfer phase: Sends data along established path</li>
+<li>Teardown phase: Terminates the connection</li>
+</ol>
+</li>
+<li>More reliable but less flexible</li>
+<li>Similar to telephone system model</li>
+</ul>
+<h2 id="network-layer-performance">Network Layer Performance</h2>
+<h3 id="delay">Delay</h3>
+<ul>
+<li>Types of delay:<ul>
+<li>Processing delay: Time to examine packet header</li>
+<li>Queuing delay: Waiting time in router buffers</li>
+<li>Transmission delay: Time to push packet onto link</li>
+<li>Propagation delay: Time for signal to travel through medium</li>
+</ul>
+</li>
+<li>Total delay is sum of all delay types</li>
+</ul>
+<h3 id="throughput">Throughput</h3>
+<ul>
+<li>Rate of successful message delivery</li>
+<li>Measured in bits per second (bps)</li>
+<li>Affected by:<ul>
+<li>Available bandwidth</li>
+<li>Network congestion</li>
+<li>Network hardware capabilities</li>
+</ul>
+</li>
+</ul>
+<h3 id="packet-loss">Packet Loss</h3>
+<ul>
+<li>Occurs when network devices can’t process incoming packets</li>
+<li>Common causes:<ul>
+<li>Buffer overflow</li>
+<li>Network congestion</li>
+<li>Corrupted packets</li>
+</ul>
+</li>
+<li>Requires retransmission mechanisms</li>
+</ul>
+<h3 id="congestion-control">Congestion Control</h3>
+<ul>
+<li>Methods to prevent/handle network congestion</li>
+<li>Includes:<ul>
+<li>Traffic shaping</li>
+<li>Admission control</li>
+<li>Resource reservation</li>
+</ul>
+</li>
+</ul>
+<h2 id="ipv4-addresses">IPv4 Addresses</h2>
+<h3 id="address-space">Address Space</h3>
+<ul>
+<li>32-bit addressing scheme</li>
+<li>Supports approximately 4.3 billion unique addresses</li>
+<li>Written in dotted-decimal notation</li>
+</ul>
+<h3 id="classful-addressing">Classful Addressing</h3>
+<ul>
+<li>Five classes: A, B, C, D, and E</li>
+<li>Class A: Large networks (first bit 0)</li>
+<li>Class B: Medium networks (first bits 10)</li>
+<li>Class C: Small networks (first bits 110)</li>
+<li>Class D: Multicast (first bits 1110)</li>
+<li>Class E: Reserved (first bits 1111)</li>
+</ul>
+<h3 id="classless-addressing">Classless Addressing</h3>
+<ul>
+<li>CIDR (Classless Inter-Domain Routing)</li>
+<li>More flexible than classful addressing</li>
+<li>Uses variable-length subnet masks</li>
+<li>Notation includes prefix length (e.g., /24)</li>
+</ul>
+<h3 id="dhcp-dynamic-host-configuration-protocol">DHCP (Dynamic Host Configuration Protocol)</h3>
+<ul>
+<li>Automatic IP address assignment</li>
+<li>Four-step process:<ol>
+<li>Discovery</li>
+<li>Offer</li>
+<li>Request</li>
+<li>Acknowledgment</li>
+</ol>
+</li>
+<li>Also provides additional network configuration information</li>
+</ul>
+<h3 id="nat-network-address-translation">NAT (Network Address Translation)</h3>
+<ul>
+<li>Allows private network addresses</li>
+<li>Translates between private and public addresses</li>
+<li>Helps conserve IPv4 addresses</li>
+<li>Provides additional security</li>
+</ul>
+<h2 id="forwarding-of-ip-packets">Forwarding of IP Packets</h2>
+<h3 id="forwarding-based-on-destination-address">Forwarding Based on Destination Address</h3>
+<ul>
+<li>Uses routing tables</li>
+<li>Longest prefix matching</li>
+<li>Next-hop determination</li>
+<li>Route aggregation concepts</li>
+</ul>
+<h3 id="forwarding-based-on-label">Forwarding Based on Label</h3>
+<ul>
+<li>MPLS (Multi-Protocol Label Switching)</li>
+<li>Uses labels instead of IP addresses</li>
+<li>Faster processing</li>
+<li>Better traffic engineering capabilities</li>
+</ul>
+<h3 id="routers-as-packet-switches">Routers as Packet Switches</h3>
+<ul>
+<li>Internal architecture</li>
+<li>Switching fabric</li>
+<li>Input/output port processing</li>
+<li>Buffering mechanisms</li>
+</ul>
+
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Remove apps using ADB (Android Debug Bridge)</title>
         <author>
@@ -1118,171 +1289,6 @@ void loop() {
 </ul>
 <h3 id="conclusion">Conclusion</h3>
 <p>This setup with the BMI160 and ESP8266 should give you a basic yet effective vibration-sensing system that behaves similarly to a simple seismograph. It can detect various vibrations and small movements and can be enhanced with Wi-Fi logging for remote monitoring.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Setup a V2Ray server</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/setup-a-v2ray-server/"/>
-        <id>https://blog.ehmad.site/setup-a-v2ray-server/</id>
-
-        <updated>2024-11-20T18:17:04+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Setup a V2Ray server allows you to create a custom VPN or proxy server with advanced features such as multiple protocols, routing rules, and security measures. V2Ray is often used to bypass internet censorship, improve privacy, or enhance speed for certain applications. Below is a&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Setup a <strong>V2Ray server</strong> allows you to create a custom VPN or proxy server with advanced features such as multiple protocols, routing rules, and security measures. V2Ray is often used to bypass internet censorship, improve privacy, or enhance speed for certain applications. Below is a guide for setting up a V2Ray server on a VPS (e.g., on an Ubuntu server) and configuring it to run securely.</p><figure class="post__image"><img loading="lazy" src="https://blog.ehmad.site/media/posts/12/v2ray-2.jpg" alt="Setup a V2Ray server" width="1600" height="900"  sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-xs.webp 640w ,https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-sm.webp 768w ,https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-md.webp 1024w ,https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-lg.webp 1366w ,https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-xl.webp 1600w ,https://blog.ehmad.site/media/posts/12/responsive/v2ray-2-2xl.webp 1920w"></figure><h3 id="prerequisites">Prerequisites</h3>
-<ul>
-<li>A VPS with a public IP address, running <strong>Ubuntu 18.04+</strong> or <strong>Debian 9+</strong>.</li>
-<li>Basic knowledge of command-line operations.</li>
-<li>A domain name (optional, but recommended for easier access and setting up TLS encryption).</li>
-</ul>
-<h3 id="step-1-update-and-install-necessary-packages">Step 1: Update and Install Necessary Packages</h3>
-<p>Log into your server and update it:</p><pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt upgrade -y
-</code></pre>
-<p>Install necessary packages:</p><pre><code class="language-bash">sudo apt install -y curl vim unzip
-</code></pre>
-<h3 id="step-2-install-v2ray">Step 2: Install V2Ray</h3>
-<p>The official V2Ray team offers a script to simplify installation:</p><pre><code class="language-bash">bash &lt;(curl -L https://install.direct/go.sh)
-</code></pre>
-<p>This will:</p><ul>
-<li>Download the latest version of V2Ray.</li>
-<li>Install it to <code>/usr/local/bin/v2ray</code>.</li>
-<li>Create necessary configuration directories (<code>/etc/v2ray</code>).</li>
-<li>Set up systemd services.</li>
-</ul>
-<p>Once the script completes, V2Ray will be installed and ready to configure.</p><h3 id="step-3-configure-v2ray-server">Step 3: Configure V2Ray Server</h3>
-<p>The main configuration file for V2Ray is located at <code>/etc/v2ray/config.json</code>. Here is a basic configuration for a V2Ray server using <strong>VMess protocol</strong> with WebSocket transport:</p><ol>
-<li><p>Open the configuration file:</p><pre><code class="language-bash">sudo vim /etc/v2ray/config.json
-</code></pre>
-</li>
-<li><p>Replace its contents with a simple configuration:</p><pre><code class="language-json">{
-  &quot;inbounds&quot;: [
-    {
-      &quot;port&quot;: 443,
-      &quot;protocol&quot;: &quot;vmess&quot;,
-      &quot;settings&quot;: {
-        &quot;clients&quot;: [
-          {
-            &quot;id&quot;: &quot;YOUR_UUID&quot;,
-            &quot;alterId&quot;: 64
-          }
-        ]
-      },
-      &quot;streamSettings&quot;: {
-        &quot;network&quot;: &quot;ws&quot;,
-        &quot;wsSettings&quot;: {
-          &quot;path&quot;: &quot;/v2ray&quot;
-        }
-      }
-    }
-  ],
-  &quot;outbounds&quot;: [
-    {
-      &quot;protocol&quot;: &quot;freedom&quot;,
-      &quot;settings&quot;: {}
-    }
-  ]
-}
-</code></pre>
-<ul>
-<li><p><strong>Replace <code>YOUR_UUID</code></strong> with a unique UUID for your client. Generate a UUID with:</p><pre><code class="language-bash">uuidgen
-</code></pre>
-</li>
-<li><p><strong>Adjust the <code>port</code></strong> if 443 is already in use, or if you want to use a custom port.</p></li>
-</ul>
-</li>
-</ol>
-<h3 id="step-4-set-up-tls-optional-but-recommended">Step 4: Set Up TLS (Optional but Recommended)</h3>
-<p>TLS encrypts your traffic, making it harder to detect or block.</p><ol>
-<li><p><strong>Install Certbot</strong>:</p><pre><code class="language-bash">sudo apt install -y certbot
-</code></pre>
-</li>
-<li><p><strong>Request a certificate</strong> for your domain:</p><pre><code class="language-bash">sudo certbot certonly --standalone -d yourdomain.com
-</code></pre>
-</li>
-<li><p>Update the <code>config.json</code> to include TLS settings:</p><pre><code class="language-json">{
-  &quot;inbounds&quot;: [
-    {
-      &quot;port&quot;: 443,
-      &quot;protocol&quot;: &quot;vmess&quot;,
-      &quot;settings&quot;: {
-        &quot;clients&quot;: [
-          {
-            &quot;id&quot;: &quot;YOUR_UUID&quot;,
-            &quot;alterId&quot;: 64
-          }
-        ]
-      },
-      &quot;streamSettings&quot;: {
-        &quot;network&quot;: &quot;ws&quot;,
-        &quot;security&quot;: &quot;tls&quot;,
-        &quot;tlsSettings&quot;: {
-          &quot;certificates&quot;: [
-            {
-              &quot;certificateFile&quot;: &quot;/etc/letsencrypt/live/yourdomain.com/fullchain.pem&quot;,
-              &quot;keyFile&quot;: &quot;/etc/letsencrypt/live/yourdomain.com/privkey.pem&quot;
-            }
-          ]
-        },
-        &quot;wsSettings&quot;: {
-          &quot;path&quot;: &quot;/v2ray&quot;
-        }
-      }
-    }
-  ],
-  &quot;outbounds&quot;: [
-    {
-      &quot;protocol&quot;: &quot;freedom&quot;,
-      &quot;settings&quot;: {}
-    }
-  ]
-}
-</code></pre>
-</li>
-<li><p>Restart V2Ray to apply the new settings:</p><pre><code class="language-bash">sudo systemctl restart v2ray
-</code></pre>
-</li>
-</ol>
-<h3 id="step-5-open-the-firewall-ports">Step 5: Open the Firewall Ports</h3>
-<p>Ensure that your firewall allows traffic on the port you’ve chosen for V2Ray (443 in this example):</p><pre><code class="language-bash">sudo ufw allow 443/tcp
-sudo ufw allow 443/udp
-</code></pre>
-<h3 id="step-6-configure-v2ray-client">Step 6: Configure V2Ray Client</h3>
-<p>To connect to your server, you’ll need a V2Ray client app (e.g., V2RayN for Windows or Shadowrocket for iOS).</p><ol>
-<li><p>In the client app, use these settings:</p><ul>
-<li><strong>Address</strong>: <code>yourdomain.com</code> or server IP</li>
-<li><strong>Port</strong>: <code>443</code></li>
-<li><strong>UUID</strong>: The UUID you generated for <code>YOUR_UUID</code></li>
-<li><strong>AlterID</strong>: <code>64</code></li>
-<li><strong>Network</strong>: <code>WebSocket</code></li>
-<li><strong>Path</strong>: <code>/v2ray</code></li>
-<li><strong>TLS</strong>: Enable, if you’ve set up TLS.</li>
-</ul>
-</li>
-<li><p>Save and connect.</p></li>
-</ol>
-<h3 id="step-7-start-and-enable-v2ray-service">Step 7: Start and Enable V2Ray Service</h3>
-<p>Enable and start V2Ray as a service to keep it running:</p><pre><code class="language-bash">sudo systemctl enable v2ray
-sudo systemctl start v2ray
-</code></pre>
-<h3 id="troubleshooting-tips">Troubleshooting Tips</h3>
-<ul>
-<li><strong>Logs</strong>: If V2Ray is not working, check the logs with:<pre><code class="language-bash">sudo journalctl -u v2ray -f
-</code></pre>
-</li>
-<li><strong>Firewall</strong>: Double-check that the firewall settings match your V2Ray configuration.</li>
-<li><strong>Config Validation</strong>: Use <code>jq</code> to validate <code>config.json</code> syntax:<pre><code class="language-bash">jq . /etc/v2ray/config.json
-</code></pre>
-</li>
-</ul>
-<p>You now have a working V2Ray server!</p>
             ]]>
         </content>
     </entry>
