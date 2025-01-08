@@ -3,12 +3,327 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-01-08T08:53:46+05:00</updated>
+    <updated>2025-01-08T19:14:59+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>Data Communications and Networking 5th edition</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/data-communications-and-networking-5th-edition/"/>
+        <id>https://blog.ehmad.site/data-communications-and-networking-5th-edition/</id>
+            <category term="book summery"/>
+
+        <updated>2025-01-08T19:14:02+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Chapter 18: Introduction to Network Layer in Data Communications and Networking (5th edition) by Behrouz A. Forouzan: The network layer plays a critical role in delivering data between devices over interconnected networks. It provides the following key services: Packet switching is a fundamental method for&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p><strong>Chapter 18: Introduction to Network Layer</strong> in Data Communications and Networking (5th edition) by Behrouz A. Forouzan:</p><hr>
+<h3 id="181-network-layer-services"><strong>18.1 NETWORK-LAYER SERVICES</strong></h3>
+<p>The network layer plays a critical role in delivering data between devices over interconnected networks. It provides the following key services:</p><h4 id="1811-packetizing"><strong>18.1.1 Packetizing</strong></h4>
+<ul>
+<li><strong>Definition</strong>: Packetizing is the process of dividing large chunks of data into smaller units called packets, which are easier to manage, transmit, and process.</li>
+<li><strong>Structure</strong>: Each packet contains:<ul>
+<li><strong>Payload</strong>: The actual data being transmitted.</li>
+<li><strong>Header</strong>: Contains metadata such as the source and destination addresses, sequence numbers, and error-checking information.</li>
+</ul>
+</li>
+<li><strong>Purpose</strong>: <ul>
+<li>Facilitates efficient use of the network.</li>
+<li>Allows for error detection and recovery by retransmitting only the affected packets instead of the entire data.</li>
+</ul>
+</li>
+</ul>
+<h4 id="1812-routing-and-forwarding"><strong>18.1.2 Routing and Forwarding</strong></h4>
+<ul>
+<li><strong>Routing</strong>:<ul>
+<li>Involves determining the optimal path for packets to travel from the source to the destination.</li>
+<li>Algorithms like Dijkstra’s and Bellman-Ford are commonly used.</li>
+<li>Factors considered: network topology, link costs, and policy constraints.</li>
+</ul>
+</li>
+<li><strong>Forwarding</strong>:<ul>
+<li>The act of moving a packet to its next destination (next-hop router or the final recipient).</li>
+<li>Based on information in the routing table, the router decides the best outgoing link.</li>
+</ul>
+</li>
+</ul>
+<h4 id="1813-other-services"><strong>18.1.3 Other Services</strong></h4>
+<ol>
+<li><strong>Error Handling</strong>:<ul>
+<li>Detects and sometimes corrects errors in transmitted packets.</li>
+<li>Error detection methods like checksums are used.</li>
+</ul>
+</li>
+<li><strong>Quality of Service (QoS)</strong>:<ul>
+<li>Ensures performance requirements such as bandwidth, delay, and jitter are met.</li>
+<li>Differentiates traffic types (e.g., voice, video, or text) to prioritize critical data.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="182-packet-switching"><strong>18.2 PACKET SWITCHING</strong></h3>
+<p>Packet switching is a fundamental method for data transfer in modern networks, enabling flexibility and efficiency. It involves breaking data into smaller packets that are sent independently.</p><h4 id="1821-datagram-approach-connectionless-service"><strong>18.2.1 Datagram Approach: Connectionless Service</strong></h4>
+<ul>
+<li><strong>Characteristics</strong>:<ul>
+<li>Each packet is treated as an independent entity.</li>
+<li>Packets may take different paths through the network to reach the destination.</li>
+<li>Each packet includes full routing information (source and destination addresses).</li>
+</ul>
+</li>
+<li><strong>Advantages</strong>:<ul>
+<li>Highly scalable and robust.</li>
+<li>No need for establishing or maintaining a connection.</li>
+</ul>
+</li>
+<li><strong>Example</strong>: The Internet Protocol (IP) operates using this approach.</li>
+</ul>
+<h4 id="1822-virtual-circuit-approach-connection-oriented-service"><strong>18.2.2 Virtual-Circuit Approach: Connection-Oriented Service</strong></h4>
+<ul>
+<li><strong>Characteristics</strong>:<ul>
+<li>A logical connection is established between the source and destination before data transfer.</li>
+<li>All packets follow the same pre-established path, ensuring order.</li>
+</ul>
+</li>
+<li><strong>Advantages</strong>:<ul>
+<li>Reliable communication with guaranteed sequencing and error detection.</li>
+<li>Simplified processing at intermediate routers.</li>
+</ul>
+</li>
+<li><strong>Example</strong>: Asynchronous Transfer Mode (ATM) and Multi-Protocol Label Switching (MPLS).</li>
+</ul>
+<hr>
+<h3 id="183-network-layer-performance"><strong>18.3 NETWORK-LAYER PERFORMANCE</strong></h3>
+<p>The efficiency and reliability of the network layer are measured using the following metrics:</p><h4 id="1831-delay"><strong>18.3.1 Delay</strong></h4>
+<ul>
+<li><strong>Types of Delay</strong>:<ol>
+<li><strong>Propagation Delay</strong>: <ul>
+<li>Time for a signal to travel from source to destination through the physical medium.</li>
+<li>Formula: ( \text{Propagation Delay} = \frac{\text{Distance}}{\text{Propagation Speed}} )</li>
+</ul>
+</li>
+<li><strong>Transmission Delay</strong>: <ul>
+<li>Time required to push all bits of a packet onto the transmission medium.</li>
+<li>Formula: ( \text{Transmission Delay} = \frac{\text{Packet Size}}{\text{Bandwidth}} )</li>
+</ul>
+</li>
+<li><strong>Queuing Delay</strong>:<ul>
+<li>Time a packet spends waiting in a router’s queue before being processed or transmitted.</li>
+<li>Varies depending on network congestion.</li>
+</ul>
+</li>
+<li><strong>Processing Delay</strong>:<ul>
+<li>Time taken by a router to examine and forward a packet.</li>
+<li>Includes route lookup, header parsing, and error checking.</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="1832-throughput"><strong>18.3.2 Throughput</strong></h4>
+<ul>
+<li><strong>Definition</strong>: The rate at which data is successfully transmitted and received over the network.</li>
+<li><strong>Factors Affecting Throughput</strong>:<ul>
+<li><strong>Bandwidth</strong>: The maximum data transfer rate of the medium.</li>
+<li><strong>Network Congestion</strong>: Overloaded links or routers reduce throughput.</li>
+<li><strong>Protocol Overhead</strong>: Header and control data can consume significant portions of bandwidth.</li>
+</ul>
+</li>
+</ul>
+<h4 id="1833-packet-loss"><strong>18.3.3 Packet Loss</strong></h4>
+<ul>
+<li><strong>Definition</strong>: The percentage of packets that fail to reach their destination due to errors, congestion, or buffer overflow at routers.</li>
+<li><strong>Effects</strong>:<ul>
+<li>Degrades the quality of real-time applications like VoIP or video streaming.</li>
+<li>Increases retransmissions, causing further delays and congestion.</li>
+</ul>
+</li>
+<li><strong>Mitigation Techniques</strong>:<ul>
+<li>Implementing retransmission protocols (e.g., TCP).</li>
+<li>Using redundant packet encoding to recover lost data.</li>
+</ul>
+</li>
+</ul>
+<h4 id="1834-congestion-control"><strong>18.3.4 Congestion Control</strong></h4>
+<ul>
+<li><strong>Definition</strong>: Strategies to prevent and manage excessive packet buildup in the network.</li>
+<li><strong>Techniques</strong>:<ol>
+<li><strong>Traffic Shaping</strong>:<ul>
+<li>Regulates the flow of data entering the network to prevent sudden bursts of traffic.</li>
+<li>Example: Token Bucket and Leaky Bucket algorithms.</li>
+</ul>
+</li>
+<li><strong>Packet Scheduling</strong>:<ul>
+<li>Prioritizes certain packets based on their importance or type.</li>
+<li>Example: First-Come-First-Serve (FCFS) and Priority Scheduling.</li>
+</ul>
+</li>
+<li><strong>Retransmission Strategies</strong>:<ul>
+<li>Automatically resends lost or corrupted packets.</li>
+<li>Includes mechanisms like Automatic Repeat Request (ARQ).</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="184-ipv4-addresses"><strong>18.4 IPv4 ADDRESSES</strong></h3>
+<p>IPv4 addresses are a fundamental aspect of the network layer, ensuring that devices can be uniquely identified for communication.</p><h4 id="1841-address-space"><strong>18.4.1 Address Space</strong></h4>
+<ul>
+<li><strong>32-Bit Addressing</strong>: IPv4 uses a 32-bit structure, allowing for (2^{32}) unique addresses, approximately 4.3 billion.</li>
+<li><strong>Depletion</strong>: Due to the rapid growth of devices, the IPv4 address space is nearly exhausted, leading to the adoption of solutions like NAT and IPv6.</li>
+</ul>
+<h4 id="1842-classful-addressing"><strong>18.4.2 Classful Addressing</strong></h4>
+<ul>
+<li>IPv4 originally divided its address space into five classes, identified by the first few bits of the address:<ul>
+<li><strong>Class A</strong>: <ul>
+<li>Range: (0.0.0.0) to (127.255.255.255).</li>
+<li>Large networks with up to (2^{24}) hosts.</li>
+</ul>
+</li>
+<li><strong>Class B</strong>:<ul>
+<li>Range: (128.0.0.0) to (191.255.255.255).</li>
+<li>Medium-sized networks with up to (2^{16}) hosts.</li>
+</ul>
+</li>
+<li><strong>Class C</strong>:<ul>
+<li>Range: (192.0.0.0) to (223.255.255.255).</li>
+<li>Small networks with up to (2^{8}) hosts.</li>
+</ul>
+</li>
+<li><strong>Class D</strong>:<ul>
+<li>Range: (224.0.0.0) to (239.255.255.255).</li>
+<li>Reserved for multicast communication.</li>
+</ul>
+</li>
+<li><strong>Class E</strong>:<ul>
+<li>Range: (240.0.0.0) to (255.255.255.255).</li>
+<li>Reserved for experimental use.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="1843-classless-addressing"><strong>18.4.3 Classless Addressing</strong></h4>
+<ul>
+<li><strong>CIDR (Classless Inter-Domain Routing)</strong>:<ul>
+<li>Eliminates rigid address classes, allowing for flexible allocation of IP addresses.</li>
+<li>Uses <strong>prefix notation</strong> (e.g., (192.168.1.0/24)), where the “/24” indicates the number of bits in the network prefix.</li>
+</ul>
+</li>
+<li><strong>Variable-Length Subnet Masking (VLSM)</strong>:<ul>
+<li>Divides an IP address into subnets of different sizes.</li>
+<li>Helps optimize address utilization and reduce wastage.</li>
+</ul>
+</li>
+</ul>
+<h4 id="1844-dynamic-host-configuration-protocol-dhcp"><strong>18.4.4 Dynamic Host Configuration Protocol (DHCP)</strong></h4>
+<ul>
+<li><strong>Purpose</strong>:<ul>
+<li>Automates the assignment of IP addresses, subnet masks, gateways, and DNS settings.</li>
+</ul>
+</li>
+<li><strong>Advantages</strong>:<ul>
+<li>Reduces manual configuration errors.</li>
+<li>Allows for reusing IP addresses when devices leave the network.</li>
+</ul>
+</li>
+<li><strong>Process</strong>:<ul>
+<li>A device sends a <strong>DHCP Discovery</strong> request.</li>
+<li>The server responds with a <strong>DHCP Offer</strong> containing configuration details.</li>
+<li>The device accepts via a <strong>DHCP Request</strong>, and the server confirms with a <strong>DHCP Acknowledgment</strong>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="1845-network-address-translation-nat"><strong>18.4.5 Network Address Translation (NAT)</strong></h4>
+<ul>
+<li><strong>Purpose</strong>:<ul>
+<li>Allows multiple devices on a private network to share a single public IP address.</li>
+<li>Conserves the limited IPv4 address space.</li>
+</ul>
+</li>
+<li><strong>Types</strong>:<ul>
+<li><strong>Static NAT</strong>: Maps one private IP to one public IP.</li>
+<li><strong>Dynamic NAT</strong>: Maps private IPs to available public IPs from a pool.</li>
+<li><strong>Port Address Translation (PAT)</strong>: Maps multiple private IPs to a single public IP using unique port numbers.</li>
+</ul>
+</li>
+<li><strong>Advantages</strong>:<ul>
+<li>Enhances security by hiding internal network structure.</li>
+<li>Reduces the demand for public IP addresses.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="185-forwarding-of-ip-packets"><strong>18.5 FORWARDING OF IP PACKETS</strong></h3>
+<p>Forwarding is the mechanism by which routers move packets from their source to the correct destination.</p><h4 id="1851-forwarding-based-on-destination-address"><strong>18.5.1 Forwarding Based on Destination Address</strong></h4>
+<ul>
+<li><strong>Process</strong>:<ol>
+<li>The router examines the destination IP address in the packet header.</li>
+<li>It consults its <strong>routing table</strong> to determine the next hop.</li>
+<li>The packet is forwarded to the next router or the final destination.</li>
+</ol>
+</li>
+<li><strong>Routing Table Entries</strong>:<ul>
+<li><strong>Destination Network</strong>: Identifies the target subnet.</li>
+<li><strong>Next Hop</strong>: The IP address of the next router.</li>
+<li><strong>Metric</strong>: A value representing the cost or distance to the destination.</li>
+</ul>
+</li>
+</ul>
+<h4 id="1852-forwarding-based-on-label"><strong>18.5.2 Forwarding Based on Label</strong></h4>
+<ul>
+<li><strong>Label-Based Forwarding</strong>:<ul>
+<li>Utilized in <strong>Multiprotocol Label Switching (MPLS)</strong>.</li>
+<li>Packets are assigned a <strong>label</strong> at the ingress router.</li>
+<li>Intermediate routers use labels, not IP addresses, for forwarding decisions.</li>
+</ul>
+</li>
+<li><strong>Advantages</strong>:<ul>
+<li>Faster forwarding as label lookups are simpler than IP-based routing.</li>
+<li>Supports traffic engineering, allowing for efficient use of network resources.</li>
+</ul>
+</li>
+</ul>
+<h4 id="1853-routers-as-packet-switches"><strong>18.5.3 Routers as Packet Switches</strong></h4>
+<ul>
+<li><strong>Functionality</strong>:<ul>
+<li>Routers act as intelligent devices in packet-switched networks.</li>
+<li>They handle:<ol>
+<li>Receiving packets from the input interface.</li>
+<li>Analyzing headers to determine the next hop.</li>
+<li>Forwarding packets via the appropriate output interface.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><strong>Key Roles</strong>:<ul>
+<li><strong>Packet Inspection</strong>: Examines headers for routing and QoS decisions.</li>
+<li><strong>Routing Table Maintenance</strong>: Updates routes dynamically using protocols like OSPF or BGP.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="summary-of-key-concepts"><strong>Summary of Key Concepts</strong></h3>
+<ul>
+<li><strong>Packet Switching</strong>: Core mechanism for efficient data transfer.</li>
+<li><strong>Routing and Forwarding</strong>: Ensure packets traverse networks to reach their destination.</li>
+<li><strong>IP Addressing</strong>: Vital for device identification and communication, with techniques like CIDR, DHCP, and NAT enhancing efficiency.</li>
+<li><strong>Performance Metrics</strong>: Delay, throughput, and congestion control are essential for optimizing communication.</li>
+<li><strong>DHCP and NAT</strong>: Critical protocols for managing IP address allocation and conservation.</li>
+</ul>
+
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Introduction to Network Layer</title>
         <author>
@@ -1179,116 +1494,6 @@ server {
 <li>To bypass the certificate warning, you’ll need to add the certificate as a trusted authority in your browser or use a Certificate Authority (CA) to get a trusted SSL certificate for production environments.</li>
 </ul>
 
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Create a simple seismograph with BMI160 6-DOF</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/create-a-simple-seismograph-with-bmi160-6-dof/"/>
-        <id>https://blog.ehmad.site/create-a-simple-seismograph-with-bmi160-6-dof/</id>
-
-        <updated>2024-11-22T17:39:15+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Using the BMI160 6-DOF (Degrees of Freedom) Accelerometer and Gyroscope Module is a much better option than a microphone for a DIY seismograph! The BMI160 has a 3-axis accelerometer and a 3-axis gyroscope, which allows it to detect minute changes in acceleration and orientation. With&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Using the <strong>BMI160 6-DOF (Degrees of Freedom) Accelerometer and Gyroscope Module</strong> is a much better option than a microphone for a DIY seismograph! The BMI160 has a 3-axis accelerometer and a 3-axis gyroscope, which allows it to detect minute changes in acceleration and orientation. With the ESP8266, you can create a simple seismograph that measures and logs tremors, vibrations, and even tilt changes with this setup.</p><h3 id="advantages-of-using-the-bmi160">Advantages of Using the BMI160</h3>
-<ol>
-<li><strong>High Sensitivity to Small Movements</strong>: It’s designed to detect subtle changes in acceleration and orientation, making it suitable for measuring vibrations.</li>
-<li><strong>6 DOF (Degrees of Freedom)</strong>: With both accelerometer and gyroscope, it provides more comprehensive data than a microphone, allowing you to capture vibrations on three axes (X, Y, and Z).</li>
-<li><strong>Low Power Consumption</strong>: The BMI160 is energy-efficient, which makes it ideal for continuous monitoring applications like a seismograph.</li>
-</ol>
-<h3 id="what-youll-need">What You’ll Need</h3>
-<ol>
-<li><strong>ESP8266</strong> (like NodeMCU or ESP-01)</li>
-<li><strong>BMI160 6 DOF IMU Module</strong></li>
-<li><strong>Breadboard and Jumper Wires</strong></li>
-<li><strong>Optional</strong>: LED, Buzzer, or OLED display for alerts or real-time data</li>
-</ol>
-<h3 id="step-by-step-guide">Step-by-Step Guide</h3>
-<h4 id="1-connecting-the-bmi160-to-the-esp8266">1. Connecting the BMI160 to the ESP8266</h4>
-<p>The BMI160 typically uses <strong>I2C</strong> or <strong>SPI</strong> for communication. I2C is simpler, so we’ll go with that.</p><ul>
-<li><strong>Connect VCC</strong> on the BMI160 to <strong>3.3V</strong> on the ESP8266.</li>
-<li><strong>Connect GND</strong> on the BMI160 to <strong>GND</strong> on the ESP8266.</li>
-<li><strong>Connect SDA</strong> on the BMI160 to <strong>D2</strong> on the ESP8266 (GPIO4).</li>
-<li><strong>Connect SCL</strong> on the BMI160 to <strong>D1</strong> on the ESP8266 (GPIO5).</li>
-</ul>
-<h4 id="2-installing-required-libraries">2. Installing Required Libraries</h4>
-<p>To use the BMI160, you can use the <strong>Adafruit BMI160 library</strong> in the Arduino IDE. Install this via the <strong>Library Manager</strong>:</p><ol>
-<li>Go to <strong>Sketch &gt; Include Library &gt; Manage Libraries…</strong></li>
-<li>Search for <code>Adafruit BMI160</code> and install it.</li>
-</ol>
-<h4 id="3-code-for-reading-accelerometer-data">3. Code for Reading Accelerometer Data</h4>
-<p>Here’s a basic example of code to read the accelerometer values (acceleration in X, Y, Z axes) from the BMI160, which can then be used to detect vibrations:</p><pre><code class="language-cpp">#include &lt;Wire.h&gt;
-#include &lt;Adafruit_Sensor.h&gt;
-#include &lt;Adafruit_BMI160.h&gt;
-
-Adafruit_BMI160 bmi160;
-
-void setup() {
-  Serial.begin(115200);
-
-  // Initialize the BMI160 sensor
-  if (!bmi160.begin(BMI160_I2C_ADDR, &amp;Wire)) {
-    Serial.println(&quot;Could not find a valid BMI160 sensor, check wiring!&quot;);
-    while (1);
-  }
-
-  bmi160.setAccelRange(BMI160_ACCELRANGE_2G);  // Set range to 2G for more sensitivity
-}
-
-void loop() {
-  // Get accelerometer readings
-  sensors_event_t accelEvent;
-  bmi160.getEvent(&amp;accelEvent, NULL, NULL);
-
-  float accelX = accelEvent.acceleration.x;  // Acceleration in X-axis
-  float accelY = accelEvent.acceleration.y;  // Acceleration in Y-axis
-  float accelZ = accelEvent.acceleration.z;  // Acceleration in Z-axis
-
-  Serial.print(&quot;X: &quot;); Serial.print(accelX); Serial.print(&quot; m/s² &quot;);
-  Serial.print(&quot;Y: &quot;); Serial.print(accelY); Serial.print(&quot; m/s² &quot;);
-  Serial.print(&quot;Z: &quot;); Serial.print(accelZ); Serial.println(&quot; m/s²&quot;);
-
-  // Threshold-based vibration detection
-  float threshold = 0.1;  // Adjust threshold based on sensitivity
-  if (abs(accelX) &gt; threshold || abs(accelY) &gt; threshold || abs(accelZ) &gt; threshold) {
-    Serial.println(&quot;Vibration Detected!&quot;);
-  }
-
-  delay(50);  // Adjust sampling frequency as needed
-}
-</code></pre>
-<h3 id="explanation-of-the-code">Explanation of the Code</h3>
-<ul>
-<li><strong>Initialize the BMI160</strong>: This checks the connection with the BMI160 and sets the accelerometer range (2G is the most sensitive, suitable for small vibrations).</li>
-<li><strong>Read Acceleration</strong>: Reads acceleration in each axis (X, Y, Z). The values are in m/s² (meters per second squared).</li>
-<li><strong>Threshold Detection</strong>: If any of the acceleration values exceed a set threshold (0.1 m/s² in this example), it logs a “Vibration Detected!” message. You can adjust this threshold based on your environment to avoid false positives.</li>
-</ul>
-<h4 id="4-optional-data-logging-or-real-time-visualization">4. Optional: Data Logging or Real-Time Visualization</h4>
-<ul>
-<li><strong>Logging Data</strong>: You can send the data over Wi-Fi (e.g., to a server or cloud service) for long-term monitoring.</li>
-<li><strong>OLED Display</strong>: If you add a small OLED display, you can view real-time data on-site.</li>
-<li><strong>Alerts</strong>: Connect an LED or buzzer to trigger whenever a vibration is detected.</li>
-</ul>
-<h4 id="5-fine-tuning-the-sensitivity">5. Fine-Tuning the Sensitivity</h4>
-<p>You may need to experiment with:</p><ul>
-<li><strong>Accelerometer Range</strong>: Setting it to <strong>2G</strong> gives more sensitivity to small vibrations, while <strong>4G</strong> or <strong>8G</strong> can capture more intense movements.</li>
-<li><strong>Sampling Frequency</strong>: Increasing the sampling rate (by reducing <code>delay()</code> in <code>loop()</code>) allows for detecting fast, short vibrations.</li>
-</ul>
-<h4 id="limitations-and-notes">Limitations and Notes</h4>
-<ul>
-<li><strong>Vibration Resolution</strong>: The BMI160 has good resolution, but it’s not as sensitive as professional seismometers. However, it should be able to pick up noticeable tremors and vibrations.</li>
-<li><strong>Noise Filtering</strong>: You can filter noise using a moving average or low-pass filter in code to reduce background noise and focus on specific vibrations.</li>
-</ul>
-<h3 id="conclusion">Conclusion</h3>
-<p>This setup with the BMI160 and ESP8266 should give you a basic yet effective vibration-sensing system that behaves similarly to a simple seismograph. It can detect various vibrations and small movements and can be enhanced with Wi-Fi logging for remote monitoring.</p>
             ]]>
         </content>
     </entry>
