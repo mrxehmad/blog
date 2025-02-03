@@ -3,12 +3,149 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-01-26T21:23:13+05:00</updated>
+    <updated>2025-02-03T13:33:11+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>How to Use Discord Webhooks </title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/how-to-use-discord-webhooks/"/>
+        <id>https://blog.ehmad.site/how-to-use-discord-webhooks/</id>
+
+        <updated>2025-02-03T13:32:35+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Discord webhooks are a powerful tool for integrating external services with your Discord server. They allow you to automate messages, send notifications, and even create custom bots without needing to write complex code. In this article, we’ll explore what Discord webhooks are, how to set&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Discord webhooks are a powerful tool for integrating external services with your Discord server. They allow you to automate messages, send notifications, and even create custom bots without needing to write complex code. In this article, we’ll explore what Discord webhooks are, how to set them up, and various ways you can use them to enhance your server.</p><hr>
+<h2 id="what-are-discord-webhooks"><strong>What Are Discord Webhooks?</strong></h2>
+<p>A webhook is essentially a way for an external application or service to send automated messages to a specific channel in your Discord server. Instead of manually posting updates, webhooks enable real-time communication between your server and other platforms like GitHub, Jenkins, monitoring tools, or even custom scripts.</p><p>Webhooks are lightweight, easy to set up, and don’t require you to build a full-fledged bot. They’re perfect for sending notifications, logging events, or automating repetitive tasks.</p><hr>
+<h2 id="how-to-create-a-discord-webhook"><strong>How to Create a Discord Webhook</strong></h2>
+<p>Before you can start using webhooks, you need to create one in your Discord server. Here’s how:</p><h3 id="step-1-navigate-to-channel-settings"><strong>Step 1: Navigate to Channel Settings</strong></h3>
+<ol>
+<li>Open your Discord server.</li>
+<li>Go to the channel where you want the webhook to post messages.</li>
+<li>Click on the gear icon (⚙️) next to the channel name to open the channel settings.</li>
+</ol>
+<h3 id="step-2-create-a-webhook"><strong>Step 2: Create a Webhook</strong></h3>
+<ol>
+<li>In the channel settings, go to <strong>Integrations</strong> &gt; <strong>Webhooks</strong>.</li>
+<li>Click <strong>Create Webhook</strong>.</li>
+<li>Give your webhook a name (e.g., “Notification Bot”).</li>
+<li>Select the channel where the webhook will post messages.</li>
+<li>Optionally, upload an avatar image to customize the webhook’s appearance.</li>
+<li>Click <strong>Copy Webhook URL</strong> and save it securely. This URL is essential for sending messages via the webhook.</li>
+</ol>
+<hr>
+<h2 id="how-to-send-messages-using-a-webhook"><strong>How to Send Messages Using a Webhook</strong></h2>
+<p>Once you’ve created a webhook, you can start sending messages to your Discord server. Below are examples of how to do this using different methods.</p><h3 id="1-using-curl-command"><strong>1. Using <code>curl</code> Command</strong></h3>
+<p>You can send a simple message to your Discord channel using the <code>curl</code> command in your terminal:</p><pre><code class="language-bash">curl -X POST -H &quot;Content-Type: application/json&quot; \
+-d &#39;{&quot;content&quot;: &quot;Hello, this is a test message from my webhook!&quot;}&#39; \
+https://discord.com/api/webhooks/YOUR_WEBHOOK_URL_HERE
+</code></pre>
+<p>Replace <code>YOUR_WEBHOOK_URL_HERE</code> with the actual webhook URL you copied earlier.</p><h3 id="2-using-python"><strong>2. Using Python</strong></h3>
+<p>If you prefer scripting, here’s how to send a message using Python:</p><pre><code class="language-python">import requests
+
+webhook_url = &quot;https://discord.com/api/webhooks/YOUR_WEBHOOK_URL_HERE&quot;
+data = {&quot;content&quot;: &quot;Hello, this is a test message from my webhook!&quot;}
+
+response = requests.post(webhook_url, json=data)
+
+if response.status_code == 204:
+    print(&quot;Message sent successfully!&quot;)
+else:
+    print(f&quot;Failed to send message: {response.status_code}, {response.text}&quot;)
+</code></pre>
+<h3 id="3-using-postman-or-insomnia"><strong>3. Using Postman or Insomnia</strong></h3>
+<p>For non-programmers, tools like <a href="https://www.postman.com/">Postman</a> or <a href="https://insomnia.rest/">Insomnia</a> can be used to manually send HTTP POST requests to the webhook URL.</p><hr>
+<h2 id="customizing-webhook-messages"><strong>Customizing Webhook Messages</strong></h2>
+<p>Discord webhooks allow you to customize the sender’s name, avatar, and even send rich embeds for more visually appealing messages.</p><h3 id="1-custom-sender-name-and-avatar"><strong>1. Custom Sender Name and Avatar</strong></h3>
+<p>You can override the default webhook name and avatar by including the <code>username</code> and <code>avatar_url</code> fields in your payload:</p><pre><code class="language-json">{
+  &quot;username&quot;: &quot;My Custom Bot&quot;,
+  &quot;avatar_url&quot;: &quot;https://example.com/avatar.png&quot;,
+  &quot;content&quot;: &quot;This message is sent by a custom bot!&quot;
+}
+</code></pre>
+<h3 id="2-sending-rich-embeds"><strong>2. Sending Rich Embeds</strong></h3>
+<p>Embeds allow you to send structured and visually appealing messages. Here’s an example of an embed payload:</p><pre><code class="language-json">{
+  &quot;embeds&quot;: [
+    {
+      &quot;title&quot;: &quot;New Blog Post!&quot;,
+      &quot;description&quot;: &quot;Check out our latest article on how to use webhooks.&quot;,
+      &quot;url&quot;: &quot;https://example.com/blog-post&quot;,
+      &quot;color&quot;: 16711680,
+      &quot;fields&quot;: [
+        {
+          &quot;name&quot;: &quot;Author&quot;,
+          &quot;value&quot;: &quot;John Doe&quot;,
+          &quot;inline&quot;: true
+        },
+        {
+          &quot;name&quot;: &quot;Published Date&quot;,
+          &quot;value&quot;: &quot;2023-10-01&quot;,
+          &quot;inline&quot;: true
+        }
+      ],
+      &quot;thumbnail&quot;: {
+        &quot;url&quot;: &quot;https://example.com/thumbnail.jpg&quot;
+      }
+    }
+  ]
+}
+</code></pre>
+<p>Send this payload using <code>curl</code>, Python, or any other method.</p><hr>
+<h2 id="use-cases-for-discord-webhooks"><strong>Use Cases for Discord Webhooks</strong></h2>
+<p>Here are some practical ways you can use webhooks to enhance your Discord server:</p><h3 id="1-notifications-from-external-services"><strong>1. Notifications from External Services</strong></h3>
+<ul>
+<li><strong>GitHub</strong>: Get notifications for new commits, issues, or pull requests.</li>
+<li><strong>Jenkins</strong>: Notify your team when a build succeeds or fails.</li>
+<li><strong>Uptime Monitoring</strong>: Alert your team if a server goes down.</li>
+</ul>
+<h3 id="2-logging-system"><strong>2. Logging System</strong></h3>
+<p>Use webhooks to log events from your applications or servers. For example:</p><ul>
+<li>Log errors or warnings directly to a dedicated “logs” channel.</li>
+<li>Monitor server health and send alerts when something goes wrong.</li>
+</ul>
+<h3 id="3-moderation-alerts"><strong>3. Moderation Alerts</strong></h3>
+<p>Set up a script or bot that monitors your server for certain activities (e.g., spam detection, keyword filtering) and sends moderation alerts via the webhook.</p><h3 id="4-game-or-event-notifications"><strong>4. Game or Event Notifications</strong></h3>
+<p>If you’re running a gaming community, use webhooks to notify users about:</p><ul>
+<li>Upcoming game releases.</li>
+<li>Server maintenance schedules.</li>
+<li>Tournament announcements.</li>
+</ul>
+<h3 id="5-automated-announcements"><strong>5. Automated Announcements</strong></h3>
+<p>Use webhooks to automate recurring announcements, such as:</p><ul>
+<li>Daily reminders.</li>
+<li>Weekly updates.</li>
+<li>Event countdowns.</li>
+</ul>
+<hr>
+<h2 id="security-tips-for-using-webhooks"><strong>Security Tips for Using Webhooks</strong></h2>
+<p>While webhooks are convenient, they can also pose security risks if not handled properly. Here are some tips to keep your webhooks secure:</p><ol>
+<li><strong>Keep Your Webhook URL Secret</strong>: Treat your webhook URL like a password. Anyone with access to it can send messages to your server.</li>
+<li><strong>Delete Unused Webhooks</strong>: If you no longer need a webhook, delete it to prevent misuse.</li>
+<li><strong>Regenerate Webhooks if Compromised</strong>: If you suspect your webhook has been compromised, delete it and create a new one.</li>
+<li><strong>Limit Permissions</strong>: Ensure the webhook only posts to the intended channel and doesn’t have unnecessary permissions.</li>
+</ol>
+<hr>
+<h2 id="troubleshooting-common-issues"><strong>Troubleshooting Common Issues</strong></h2>
+<h3 id="1-unknown-webhook-error"><strong>1. “Unknown Webhook” Error</strong></h3>
+<p>This error occurs if the webhook URL is invalid, deleted, or disabled. Double-check the URL and ensure the webhook still exists in your server settings.</p><h3 id="2-rate-limits"><strong>2. Rate Limits</strong></h3>
+<p>Discord imposes rate limits on webhooks. If you’re sending too many requests in a short period, you may be temporarily blocked. Wait a few minutes before trying again.</p><h3 id="3-formatting-issues"><strong>3. Formatting Issues</strong></h3>
+<p>Ensure your JSON payload is correctly formatted. Missing brackets, quotes, or commas can cause errors.</p><hr>
+<h2 id="conclusion"><strong>Conclusion</strong></h2>
+<p>Discord webhooks are a versatile and easy-to-use tool for automating messages and integrating external services with your server. Whether you’re sending notifications, logging events, or creating custom bots, webhooks can help streamline your workflows and keep your community informed.</p><p>By following the steps outlined in this guide, you can set up and use webhooks effectively while keeping your server secure. Experiment with different use cases and customize your messages to make the most of this powerful feature!</p><p>Happy automating! 🚀</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Phishing Attack Chain Report - Fiverr</title>
         <author>
@@ -1354,132 +1491,6 @@ sudo systemctl start cloudflared
 <hr>
 <p><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/rdp/">Cloudflare Guide</a></p><h3 id="conclusion"><strong>Conclusion</strong></h3>
 <p>By combining Cloudflare Tunnel, Zero Trust access policies, and the WARP client, you can create a secure, scalable, and flexible solution for accessing RDP servers. This eliminates the need for exposing public IPs or relying on traditional VPNs, enhancing both security and user experience.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>api.cloud.tenda.com.cn debuging a router</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/apicloudtendacomcn-debuging-a-router/"/>
-        <id>https://blog.ehmad.site/apicloudtendacomcn-debuging-a-router/</id>
-
-        <updated>2024-11-28T09:53:48+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Tenda Listener - PHP Script This PHP script is designed to receive, display, and log HTTP requests sent to the server. It is particularly useful for debugging and inspecting the data sent by devices connecting to a Tenda router. Specifically, it can capture data sent&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h1 id="tenda-listener---php-script">Tenda Listener - PHP Script</h1>
-<p>This <a href="https://github.com/mrxehmad/api.cloud.tenda.com.cn"> PHP script</a> is designed to receive, display, and log HTTP requests sent to the server. It is particularly useful for debugging and inspecting the data sent by devices connecting to a Tenda router. Specifically, it can capture data sent to <code>api.cloud.tenda.com.cn</code> by redirecting it to a local server.</p><hr>
-<h2 id="features">Features</h2>
-<ul>
-<li>Displays received HTTP headers.</li>
-<li>Captures and prints <code>GET</code> and <code>POST</code> request data.</li>
-<li>Shows the raw body of the request (e.g., JSON, XML, or other formats).</li>
-<li>Allows monitoring of data sent to <code>api.cloud.tenda.com.cn</code> when a new device connects to the router.</li>
-</ul>
-<hr>
-<h2 id="installation">Installation</h2>
-<h3 id="1-deploy-the-php-script">1. Deploy the PHP Script</h3>
-<ol>
-<li><p>Place the <code>index.php</code> file in the desired directory on your web server:</p><pre><code class="language-bash">sudo mkdir -p /var/www/html/tenda-listener
-sudo nano /var/www/html/tenda-listener/index.php
-</code></pre>
-<p>Add the PHP script content as described in this repository.</p></li>
-<li><p>Set proper ownership and permissions for the web directory:</p><pre><code class="language-bash">sudo chown -R www-data:www-data /var/www/html/tenda-listener
-sudo chmod -R 755 /var/www/html/tenda-listener
-</code></pre>
-</li>
-<li><p>Configure Nginx to serve the PHP script. Create a new site configuration file:</p><pre><code class="language-bash">sudo nano /etc/nginx/sites-available/tenda-listener
-</code></pre>
-<p>Add the following configuration:</p><pre><code class="language-nginx">server {
-    listen 80;
-    server_name 192.168.0.x;
-
-    root /var/www/html/tenda-listener;
-    index index.php;
-
-    location / {
-        try_files $uri /index.php;
-    }
-
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock; # Adjust PHP version if necessary
-    }
-}
-</code></pre>
-</li>
-<li><p>Enable the site:</p><pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/tenda-listener /etc/nginx/sites-enabled/
-</code></pre>
-</li>
-<li><p>Test the configuration and reload Nginx:</p><pre><code class="language-bash">sudo nginx -t
-sudo systemctl reload nginx
-</code></pre>
-</li>
-</ol>
-<hr>
-<h3 id="2-configure-dns-request-forwarding">2. Configure DNS Request Forwarding</h3>
-<p>To capture the data sent to <code>api.cloud.tenda.com.cn</code>, set up DNS request forwarding to redirect requests to your local server:</p><ol>
-<li><p><strong>Modify the DNS Configuration on the Router:</strong></p><ul>
-<li>Set up a DNS server (like Pi-hole or any DNS resolver) to resolve <code>api.cloud.tenda.com.cn</code> to your local server’s IP (<code>192.168.0.x</code>).</li>
-<li>For example, if using Pi-hole:<ul>
-<li>Navigate to <strong>Internet Settings</strong>.</li>
-<li>Add a  dns to <code>192.168.0.x</code> (your dns server).
- <figure class="post__image"><img loading="lazy" src="https://blog.ehmad.site/media/posts/15/dns_setting.png" alt="DNS Setting tenda router" width="990" height="1001"  sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://blog.ehmad.site/media/posts/15/responsive/dns_setting-xs.webp 640w ,https://blog.ehmad.site/media/posts/15/responsive/dns_setting-sm.webp 768w ,https://blog.ehmad.site/media/posts/15/responsive/dns_setting-md.webp 1024w ,https://blog.ehmad.site/media/posts/15/responsive/dns_setting-lg.webp 1366w ,https://blog.ehmad.site/media/posts/15/responsive/dns_setting-xl.webp 1600w ,https://blog.ehmad.site/media/posts/15/responsive/dns_setting-2xl.webp 1920w"></figure></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>Verify DNS Resolution:</strong>
-Run the following command from a device on the same network:</p><pre><code class="language-bash">nslookup api.cloud.tenda.com.cn
-</code></pre>
-<p>It should return <code>192.168.0.x</code>.</p></li>
-<li><p>Once configured, all traffic intended for <code>api.cloud.tenda.com.cn</code> will now be forwarded to your PHP listener.</p></li>
-</ol>
-<hr>
-<h2 id="usage">Usage</h2>
-<p>When a new device connects to the Tenda router, it sends data to <code>api.cloud.tenda.com.cn</code>. This data will be redirected to your PHP listener at <code>http://192.168.0.x</code>, where it can be inspected.</p><h3 id="viewing-data">Viewing Data</h3>
-<ul>
-<li>Open <code>http://192.168.0.x</code> in a browser to view incoming requests.</li>
-<li>The page displays:<ol>
-<li><strong>HTTP Headers</strong>: Headers sent with the request.</li>
-<li><strong>GET/POST Data</strong>: Any data sent as query parameters or form data.</li>
-<li><strong>Raw Body</strong>: The unprocessed body of the request, such as JSON or XML payloads.</li>
-</ol>
-</li>
-</ul>
-<hr>
-<h2 id="sample-data-captured">Sample Data Captured</h2>
-<p>Below is an example of data captured when a new device connects to the router:</p><h3 id="http-headers">HTTP Headers:</h3>
-<pre><code>Array
-(
-    [Host] =&gt; api.cloud.tenda.com.cn
-    [User-Agent] =&gt; TendaRouter/1.0
-    [Content-Type] =&gt; application/json
-    [Accept] =&gt; */*
-)
-</code></pre>
-<h3 id="raw-input-data">Raw Input Data:</h3>
-<pre><code class="language-json">{
-    &quot;device_id&quot;: &quot;123456789&quot;,
-    &quot;device_name&quot;: &quot;Smartphone&quot;,
-    &quot;mac_address&quot;: &quot;AA:BB:CC:DD:EE:FF&quot;,
-    &quot;connection_time&quot;: &quot;2024-10-31T10:00:00Z&quot;
-}
-</code></pre>
-<p>This data shows the device ID, name, MAC address, and the connection timestamp.</p><hr>
-<h2 id="notes">Notes</h2>
-<ul>
-<li>This script is for <strong>debugging purposes only</strong> and should not be exposed publicly without additional security measures.</li>
-<li>Ensure the PHP version on your server supports the <code>getallheaders</code> function.</li>
-<li>Use HTTPS for added security if exposing this listener outside your local network.</li>
-</ul>
-
             ]]>
         </content>
     </entry>
