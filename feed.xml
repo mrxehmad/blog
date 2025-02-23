@@ -3,12 +3,78 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-02-14T18:35:30+05:00</updated>
+    <updated>2025-02-23T16:02:37+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>Tenda AC9 Firmware Analysis</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/tenda-ac9-firmware-analysis/"/>
+        <id>https://blog.ehmad.site/tenda-ac9-firmware-analysis/</id>
+
+        <updated>2025-02-23T15:59:55+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Reverse Engineering the Tenda AC9 Firmware Routers are the unsung heroes of our connected lives—quietly humming away, keeping us online. But what’s really going on inside them? I recently got curious about my Tenda AC9 router and decided to crack open its firmware—US_AC9V1.0BR_V15.03.05.15_multi_TDE01.bin—to see what&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h1 id="reverse-engineering-the-tenda-ac9-firmware">Reverse Engineering the Tenda AC9 Firmware</h1>
+<p>Routers are the unsung heroes of our connected lives—quietly humming away, keeping us online. But what’s <em>really</em> going on inside them? I recently got curious about my Tenda AC9 router and decided to crack open its firmware—<code>US_AC9V1.0BR_V15.03.05.15_multi_TDE01.bin</code>—to see what secrets it holds. Spoiler: it’s a mix of the expected, the quirky, and the slightly unsettling. Here’s what I found, how I got there, and why it might matter.</p><h2 id="step-1-cracking-the-shell-with-binwalk">Step 1: Cracking the Shell with Binwalk</h2>
+<p>First things first—I needed to unpack the firmware. It’s a 7.4MB file, a u-boot uImage for a Linux/ARM kernel, timestamped October 29, 2020. Sounded like a job for <code>binwalk</code>, a go-to tool for firmware analysis. After installing it (<code>sudo apt install binwalk</code>), I ran a quick scan:</p><pre><code class="language-bash">wget https://github.com/mrxehmad/Tenda-AC9-Firmware-Analysis/raw/refs/heads/main/US_AC9V1.0BR_V15.03.05.15_multi_TDE01.zip
+</code></pre>
+<pre><code class="language-bash">binwalk US_AC9V1.0BR_V15.03.05.15_multi_TDE01.bin
+</code></pre>
+<p>The output revealed a TRX header, an LZMA-compressed kernel, and a SquashFS filesystem. To get inside, I extracted it:</p><pre><code class="language-bash">binwalk -e US_AC9V1.0BR_V15.03.05.15_multi_TDE01.bin
+</code></pre>
+<p>This gave me a folder with a compressed kernel (<code>5C.LZMA</code>) and a filesystem (<code>18EB48.squashfs</code>). One more command to decompress the filesystem:</p><pre><code class="language-bash">unsquashfs -f -d squashfs-root 18EB48.squashfs
+</code></pre>
+<p>And voilà—a treasure trove of files in <code>squashfs-root/</code>. Time to explore.</p><h2 id="step-2-open-ports-and-a-network-surprise">Step 2: Open Ports and a Network Surprise</h2>
+<p>Before diving into the files, I scanned my router (<code>10.1.15.1</code>) with Nmap to see what it’s exposing:</p><pre><code>PORT      STATE SERVICE
+80/tcp    open  http
+5500/tcp  open  hotline
+8180/tcp  open  unknown
+9000/tcp  open  cslistener
+10004/tcp open  emcrmirccd
+</code></pre>
+<p>Port 80? Expected for the web interface. 8180? Probably a secondary UI (more on that later). But 5500, 9000, and 10004? Those raised eyebrows. “Hotline” and “emcrmirccd” didn’t scream “router,” so I knew I had some digging to do.</p><h2 id="step-3-the-filesystem-tells-a-story">Step 3: The Filesystem Tells a Story</h2>
+<p>Inside <code>squashfs-root/</code>, I found a mix of binaries, libraries, and configs. Nginx was running on port 8180 (<code>/usr/bin/nginx</code>), serving a Luci interface with a FastCGI backend on 8188 (<code>/usr/bin/app_data_center</code>). Port 80 was handled by <code>httpd</code>—standard stuff. But then things got interesting.</p><h3 id="hardcoded-connections">Hardcoded Connections</h3>
+<p>Grepping through the files, I spotted hardcoded IPs and domains:</p><ul>
+<li><code>cloud.tenda.com.cn</code></li>
+<li><code>182.254.148.51</code></li>
+<li><code>download.cloud.tenda.com.cn</code></li>
+<li><code>182.254.218.214</code></li>
+<li><code>182.254.136.200</code></li>
+</ul>
+<p>These popped up in files like <code>./bin/auto_discover</code>, which sends your MAC address and timestamp to <code>api.cloud.tenda.com.cn/route/mac/v1</code>. Device tracking, perhaps? Meanwhile, <code>httpd</code> fetches ad URLs from <code>api.cloud.tenda.com.cn/route/adverts/v1</code>, defaulting to <code>www.tenda.com.cn</code> if it fails. An old-school User-Agent (<code>MSIE 5.01</code>) hinted this code hasn’t been touched in years.</p><h3 id="quirky-binaries">Quirky Binaries</h3>
+<ul>
+<li><code>./bin/speedtest</code>: Pings domains like <code>www.taobao.com</code> and <code>www.google.com</code>—likely a bandwidth test.</li>
+<li><code>./bin/88ip</code>: Sends XML to <code>link.dipserver.com</code> for dynamic DNS.</li>
+<li><code>./bin/logserver</code>: Tries (and often fails) to ship logs somewhere external.</li>
+<li><code>./usr/sbin/telnetd</code>: A Telnet server! No startup script activated it, but its presence felt like a debug leftover.</li>
+</ul>
+<h3 id="firewall-rules">Firewall Rules</h3>
+<p>Hardcoded <code>iptables</code> commands caught my eye:</p><pre><code>iptables -A OUTPUT -p udp --dport %d -m state --state NEW -j %s
+iptables -A %s -o %s -j DROP
+</code></pre>
+<p>These seem to manage outbound traffic—maybe to those Tenda cloud servers?</p><h2 id="step-4-what-does-it-mean">Step 4: What Does It Mean?</h2>
+<p>This firmware is chatty. It phones home to Tenda’s cloud, potentially sharing device info, fetching ads, and running services on non-standard ports (5500 and 10004 still elude me—debug backdoors?). The Telnet binary is dormant but tempting for anyone with root access. And those hardcoded IPs? A security researcher’s red flag—perfect for spoofing or tracking.</p><h2 id="why-it-matters">Why It Matters</h2>
+<p>Routers like the Tenda AC9 are everywhere, yet we rarely peek inside. This little adventure showed me how much they’re doing behind the scenes—some useful, some questionable. I’ve dumped my findings on GitHub (link below) with extraction steps, hoping others might join the fun. Could 5500 be a mislabeled Telnet port? Is <code>libupnp.so</code> behind 9000? I’m a newbie at this, but tools like Ghidra are calling—I’ll dive deeper if you do.</p><p>What do you think? Ever analyzed your own gear? Let’s swap notes!</p><ul>
+<li><a href="https://github.com/mrxehmad/Tenda-AC9-Firmware-Analysis">Tenda AC9 Firmware Analysis</a></li>
+<li><a href="https://github.com/mrxehmad/api.cloud.tenda.com.cn">api.cloud.tenda.com.cn</a></li>
+<li><a href="https://github.com/SC0p30N3/Tenda-AC15-Firmware-V15.03.05.18">Tenda AC15 Analysis</a> </li>
+<li><a href="https://ea.github.io/blog/2013/10/18/tenda-backdoor/">Tenda Backdoor Blog</a></li>
+</ul>
+
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>User Reports Privacy Indicator Issue with Google Assistant on Pixel Phones</title>
         <author>
@@ -1229,135 +1295,6 @@ iwr -useb get.scoop.sh | iex
 </li>
 </ul>
 <p>Understanding the TCP/IP model is crucial for networking, as it underpins the modern Internet and its communication protocols.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Streaming live audio over Wi-Fi with an ESP8266</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/streaming-live-audio-over-wi-fi-with-an-esp8266/"/>
-        <id>https://blog.ehmad.site/streaming-live-audio-over-wi-fi-with-an-esp8266/</id>
-
-        <updated>2024-12-04T09:25:55+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Streaming live audio over Wi-Fi with an ESP8266 is a fascinating project but has some limitations due to the hardware’s constrained resources. The ESP8266 is designed for IoT applications and may not handle high-quality audio streaming directly. However, with careful design, it’s possible to achieve&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Streaming live audio over Wi-Fi with an <strong>ESP8266</strong> is a fascinating project but has some limitations due to the hardware’s constrained resources. The ESP8266 is designed for IoT applications and may not handle high-quality audio streaming directly. However, with careful design, it’s possible to achieve low-bitrate audio streaming. Here’s how you can do it:</p><hr>
-<h3 id="1-components-needed"><strong>1. Components Needed</strong></h3>
-<ul>
-<li><strong>ESP8266</strong> (e.g., NodeMCU or Wemos D1 Mini)</li>
-<li><strong>Microphone Module</strong> (e.g., MAX9814, MAX4466, or an I2S mic like INMP441)</li>
-<li><strong>ADC (Analog-to-Digital Converter)</strong> (if using an analog mic)</li>
-<li><strong>Power Supply</strong> (5V for ESP8266)</li>
-</ul>
-<hr>
-<h3 id="2-challenges"><strong>2. Challenges</strong></h3>
-<ul>
-<li><strong>ESP8266 Limitations</strong>: It has limited processing power, no hardware audio codec, and only a single ADC channel with 10-bit resolution.</li>
-<li><strong>Audio Sampling</strong>: The ADC sampling rate is relatively low, so audio quality might not be high.</li>
-<li><strong>Wi-Fi Bandwidth</strong>: Streaming consumes bandwidth, and the ESP8266 may struggle to maintain a stable stream under heavy load.</li>
-</ul>
-<hr>
-<h3 id="3-basic-approach"><strong>3. Basic Approach</strong></h3>
-<h4 id="a-analog-microphone-with-adc">(a) <strong>Analog Microphone with ADC</strong>:</h4>
-<ol>
-<li>Connect the mic’s output to the ESP8266’s ADC (A0 pin).</li>
-<li>Write firmware to sample audio at a low rate (e.g., 8 kHz for voice) using ESP8266’s ADC.</li>
-</ol>
-<h4 id="b-i2s-microphone-preferred">(b) <strong>I2S Microphone (Preferred)</strong>:</h4>
-<ol>
-<li>Use an I2S microphone like the INMP441 for digital audio capture. The ESP8266 doesn’t natively support I2S input, so use an ESP32 if possible.</li>
-<li>If sticking to ESP8266, consider external I2S-to-serial converters (though it’s complex).</li>
-</ol>
-<h4 id="c-audio-compression">(c) <strong>Audio Compression</strong>:</h4>
-<p>To fit the bandwidth and processing constraints, compress the audio using a simple codec:</p><ul>
-<li>PCM (Uncompressed): Simple but bandwidth-heavy.</li>
-<li>ADPCM: A simple lossy compression method.</li>
-<li>Opus (if using more advanced hardware like ESP32).</li>
-</ul>
-<h4 id="d-streaming-protocol">(d) <strong>Streaming Protocol</strong>:</h4>
-<p>Send the audio data over Wi-Fi using a lightweight protocol:</p><ul>
-<li>Use <strong>HTTP</strong> or <strong>WebSocket</strong> to stream audio to a server or client.</li>
-<li>Alternatively, send data via <strong>UDP</strong> for low latency.</li>
-</ul>
-<hr>
-<h3 id="4-software-implementation"><strong>4. Software Implementation</strong></h3>
-<p>Here’s a basic framework for the firmware:</p><ol>
-<li><strong>Set up ADC</strong> to sample the microphone input.</li>
-<li><strong>Buffer the audio samples</strong> in small chunks.</li>
-<li><strong>Send the audio buffer</strong> over Wi-Fi to a server or directly to a listening client.</li>
-</ol>
-<h4 id="example-code-snippet-pseudo-arduino"><strong>Example Code Snippet (Pseudo-Arduino)</strong></h4>
-<pre><code class="language-cpp">#include &lt;ESP8266WiFi.h&gt;
-#include &lt;WiFiClient.h&gt;
-
-const char* ssid = &quot;Your_SSID&quot;;
-const char* password = &quot;Your_PASSWORD&quot;;
-const char* serverIP = &quot;192.168.1.100&quot;; // Destination server
-const int serverPort = 12345; // Destination port
-
-WiFiClient client;
-
-void setup() {
-  Serial.begin(115200);
-  WiFi.begin(ssid, password);
-
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(&quot;.&quot;);
-  }
-  Serial.println(&quot;WiFi connected&quot;);
-}
-
-void loop() {
-  if (!client.connected()) {
-    client.connect(serverIP, serverPort);
-  }
-
-  int sample = analogRead(A0); // Read from mic (0-1023)
-  byte lowByte = sample &amp; 0xFF;
-  byte highByte = (sample &gt;&gt; 8) &amp; 0xFF;
-
-  client.write(lowByte);
-  client.write(highByte);
-
-  delayMicroseconds(125); // ~8kHz sampling rate
-}
-</code></pre>
-<hr>
-<h3 id="5-server-side"><strong>5. Server-Side</strong></h3>
-<p>Set up a server (e.g., using Python) to receive and play the audio stream. Here’s a basic framework:</p><h4 id="python-server"><strong>Python Server</strong></h4>
-<pre><code class="language-python">import socket
-
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((&#39;0.0.0.0&#39;, 12345))
-server.listen(1)
-
-print(&quot;Waiting for connection...&quot;)
-conn, addr = server.accept()
-print(f&quot;Connected by {addr}&quot;)
-
-while True:
-    data = conn.recv(1024)  # Read audio stream
-    if not data:
-        break
-    # Process audio data (e.g., save or play it)
-    print(data)
-</code></pre>
-<hr>
-<h3 id="6-considerations"><strong>6. Considerations</strong></h3>
-<ul>
-<li><strong>Upgrade to ESP32</strong>: If audio quality and I2S support are critical.</li>
-<li><strong>External Audio Processor</strong>: Use external ADCs or DSPs for higher-quality audio.</li>
-<li><strong>Bandwidth Management</strong>: Ensure efficient encoding and sampling rates to avoid network issues.</li>
-</ul>
-<p>This setup can work for basic audio streaming. Let me know if you’d like help optimizing or scaling it!</p>
             ]]>
         </content>
     </entry>
