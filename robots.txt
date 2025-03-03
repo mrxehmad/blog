@@ -1,7 +1,0 @@
-User-agent: ChatGPT-User
-Disallow: /
-User-agent: GPTBot
-Disallow: /
-User-agent: *
-Disallow:
-Sitemap: https://blog.ehmad.site/sitemap.xml
