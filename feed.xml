@@ -3,12 +3,65 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-03-03T10:59:58+05:00</updated>
+    <updated>2025-03-03T11:21:27+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>Fixing PushRejectedError in Publii CMS While Syncing with GitHub</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/fixing-pushrejectederror-in-publii-cms-while-syncing-with-github/"/>
+        <id>https://blog.ehmad.site/fixing-pushrejectederror-in-publii-cms-while-syncing-with-github/</id>
+
+        <updated>2025-03-03T11:21:27+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Issue Overview When using Publii CMS to sync a site to GitHub, you may encounter this error: ERROR: PushRejectedError: Push rejected because it was not a simple fast-forward. Use &quot;force: true&quot; to override. This happens because Publii tries to push changes to the blog branch,&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h2 id="issue-overview"><strong>Issue Overview</strong></h2>
+<p>When using <strong>Publii CMS</strong> to sync a site to GitHub, you may encounter this error:</p><pre><code>ERROR: PushRejectedError: Push rejected because it was not a simple fast-forward. Use &quot;force: true&quot; to override.
+</code></pre>
+<p>This happens because <strong>Publii tries to push changes to the <code>blog</code> branch</strong>, but GitHub has a newer version of that branch (with the Azure workflow file). Since Publii does not pull before pushing, Git rejects the push.</p><p>If you <strong>force push</strong>, you risk overwriting and deleting important files, such as your <strong>GitHub Actions workflow</strong> that automates deployments to Azure.</p><h2 id="solution-pull-changes-before-syncing"><strong>Solution: Pull Changes Before Syncing</strong></h2>
+<p>To prevent the workflow from being deleted, you must <strong>manually pull the latest changes before syncing</strong> in Publii.</p><h3 id="step-by-step-fix-using-git"><strong>Step-by-Step Fix Using Git</strong></h3>
+<ol>
+<li><strong>Open your terminal or command prompt.</strong></li>
+<li><strong>Navigate to your Publii website folder.</strong><pre><code class="language-sh">cd path/to/your/publii/site/output
+</code></pre>
+ <em>(Replace <code>path/to/your/publii/site/output</code> with the actual path)</em></li>
+<li><strong>Pull the latest changes from GitHub.</strong><pre><code class="language-sh">git pull origin blog --rebase
+</code></pre>
+ If there are conflicts, Git will ask you to resolve them.</li>
+<li><strong>Go back to Publii and sync again.</strong><ul>
+<li>Since Publii now has the latest version (including the workflow), it won’t overwrite it.</li>
+</ul>
+</li>
+</ol>
+<h2 id="alternative-exclude-githubworkflows-from-publii-sync"><strong>Alternative: Exclude <code>.github/workflows</code> from Publii Sync</strong></h2>
+<p>If Publii is overwriting everything in the <code>blog</code> branch, you can <strong>exclude the <code>.github</code> folder</strong> (which contains your workflow file) from being removed.</p><h3 id="steps-to-exclude-files-in-publii"><strong>Steps to Exclude Files in Publii:</strong></h3>
+<ol>
+<li>In <strong>Publii</strong>, go to:
+<strong>Settings → Server → Additional Sync Options</strong></li>
+<li>Look for an <strong>“Exclude files/folders from sync”</strong> option.</li>
+<li>Add <code>.github/workflows/</code> to the exclusion list.
+<em>(This prevents Publii from deleting the workflow every time you sync.)</em></li>
+</ol>
+<h2 id="what-happens-now"><strong>What Happens Now?</strong></h2>
+<ul>
+<li><strong>You pull the latest changes first (keeps workflow).</strong></li>
+<li><strong>Then you sync with Publii (adds articles).</strong></li>
+<li><strong>No workflow deletion, no Git errors. �</strong>*</li>
+</ul>
+<p>By following these steps, you can seamlessly update your blog content without interfering with your deployment workflow.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Resolving Git Merge Conflicts: A Step-by-Step Guide</title>
         <author>
@@ -1155,199 +1208,6 @@ This phishing attempt leveraged an innovative technique by embedding a QR code i
 </li>
 </ul>
 <p>Let me know if you need help with any specific app removal!</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Windows package managers (CLI)</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/windows-package-managers-cli/"/>
-        <id>https://blog.ehmad.site/windows-package-managers-cli/</id>
-
-        <updated>2024-12-26T08:24:56+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Windows offers several package managers that can simplify the process of installing and managing software. Here are some of the most popular ones: winget install &lt;package-name&gt; Example:winget install firefox List available packages:winget search &lt;package-name&gt; 2. Chocolatey Description: Chocolatey is one of the most popular package&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Windows offers several package managers that can simplify the process of installing and managing software. Here are some of the most popular ones:</p><h3 id="1-winget-windows-package-manager">1. <strong>winget (Windows Package Manager)</strong></h3>
-<ul>
-<li><strong>Description</strong>: <code>winget</code> is a native Windows package manager developed by Microsoft. It allows you to search, install, update, and manage software from the command line.</li>
-<li><strong>How to use</strong>:<ul>
-<li><strong>Install</strong>: <code>winget</code> comes pre-installed on Windows 10 (starting with version 1809) and Windows 11.</li>
-<li><strong>Install a package</strong>:<pre><code class="language-bash">winget install &lt;package-name&gt;
-</code></pre>
-</li>
-<li><strong>Example</strong>:<pre><code class="language-bash">winget install firefox
-</code></pre>
-</li>
-<li><strong>List available packages</strong>:<pre><code class="language-bash">winget search &lt;package-name&gt;
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="2-chocolatey">2. <strong>Chocolatey</strong></h3>
-<ul>
-<li><strong>Description</strong>: Chocolatey is one of the most popular package managers for Windows. It works similarly to <code>apt</code> (on Linux) or <code>brew</code> (on macOS) and allows you to install software, update it, and manage dependencies easily.</li>
-<li><strong>How to use</strong>:<ul>
-<li><strong>Install</strong>:<ul>
-<li>Open PowerShell as Administrator and run:<pre><code class="language-powershell">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString(&#39;https://chocolatey.org/install.ps1&#39;))
-</code></pre>
-</li>
-</ul>
-</li>
-<li><strong>Install a package</strong>:<pre><code class="language-bash">choco install &lt;package-name&gt;
-</code></pre>
-</li>
-<li><strong>Example</strong>:<pre><code class="language-bash">choco install googlechrome
-</code></pre>
-</li>
-<li><strong>Update a package</strong>:<pre><code class="language-bash">choco upgrade &lt;package-name&gt;
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="3-scoop">3. <strong>Scoop</strong></h3>
-<ul>
-<li><strong>Description</strong>: Scoop is a simple and powerful command-line installer for Windows. It focuses on simplicity and is popular among developers for installing development tools.</li>
-<li><strong>How to use</strong>:<ul>
-<li><strong>Install</strong>:
-Open PowerShell and run:<pre><code class="language-powershell">Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-iwr -useb get.scoop.sh | iex
-</code></pre>
-</li>
-<li><strong>Install a package</strong>:<pre><code class="language-bash">scoop install &lt;package-name&gt;
-</code></pre>
-</li>
-<li><strong>Example</strong>:<pre><code class="language-bash">scoop install git
-</code></pre>
-</li>
-<li><strong>List available buckets</strong>:<pre><code class="language-bash">scoop bucket add &lt;bucket-name&gt;
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="4-ninite">4. <strong>Ninite</strong></h3>
-<ul>
-<li><strong>Description</strong>: Ninite is a simple and easy-to-use tool that allows you to batch install popular software. It’s not exactly a package manager, but it automates the process of downloading and installing apps.</li>
-<li><strong>How to use</strong>:<ul>
-<li><strong>Download</strong> the Ninite installer from the Ninite website.</li>
-<li><strong>Select the apps</strong> you want to install from the list on the Ninite website and download the custom installer.</li>
-<li><strong>Run the installer</strong> to automatically install all selected software.</li>
-</ul>
-</li>
-</ul>
-<h3 id="5-appget">5. <strong>AppGet</strong></h3>
-<ul>
-<li><strong>Description</strong>: AppGet is another package manager for Windows that provides a streamlined way to install software. It aims to be a more modern and stable package manager but is less widely used than the others.</li>
-<li><strong>How to use</strong>:<ul>
-<li><strong>Install</strong>: First, you need to install AppGet from its GitHub page or from the <a href="https://appget.net">AppGet website</a>.</li>
-<li><strong>Install a package</strong>:<pre><code class="language-bash">appget install &lt;package-name&gt;
-</code></pre>
-</li>
-<li><strong>Example</strong>:<pre><code class="language-bash">appget install vscode
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="6-portableapps">6. <strong>PortableApps</strong></h3>
-<ul>
-<li><strong>Description</strong>: PortableApps isn’t a package manager in the traditional sense, but it provides a platform for running portable versions of popular software. It’s ideal if you prefer not to install software directly onto your system.</li>
-<li><strong>How to use</strong>:<ul>
-<li><strong>Download</strong> and install the <a href="https://portableapps.com/">PortableApps platform</a>.</li>
-<li><strong>Install apps</strong> from the platform’s app store or manually by downloading portable versions.</li>
-</ul>
-</li>
-</ul>
-<h3 id="7-msi-package-via-powershell">7. <strong>MSI Package (via PowerShell)</strong></h3>
-<ul>
-<li><strong>Description</strong>: You can install MSI (Microsoft Installer) packages using PowerShell. This is more manual compared to the other package managers but gives you control over specific installations.</li>
-<li><strong>How to use</strong>:<ul>
-<li><strong>Install an MSI package</strong>:<pre><code class="language-powershell">msiexec /i &quot;C:\path\to\installer.msi&quot;
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="8-fdm-free-download-manager">8. <strong>FDM (Free Download Manager)</strong></h3>
-<ul>
-<li><strong>Description</strong>: Free Download Manager isn’t exactly a package manager, but it supports downloading installers and automating installation tasks.</li>
-<li><strong>How to use</strong>:<ul>
-<li>Use it to download software or package files, and it will assist in managing the downloads.</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="comparison-overview">Comparison Overview:</h3>
-<table>
-<thead>
-<tr>
-<th>Package Manager</th>
-<th>Ease of Use</th>
-<th>Package Availability</th>
-<th>Best For</th>
-<th>Official Site</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>winget</strong></td>
-<td>Easy</td>
-<td>Good</td>
-<td>General use, Windows apps</td>
-<td><a href="https://github.com/microsoft/winget-cli">https://github.com/microsoft/winget-cli</a></td>
-</tr>
-<tr>
-<td><strong>Chocolatey</strong></td>
-<td>Easy</td>
-<td>Excellent</td>
-<td>General use, productivity software</td>
-<td><a href="https://chocolatey.org">https://chocolatey.org</a></td>
-</tr>
-<tr>
-<td><strong>Scoop</strong></td>
-<td>Easy</td>
-<td>Good</td>
-<td>Developer tools</td>
-<td><a href="https://scoop.sh">https://scoop.sh</a></td>
-</tr>
-<tr>
-<td><strong>Ninite</strong></td>
-<td>Very Easy</td>
-<td>Limited</td>
-<td>Quick batch installation</td>
-<td><a href="https://ninite.com">https://ninite.com</a></td>
-</tr>
-<tr>
-<td><strong>AppGet</strong></td>
-<td>Easy</td>
-<td>Moderate</td>
-<td>Software management</td>
-<td><a href="https://appget.net">https://appget.net</a></td>
-</tr>
-<tr>
-<td><strong>PortableApps</strong></td>
-<td>Very Easy</td>
-<td>Limited</td>
-<td>Portable apps</td>
-<td><a href="https://portableapps.com">https://portableapps.com</a></td>
-</tr>
-<tr>
-<td><strong>MSI via PowerShell</strong></td>
-<td>Manual</td>
-<td>Depends on the MSI file</td>
-<td>Specific app installs</td>
-<td>N/A</td>
-</tr>
-</tbody></table>
-<p>Each of these package managers has its strengths and use cases. <strong>winget</strong>, <strong>Chocolatey</strong>, and <strong>Scoop</strong> are widely used for general-purpose package management, while <strong>Ninite</strong> is useful for batch installation, and <strong>PortableApps</strong> is great for portable software.</p>
             ]]>
         </content>
     </entry>
