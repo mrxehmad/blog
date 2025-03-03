@@ -3,12 +3,140 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-02-23T16:02:37+05:00</updated>
+    <updated>2025-03-03T10:20:27+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>Self-Hosting Bitwarden with Docker Compose on Alpine linux</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/self-hosting-bitwarden-with-docker-compose-on-alpine-linux/"/>
+        <id>https://blog.ehmad.site/self-hosting-bitwarden-with-docker-compose-on-alpine-linux/</id>
+
+        <updated>2025-03-03T10:20:27+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Bitwarden is a popular open-source password manager that allows users to self-host their own instance for enhanced privacy and control. Using Docker Compose, you can deploy Bitwarden with a custom network and static IP addresses, making it ideal for homelab enthusiasts or small organizations. This&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Bitwarden is a popular open-source password manager that allows users to self-host their own instance for enhanced privacy and control. Using Docker Compose, you can deploy Bitwarden with a custom network and static IP addresses, making it ideal for homelab enthusiasts or small organizations. This guide walks through setting up the Bitwarden unified beta deployment (<code>bitwarden/self-host:beta</code>) with a MariaDB database, connected to an existing Docker network, and troubleshoot common issues along the way.</p><h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Docker and Docker Compose installed on your system.</li>
+<li>A custom Docker network (e.g., <code>homelab_private_network</code>) already created.</li>
+<li>Basic familiarity with Docker commands and YAML configuration.</li>
+</ul>
+<h2 id="step-1-define-the-docker-compose-file">Step 1: Define the Docker Compose File</h2>
+<p>The Bitwarden unified deployment simplifies self-hosting by bundling most components into a single container, though it still requires a separate database. We’ll use MariaDB for this setup. Below is a <code>docker-compose.yml</code> file configured to join an existing network with static IPs.</p><h3 id="docker-composeyml"><code>docker-compose.yml</code></h3>
+<pre><code class="language-yaml">services:
+  bitwarden:
+    depends_on:
+      - db
+    env_file:
+      - settings.env
+    image: bitwarden/self-host:beta
+    restart: always
+    ports:
+      - &quot;80:8080&quot;
+      - &quot;443:8443&quot;
+    volumes:
+      - ./bitwarden-data:/etc/bitwarden
+      - ./logs:/var/log/bitwarden
+    networks:
+      homelab_private_network:
+        ipv4_address: 192.168.2.110
+
+  db:
+    environment:
+      MARIADB_USER: &quot;bitwarden&quot;
+      MARIADB_PASSWORD: &quot;[REDACTED]&quot;
+      MARIADB_DATABASE: &quot;bitwarden_vault&quot;
+      MARIADB_RANDOM_ROOT_PASSWORD: &quot;true&quot;
+    image: mariadb:10
+    restart: always
+    volumes:
+      - ./db-data:/var/lib/mysql
+    networks:
+      homelab_private_network:
+        ipv4_address: 192.168.2.111
+
+networks:
+  homelab_private_network:
+    external: true
+</code></pre>
+<h3 id="key-components">Key Components</h3>
+<ul>
+<li><strong>Bitwarden Service</strong>: Uses the <code>bitwarden/self-host:beta</code> image, maps ports <code>80</code> and <code>443</code> to internal ports <code>8080</code> and <code>8443</code>, and mounts volumes for configuration and logs.</li>
+<li><strong>MariaDB Service</strong>: Runs a MySQL-compatible database with predefined credentials and a random root password for security.</li>
+<li><strong>Network</strong>: Joins an existing <code>homelab_private_network</code> with static IPs (<code>192.168.2.110</code> for Bitwarden, <code>192.168.2.111</code> for MariaDB).</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong>: The <code>version</code> field (e.g., <code>3.7</code>) is omitted as it’s obsolete in Docker Compose v2. The schema is inferred from the features used.</p></blockquote>
+<h2 id="step-2-configure-environment-variables">Step 2: Configure Environment Variables</h2>
+<p>Bitwarden requires environment variables for database connectivity and domain settings. Create a <code>settings.env</code> file in the same directory as <code>docker-compose.yml</code>.</p><h3 id="settingsenv"><code>settings.env</code></h3>
+<pre><code>DOMAIN=http://192.168.2.110
+DATABASE_PROVIDER=mysql
+DATABASE_SERVER=db
+DATABASE_NAME=bitwarden_vault
+DATABASE_USERNAME=bitwarden
+DATABASE_PASSWORD=[REDACTED]
+ADMIN_ENABLED=true
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_SSL=false
+SMTP_USERNAME=[REDACTED]
+SMTP_PASSWORD=[REDACTED]
+</code></pre>
+<h3 id="explanation">Explanation</h3>
+<ul>
+<li><code>DOMAIN</code>: Set to the Bitwarden container’s static IP (adjust for your setup or use a domain with SSL).</li>
+<li><code>DATABASE_*</code>: Matches the MariaDB service’s credentials and service name.</li>
+<li><code>ADMIN_ENABLED</code>: Enables the admin interface (optional).</li>
+<li><code>SMTP_*</code>: Configures email notifications (optional; replace with your SMTP provider’s details).</li>
+</ul>
+<blockquote>
+<p><strong>Security Tip</strong>: Replace <code>[REDACTED]</code> placeholders with strong, unique passwords and credentials.</p></blockquote>
+<h2 id="step-3-prepare-the-environment">Step 3: Prepare the Environment</h2>
+<p>Create directories for persistent data:</p><pre><code class="language-bash">mkdir -p ./bitwarden-data ./logs ./db-data
+</code></pre>
+<p>Ensure your custom network exists and its subnet includes the chosen IPs. Check with:</p><pre><code class="language-bash">docker network inspect homelab_private_network
+</code></pre>
+<p>Example output might show a subnet of <code>192.168.2.0/24</code>, supporting IPs from <code>192.168.2.1</code> to <code>192.168.2.254</code>. Adjust the IPs in <code>docker-compose.yml</code> if they don’t match (e.g., if the subnet were <code>192.168.0.0/24</code>, use <code>192.168.0.110</code> and <code>192.168.0.111</code>).</p><h2 id="step-4-deploy-the-services">Step 4: Deploy the Services</h2>
+<p>Start the containers in detached mode:</p><pre><code class="language-bash">docker compose up -d
+</code></pre>
+<p>Verify they’re running:</p><pre><code class="language-bash">docker compose ps
+</code></pre>
+<p>You should see both <code>bitwarden</code> and <code>db</code> listed as <code>Up</code>.</p><h2 id="step-5-troubleshooting-common-issues">Step 5: Troubleshooting Common Issues</h2>
+<h3 id="issue-1-obsolete-version-warning">Issue 1: Obsolete <code>version</code> Warning</h3>
+<p>If you see a warning like:</p><pre><code>WARN[0000] docker-compose.yaml: the attribute `version` is obsolete...
+</code></pre>
+<p>Remove the <code>version</code> line from <code>docker-compose.yml</code>. It’s no longer needed in modern Docker Compose versions.</p><h3 id="issue-2-subnet-mismatch-error">Issue 2: Subnet Mismatch Error</h3>
+<p>An error like:</p><pre><code>Error response from daemon: invalid config for network homelab_private_network: ... no configured subnet or ip-range contain the IP address 192.168.0.111
+</code></pre>
+<p>means the assigned IPs don’t match the network’s subnet. Inspect the network:</p><pre><code class="language-bash">docker network inspect homelab_private_network
+</code></pre>
+<p>If the subnet is <code>192.168.2.0/24</code> but your IPs are <code>192.168.0.x</code>, update <code>docker-compose.yml</code> to use <code>192.168.2.110</code> and <code>192.168.2.111</code>, then restart:</p><pre><code class="language-bash">docker compose down
+docker compose up -d
+</code></pre>
+<h3 id="issue-3-container-exits-immediately">Issue 3: Container Exits Immediately</h3>
+<p>If <code>bitwarden</code> or <code>db</code> stops (check with <code>docker compose ps -a</code>), view logs:</p><pre><code class="language-bash">docker compose logs bitwarden
+docker compose logs db
+</code></pre>
+<p>Common causes include mismatched database credentials or missing SMTP settings (though SMTP is optional).</p><h2 id="step-6-access-bitwarden">Step 6: Access Bitwarden</h2>
+<p>Once running, access Bitwarden at <code>http://192.168.2.110</code> (or your chosen IP) in a browser. Set up an account and test functionality. For production, consider:</p><ul>
+<li>Adding SSL with a reverse proxy (e.g., Nginx or Traefik) <strong>Important</strong>.</li>
+<li>Backing up the <code>./bitwarden-data</code> and <code>./db-data</code> directories.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Self-hosting Bitwarden with Docker Compose on a custom network offers flexibility and control over your password management on alpine linux. By assigning static IPs and troubleshooting subnet issues, you can integrate it seamlessly into an existing homelab setup. The unified beta deployment simplifies the process, making it accessible even for those new to Docker and alpine.</p><p>For advanced configurations, explore Bitwarden’s official <a href="https://bitwarden.com/help/install-on-premise-linux/">documentation</a> or integrate cloud features with an installation ID and key. Happy self-hosting!</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Tenda AC9 Firmware Analysis</title>
         <author>
@@ -1209,92 +1337,6 @@ iwr -useb get.scoop.sh | iex
 <hr>
 <h2 id="conclusion"><strong>Conclusion</strong></h2>
 <p>Mapping a WebDAV drive in Windows requires careful attention to URL formatting, service configuration, and authentication settings. By following the steps outlined in this guide, you can successfully resolve connection issues and map your WebDAV drive. If problems persist, third-party WebDAV clients can provide additional flexibility and troubleshooting insights.</p><p>Let me know if you’d like to customize this article further!</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>TCP/IP model</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/tcpip-model/"/>
-        <id>https://blog.ehmad.site/tcpip-model/</id>
-
-        <updated>2024-12-07T10:20:01+05:00</updated>
-            <summary>
-                <![CDATA[
-                    The TCP/IP model is a framework used for network communication. It outlines how data is transmitted across interconnected devices and ensures compatibility across different systems. It is the foundation of the Internet and consists of four layers, each with specific responsibilities. Application Layer Transport Layer&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>The <strong>TCP/IP model</strong> is a framework used for network communication. It outlines how data is transmitted across interconnected devices and ensures compatibility across different systems. It is the foundation of the Internet and consists of four layers, each with specific responsibilities.</p><hr>
-<h3 id="layers-of-the-tcpip-model"><strong>Layers of the TCP/IP Model:</strong></h3>
-<ol>
-<li><p><strong>Application Layer</strong>  </p><ul>
-<li><strong>Purpose:</strong> Provides network services to applications and users. It enables communication between software and the network.</li>
-<li><strong>Examples:</strong> HTTP (web browsing), SMTP (email), FTP (file transfer), DNS (domain name resolution).</li>
-<li><strong>Functions:</strong>  <ul>
-<li>Handles data formatting, encoding, and processing.</li>
-<li>Ensures user interactions are effectively transmitted over the network.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>Transport Layer</strong>  </p><ul>
-<li><strong>Purpose:</strong> Ensures reliable data transfer between devices.</li>
-<li><strong>Examples:</strong> TCP (Transmission Control Protocol), UDP (User Datagram Protocol).</li>
-<li><strong>Functions:</strong>  <ul>
-<li><strong>TCP:</strong> Reliable, connection-oriented communication (e.g., web pages, emails).</li>
-<li><strong>UDP:</strong> Faster, connectionless communication (e.g., video streaming, online gaming).</li>
-<li>Error detection, flow control, and data segmentation.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>Internet Layer</strong>  </p><ul>
-<li><strong>Purpose:</strong> Handles routing and addressing, allowing data to move across networks.</li>
-<li><strong>Examples:</strong> IP (Internet Protocol), ICMP (Internet Control Message Protocol), ARP (Address Resolution Protocol).</li>
-<li><strong>Functions:</strong>  <ul>
-<li>Defines logical addressing (IP addresses).</li>
-<li>Routes data packets between devices across networks.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>Network Access Layer (or Link Layer)</strong>  </p><ul>
-<li><strong>Purpose:</strong> Governs how data is physically transmitted over the network.</li>
-<li><strong>Examples:</strong> Ethernet, Wi-Fi, ARP.</li>
-<li><strong>Functions:</strong>  <ul>
-<li>Defines how data frames are transmitted over the physical medium (e.g., cables, wireless).</li>
-<li>Handles hardware addressing (MAC addresses) and error detection at the physical level.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="key-features-of-the-tcpip-model"><strong>Key Features of the TCP/IP Model:</strong></h3>
-<ol>
-<li><strong>Scalability:</strong> Designed for large-scale networks like the Internet.</li>
-<li><strong>Flexibility:</strong> Supports multiple types of hardware and software.</li>
-<li><strong>Interoperability:</strong> Ensures diverse systems can communicate effectively.</li>
-<li><strong>Layer Independence:</strong> Each layer operates independently but works cohesively with others.</li>
-</ol>
-<hr>
-<h3 id="comparison-with-osi-model"><strong>Comparison with OSI Model</strong></h3>
-<ul>
-<li>The <strong>TCP/IP model</strong> has four layers, while the <strong>OSI model</strong> has seven layers.</li>
-<li>TCP/IP focuses more on practical implementation, whereas OSI is more theoretical.</li>
-<li>Layers in TCP/IP map roughly to OSI as follows:<ul>
-<li><strong>Application (TCP/IP)</strong> = Application, Presentation, and Session (OSI)</li>
-<li><strong>Transport (TCP/IP)</strong> = Transport (OSI)</li>
-<li><strong>Internet (TCP/IP)</strong> = Network (OSI)</li>
-<li><strong>Network Access (TCP/IP)</strong> = Data Link + Physical (OSI)</li>
-</ul>
-</li>
-</ul>
-<p>Understanding the TCP/IP model is crucial for networking, as it underpins the modern Internet and its communication protocols.</p>
             ]]>
         </content>
     </entry>
