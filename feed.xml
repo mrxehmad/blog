@@ -3,323 +3,137 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-02-24T16:15:04+05:00</updated>
+    <updated>2025-03-03T10:20:27+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
     <entry>
-        <title>NSA</title>
+        <title>Self-Hosting Bitwarden with Docker Compose on Alpine linux</title>
         <author>
             <name>Ehmad</name>
         </author>
-        <link href="https://blog.ehmad.site/nsa-2/"/>
-        <id>https://blog.ehmad.site/nsa-2/</id>
+        <link href="https://blog.ehmad.site/self-hosting-bitwarden-with-docker-compose-on-alpine-linux/"/>
+        <id>https://blog.ehmad.site/self-hosting-bitwarden-with-docker-compose-on-alpine-linux/</id>
 
-        <updated>2025-02-24T16:15:04+05:00</updated>
+        <updated>2025-03-03T10:20:27+05:00</updated>
             <summary>
                 <![CDATA[
-                    The National Security Agency (NSA) has been at the center of significant public scrutiny due to leaked documents, most notably those disclosed by Edward Snowden in 2013. These leaks revealed that the NSA intercepts and stores communications of over a billion people worldwide, including U.S.
+                    Bitwarden is a popular open-source password manager that allows users to self-host their own instance for enhanced privacy and control. Using Docker Compose, you can deploy Bitwarden with a custom network and static IP addresses, making it ideal for homelab enthusiasts or small organizations. This&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                <p><span data-contrast="auto">The National Security Agency (NSA) has been at the center of significant public scrutiny due to leaked documents, most notably those disclosed by Edward Snowden in 2013. These leaks revealed that the NSA intercepts and stores communications of over a billion people worldwide, including U.S. citizens, raising concerns about privacy and surveillance scope. They also showed the agency tracks cell phone metadata for hundreds of millions, with the Boundless Informant tool reporting 124.8 billion telephone data items and 97.1 billion computer data items collected in a single month (February 8 to March 8, 2013). Some programs were later ruled unconstitutional by the U.S. Court of Appeals on September 4, 2020, highlighting ongoing legal and ethical debates.</span><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<h3 aria-level="2"><strong>Infrastructure Details </strong></h3>
-<p><span data-contrast="auto">The NSA's infrastructure is extensive, with its headquarters at Fort Meade, Maryland, covering 350 acres with 1,300 buildings and 18,000 parking spaces, making it Maryland's largest electricity consumer. Other U.S. facilities include the Friendship Annex in Linthicum, Maryland, and the $1.5 billion Utah Data Center at Camp Williams, operational by May 2019. Globally, it operates stations like RAF Menwith Hill in the UK (the largest monitoring station) and Pine Gap in Australia. The agency boasts significant computing power, owning the largest group of supercomputers in 1995 and operating the High-Performance Computing Center 2 (Site M), a 227-acre, 1,800,000 square-foot facility with a 150 MW substation, opened in 2016. NSANet, a classified intranet, supports intelligence sharing among the Five Eyes alliance.</span><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<h3 aria-level="3"><span data-contrast="none">Workforce Estimates</span><span data-ccp-props="{&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:160,&quot;335559739&quot;:80}"> </span></h3>
-<p><span data-contrast="auto">The NSA's workforce has varied over time. In 1952, it had about 7,600 employees, growing to 59,000 by 1961 and 93,067 by 1969, with 19,300 at Fort Meade. By the early 1980s, it was around 50,000, and in 1989, 75,000 total, with 25,000 at Fort Meade. Recent estimates suggest around 32,000 employees, with 2013 figures ranging from 30,000 to 40,000, including over 1,000 system administrators. The NSA is notably the world's largest single employer of mathematicians, reflecting its technical focus.</span><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<p><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<h3 aria-level="3"><span data-contrast="none">Survey Note: Comprehensive Analysis of NSA Research</span><span data-ccp-props="{&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:160,&quot;335559739&quot;:80}"> </span></h3>
-<p><span data-contrast="auto">This section provides a detailed examination of the National Security Agency (NSA), focusing on the documents leaked, its projects, infrastructure, and number of employees, based on research from the NSA's Wikipedia page and related sources, as of February 24, 2025. The analysis aims to offer a professional and thorough overview, suitable for academic or policy discussions.</span><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<h4 aria-level="4"><i><span data-contrast="none">General Background</span></i><span data-ccp-props="{&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:80,&quot;335559739&quot;:40}"> </span></h4>
-<p><span data-contrast="auto">The NSA, established on November 4, 1952, by President Harry S. Truman, is an intelligence agency under the U.S. Department of Defense, reporting to the Director of National Intelligence (DNI). Its primary mission involves global monitoring, collection, and processing of information for intelligence and counterintelligence, specializing in signals intelligence (SIGINT). It also protects U.S. communications networks and information systems. Headquartered at Fort Meade, Maryland (coordinates 39°6′32″N 76°46′17″W), its motto is "Defending Our Nation. Securing the Future," and its official website is </span><a href="https://www.nsa.gov/"><span data-contrast="none">nsa.gov</span></a><span data-contrast="auto">.</span><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<p aria-level="4"><span data-ccp-props="{&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:80,&quot;335559739&quot;:40}"> </span></p>
-<p aria-level="4"><span data-ccp-props="{&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:80,&quot;335559739&quot;:40}"> </span></p>
-<h2 aria-level="4"><i><span data-contrast="none">Projects</span></i><i><span data-contrast="none">:</span></i><span data-ccp-props="{&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:80,&quot;335559739&quot;:40}"> </span></h2>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></p>
-<p><span data-contrast="auto">The NSA's projects illustrate its technical and operational scope, often sparking controversy due to their implications:</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></p>
+                <p>Bitwarden is a popular open-source password manager that allows users to self-host their own instance for enhanced privacy and control. Using Docker Compose, you can deploy Bitwarden with a custom network and static IP addresses, making it ideal for homelab enthusiasts or small organizations. This guide walks through setting up the Bitwarden unified beta deployment (<code>bitwarden/self-host:beta</code>) with a MariaDB database, connected to an existing Docker network, and troubleshoot common issues along the way.</p><h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li data-leveltext="" data-font="Symbol" data-listid="6" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><strong><span data-contrast="auto">PRISM</span></strong><span data-contrast="auto">: Launched in 2007, PRISM collects user data from nine Internet companies, including Microsoft, Yahoo, Google, Facebook, PalTalk, AOL, Skype, YouTube, and Apple, as detailed in </span><a href="https://www.washingtonpost.com/investigations/us-intelligence-mining-data-from-nine-us-internet-companies-in-broad-secret-program/2013/06/06/3a0c0da8-cebf-11e2-8845-d970ccb04497_story.html"><span data-contrast="none">US Intelligence Mining Data from Nine US Internet Companies in Broad Secret Program</span></a><span data-contrast="auto">. Authorized under the Patriot Act and the FISA Amendment Act, it has been subject to numerous legal and public debates, with critics arguing it infringes on privacy rights. The program was revealed through Edward Snowden's leaks, showing its extensive reach into private communications.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
+<li>Docker and Docker Compose installed on your system.</li>
+<li>A custom Docker network (e.g., <code>homelab_private_network</code>) already created.</li>
+<li>Basic familiarity with Docker commands and YAML configuration.</li>
 </ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="6" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="2" data-aria-level="1"><strong><span data-contrast="auto">XKeyscore</span></strong><span data-contrast="auto">: Tracks users of privacy tools like Tor and Linux Journal readers, raising concerns about targeting privacy-conscious individuals, as noted in </span><a href="https://theintercept.com/series/snowden-archive/"><span data-contrast="none">Snowden Archive - The Intercept</span></a><span data-contrast="auto">. It can collect and analyze vast amounts of internet data, including emails, chat messages, and browsing history, adding to its controversial nature. Reports suggest it was used to monitor activities without specific warrants, fueling debates over surveillance overreach.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="6" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="3" data-aria-level="1"><strong><span data-contrast="auto">Stuxnet</span></strong><span data-contrast="auto">: Allegedly developed with Israel, this worm targeted Iran's nuclear program, damaging centrifuges, as mentioned in </span><a href="https://spyscape.com/article/15-top-nsa-spy-secrets-revealed-by-snowden"><span data-contrast="none">15 Top NSA Spy Secrets Revealed by Edward Snowden</span></a><span data-contrast="auto">. Its use in cyber warfare raised ethical questions, with reports suggesting it was a joint operation with the CIA and Mossad, marking it as the first known cyber weapon to cause physical damage. This operation highlighted the NSA's role in offensive cyber operations, with unexpected implications for international relations.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="6" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="4" data-aria-level="1"><strong><span data-contrast="auto">ECHELON</span></strong><span data-contrast="auto">: Part of the UKUSA group, ECHELON monitors global civilian telephone, fax, and data traffic, involving partners like GCHQ (UK), CSE (Canada), ASD (Australia), and GCSB (New Zealand), as noted in the Wikipedia page. It has been criticized for potential violations of international privacy norms, with allegations of economic espionage adding to its controversial status.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="6" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="5" data-aria-level="1"><strong><span data-contrast="auto">ThinThread and Trailblazer</span></strong><span data-contrast="auto">: ThinThread, an advanced data mining project with privacy mechanisms, was canceled in favor of Trailblazer, which faced technical and cost issues and was discontinued early in 2004, as per </span><a href="https://en.wikipedia.org/wiki/National_Security_Agency"><span data-contrast="none">National Security Agency - Wikipedia</span></a><span data-contrast="auto">. These projects aimed to enhance data analysis but faced internal and public scrutiny for their inefficiencies and cost overruns, with ThinThread's privacy features being a notable but unused aspect.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<h2 aria-level="2"><span data-contrast="none">Offensive Cyber Operations</span><span data-ccp-props="{&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335559738&quot;:160,&quot;335559739&quot;:80}"> </span></h2>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></p>
-<p><span data-contrast="auto">Recent NSA operations, often classified, illustrate its role in offensive cyber activities, with the following notable examples:</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="7" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><strong><span data-contrast="auto">Operation Glowing Symphony (2019)</span></strong><span data-contrast="auto">: The NSA, in collaboration with the FBI and the Department of Justice, disrupted an Iranian Islamic Revolutionary Guard Corps (IRGC) botnet network, as reported in </span><a href="https://www.justice.gov/opa/pr/iranian-regime-attempts-disrupt-us-financial-sector-and-critical-infrastructure-thwarted"><span data-contrast="none">Iranian Regime Attempts to Disrupt US Financial Sector and Critical Infrastructure Thwarted</span></a><span data-contrast="auto">. This operation showcased the NSA's offensive cyber capabilities, targeting malicious networks to protect U.S. interests, with unexpected details about the scale of the botnet's reach.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="7" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="2" data-aria-level="1"><strong><span data-contrast="auto">Disruption of Russian Hacking Groups (2020)</span></strong><span data-contrast="auto">: The NSA and its partners disrupted the activities of the Russian hacking group known as Fancy Bear, as noted in </span><a href="https://www.cisa.gov/uscert/ncas/alerts/AA20-106A"><span data-contrast="none">Alert (AA20-106A) - Russian State-Sponsored and Criminal Cyber Threats to Critical Infrastructure</span></a><span data-contrast="auto">. This operation highlighted efforts to counter foreign cyber threats, particularly those linked to state-sponsored activities, adding complexity to U.S.-Russia cyber relations.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="7" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="3" data-aria-level="1"><strong><span data-contrast="auto">Support for Ukraine (2022)</span></strong><span data-contrast="auto">: General Paul Nakasone confirmed U.S. offensive cyber operations to support Ukraine against Russia's invasion, as reported in </span><a href="https://www.theregister.com/2022/06/02/nakasone_us_hacking_russia/"><span data-contrast="none">Nakasone: US Hacking Russia to Support Ukraine</span></a><span data-contrast="auto">. While specific details remain classified, this operation underscores the NSA's role in geopolitical conflicts, with ongoing debates about the legality and ethics of such actions.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<p><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<p><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<h3 aria-level="4"><i><span data-contrast="none">Number of Employees: Historical and Current Estimates</span></i><span data-ccp-props="{&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:80,&quot;335559739&quot;:40}"> </span></h3>
-<p><span data-contrast="auto">The NSA's workforce has seen significant changes:</span><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="4" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><span data-contrast="auto">In 1952, it had approximately 7,600 employees, growing to 59,000 by 1961 and 93,067 by 1969, with 19,300 at Fort Meade, as per </span><a href="https://web.archive.org/web/20130614022314/http://www.nsa.gov/about/cryptologic_heritage/60th/book/NSA_60th_Anniversary.pdf"><span data-contrast="none">NSA 60th Anniversary PDF</span></a><span data-contrast="auto">.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="4" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="2" data-aria-level="1"><span data-contrast="auto">By the early 1980s, it was around 50,000, and in 1989, 75,000 total, with 25,000 at Fort Meade.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="4" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="3" data-aria-level="1"><span data-contrast="auto">As of 2012, over 30,000 were at Fort Meade and other facilities, with 2013 estimates ranging from 30,000 to 40,000, including 1,000 system administrators, as reported by </span><a href="http://www.spiegel.de/international/world/prism-leak-inside-the-controversial-us-data-surveillance-program-a-904761.html"><span data-contrast="none">Spiegel Online</span></a><span data-contrast="auto">.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="4" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="4" data-aria-level="1"><span data-contrast="auto">The NSA is described as the world's largest single employer of mathematicians, reflecting its technical focus.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-contrast="auto">This historical context shows workforce growth, with current estimates around 32,000, aligning with post-9/11 expansion, as noted in </span><a href="https://www.washingtonpost.com/world/national-security/nsa-growth-fueled-by-need-to-target-terrorists/2013/07/21/24c93cf4-f0b1-11e2-bed3-b9b6fe264871_story.html"><span data-contrast="none">NSA Growth Fueled by Need to Target Terrorists</span></a><span data-contrast="auto">.</span><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<p><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<p><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<h2 aria-level="4"><i><span data-contrast="none">Edward Snowden's Role:</span></i><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:319,&quot;335559739&quot;:319}"> </span></h2>
-<p><span data-contrast="auto">Edward Snowden's role before and during the leak is well-documented. He worked as a contractor for the NSA through companies like Booz Allen Hamilton, Dell, and previously the CIA. His positions gave him access to classified information about the NSA's surveillance programs, including PRISM, which collects data from tech companies, and XKeyscore, which monitors internet activity.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="8" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><strong><span data-contrast="auto">Early Career and Background</span></strong><span data-contrast="auto">: Snowden was born in Elizabeth City, N.C., and later moved to Maryland. He dropped out of high school in his sophomore year but developed a fascination with computers and technology, as noted in </span><a href="https://www.nbcnews.com/feature/edward-snowden-interview/edward-snowden-timeline-n114871"><span data-contrast="none">Edward Snowden: A Timeline</span></a><span data-contrast="auto">. He worked for the CIA and then as a contractor for NSA-related firms, gaining access to sensitive data.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="8" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="2" data-aria-level="1"><strong><span data-contrast="auto">Role at NSA Contractors</span></strong><span data-contrast="auto">: In 2013, Snowden was hired by Booz Allen Hamilton, an NSA contractor, after previous employment with Dell and the CIA, as detailed in </span><a href="https://en.wikipedia.org/wiki/Edward_Snowden"><span data-contrast="none">Edward Snowden - Wikipedia</span></a><span data-contrast="auto">. His role involved system administration and access to top-secret documents, which he used to gather information on surveillance programs.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="8" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="3" data-aria-level="1"><strong><span data-contrast="auto">The Leak</span></strong><span data-contrast="auto">: On June 5, 2013, The Guardian and The Washington Post published the first reports based on documents leaked by Snowden, revealing the NSA's collection of telephone records and texts of citizens, as reported in </span><a href="https://www.history.com/this-day-in-history/edward-snowden-discloses-u-s-government-operations"><span data-contrast="none">Edward Snowden discloses U.S. government operations | June 5, 2013 | HISTORY</span></a><span data-contrast="auto">. He handed hundreds of thousands of classified secrets to journalists while in Hong Kong, as noted in </span><a href="https://spyscape.com/article/15-top-nsa-spy-secrets-revealed-by-snowden"><span data-contrast="none">15 Top NSA Spy Secrets Revealed by Edward Snowden</span></a><span data-contrast="auto">.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="8" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="4" data-aria-level="1"><strong><span data-contrast="auto">Motivations and Aftermath</span></strong><span data-contrast="auto">: Snowden stated he became disillusioned with the programs and tried to raise ethical concerns internally but was ignored, as per </span><a href="https://en.wikipedia.org/wiki/Edward_Snowden"><span data-contrast="none">Edward Snowden - Wikipedia</span></a><span data-contrast="auto">. His disclosures prompted a cultural discussion about national security and individual privacy, leading to U.S. charges for violating the Espionage Act, despite claims of unconstitutional prosecution, as mentioned in </span><a href="https://www.whistleblowers.org/news/the-case-of-edward-snowden/"><span data-contrast="none">The case of Edward Snowden - National Whistleblower Center</span></a><span data-contrast="auto">. He has lived in Russia since 2013, becoming a naturalized citizen in 2022.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></p>
-<h2 class="align-center" aria-level="4"><i><span data-contrast="none">NSA's Actions on Encryption and User Privacy: A Comprehensive Analysis</span></i><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:319,&quot;335559739&quot;:319}"> </span></h2>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></p>
-<p><span data-contrast="auto">The NSA's activities related to encryption and user privacy have been controversial, particularly following Snowden's leaks. Research suggests the agency has attempted to weaken encryption standards and bypass user privacy protections, raising significant concerns.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="9" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><strong><span data-contrast="auto">Historical Context</span></strong><span data-contrast="auto">: The NSA has a long history of involvement in cryptography, categorizing encryption items into Type 1 (for classified information) and Type 2 (for sensitive but unclassified data), as noted in </span><a href="https://en.wikipedia.org/wiki/NSA_cryptography"><span data-contrast="none">NSA cryptography - Wikipedia</span></a><span data-contrast="auto">. In the 1990s, it attempted to control strong encryption availability, as mentioned in </span><a href="https://www.mrcy.com/company/blogs/history-and-future-nsa-type-1-encryption"><span data-contrast="none">That’s classified! The history and future of NSA Type 1 encryption | Mercury Systems</span></a><span data-contrast="auto">.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="9" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="2" data-aria-level="1"><strong><span data-contrast="auto">Efforts to Weaken Encryption</span></strong><span data-contrast="auto">: One notable example is the Dual_EC_DRBG algorithm, part of a NIST standard, suspected to have a backdoor designed by the NSA, as detailed in </span><a href="https://www.scientificamerican.com/article/nsa-nist-encryption-scandal/"><span data-contrast="none">NSA Efforts to Evade Encryption Technology Damaged U.S. Cryptography Standard | Scientific American</span></a><span data-contrast="auto">. This was revealed in 2013, leading NIST to discourage its use. The NSA's 2013 budget request also asked for funding to "insert vulnerabilities into commercial encryption systems," as noted in </span><a href="https://golem.ph.utexas.edu/category/2014/10/new_evidence_of_nsa_weakening.html"><span data-contrast="none">New Evidence of the NSA Deliberately Weakening Encryption | The n-Category Café</span></a><span data-contrast="auto">.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="9" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="3" data-aria-level="1"><strong><span data-contrast="auto">Programs and Methods</span></strong><span data-contrast="auto">: The Bullrun program, revealed in 2013, aims to crack encryption, including efforts to circumvent or break much of the digital scrambling that protects communications, as reported in </span><a href="https://www.propublica.org/article/the-nsas-secret-campaign-to-crack-undermine-internet-encryption"><span data-contrast="none">Revealed: The NSA's Secret Campaign to Crack, Undermine Internet Security — ProPublica</span></a><span data-contrast="auto">. The NSA has also been accused of collaborating with tech companies to build entry points into their products and hacking into target computers to snare messages before encryption, as noted in </span><a href="https://www.nytimes.com/2013/09/06/us/nsa-foils-much-internet-encryption.html"><span data-contrast="none">N.S.A. Able to Foil Basic Safeguards of Privacy on Web - The New York Times</span></a><span data-contrast="auto">.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="9" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="4" data-aria-level="1"><strong><span data-contrast="auto">Recent Stance</span></strong><span data-contrast="auto">: Recent reports suggest the NSA continues to look for ways to bypass encryption, with researchers warning about flaws in implementations like Diffie-Hellman key exchange, which the NSA can exploit within its $11 billion budget, as detailed in </span><a href="https://arstechnica.com/information-technology/2015/10/how-the-nsa-can-break-trillions-of-encrypted-web-and-vpn-connections/"><span data-contrast="none">How the NSA can break trillions of encrypted Web and VPN connections - Ars Technica</span></a><span data-contrast="auto">. However, the NSA also shares guidance to mitigate weak encryption protocols, targeting government and enterprise organizations, as noted in </span><a href="https://www.bleepingcomputer.com/news/security/nsa-shares-guidance-tools-to-mitigate-weak-encryption-protocols/amp/"><span data-contrast="none">NSA shares guidance, tools to mitigate weak encryption protocols</span></a><span data-contrast="auto">.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:240,&quot;335559739&quot;:240}"> </span></p>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="9" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="5" data-aria-level="1"><strong><span data-contrast="auto">Implications</span></strong><span data-contrast="auto">: These actions undermine trust in encryption standards, potentially leaving users vulnerable to attacks from other malicious actors. They also raise significant privacy concerns, as the NSA's surveillance programs can monitor communications without proper oversight, fueling debates on the balance between national security and individual rights.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;335551550&quot;:0,&quot;335551620&quot;:0}"> </span></p>
-<p aria-level="3"><span data-ccp-props="{&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:160,&quot;335559739&quot;:80}"> </span></p>
-<h4 aria-level="3"><span data-contrast="none">Key Citations</span><span data-ccp-props="{&quot;134245418&quot;:true,&quot;134245529&quot;:true,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:160,&quot;335559739&quot;:80}"> </span></h4>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><a href="https://en.wikipedia.org/wiki/2010s_global_surveillance_disclosures"><span data-contrast="none">2010s global surveillance disclosures - Wikipedia</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="2" data-aria-level="1"><a href="https://www.theguardian.com/us-news/the-nsa-files"><span data-contrast="none">The NSA files | The Guardian</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="3" data-aria-level="1"><a href="https://www.intelligence.gov/ic-on-the-record-database/results/47-newseum-special-program-nsa-surveillance-leaks-facts-and-fiction"><span data-contrast="none">INTEL - Newseum Special Program - NSA Surveillance Leaks: Facts and Fiction</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="4" data-aria-level="1"><a href="https://github.com/iamcryptoki/snowden-archive"><span data-contrast="none">GitHub - Snowden Archive Collection</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="5" data-aria-level="1"><a href="https://www.nytimes.com/2017/11/12/us/nsa-shadow-brokers.html"><span data-contrast="none">Security Breach and Spilled Secrets Have Shaken the N.S.A. to Its Core - The New York Times</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="6" data-aria-level="1"><a href="https://www.aclu.org/nsa-documents-released-to-the-public-since-june-2013"><span data-contrast="none">NSA Documents Released to the Public Since June 2013 | American Civil Liberties Union</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="7" data-aria-level="1"><a href="https://spyscape.com/article/15-top-nsa-spy-secrets-revealed-by-snowden"><span data-contrast="none">15 Top NSA Spy Secrets Revealed by Edward Snowden</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="8" data-aria-level="1"><a href="https://theintercept.com/series/snowden-archive/"><span data-contrast="none">Snowden Archive - The Intercept</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="9" data-aria-level="1"><a href="https://www.pewresearch.org/short-reads/2018/06/04/how-americans-have-viewed-government-surveillance-and-privacy-since-snowden-leaks/"><span data-contrast="none">How Americans have viewed government surveillance and privacy since Snowden leaks</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="10" data-aria-level="1"><a href="https://www.theatlantic.com/ideas/archive/2023/06/edward-snowden-nsa-mass-surveillance/674315/"><span data-contrast="none">Did Edward Snowden’s Revelations Change Anything? - The Atlantic</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="11" data-aria-level="1"><a href="https://www.washingtonpost.com/investigations/us-intelligence-mining-data-from-nine-us-internet-companies-in-broad-secret-program/2013/06/06/3a0c0da8-cebf-11e2-8845-d970ccb04497_story.html"><span data-contrast="none">US Intelligence Mining Data from Nine US Internet Companies in Broad Secret Program</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="12" data-aria-level="1"><a href="https://apps.washingtonpost.com/g/page/world/fascia-the-nsas-huge-trove-of-location-records/637/"><span data-contrast="none">FASCIA - The NSA's Huge Trove of Location Records</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="13" data-aria-level="1"><a href="http://www.dailytech.com/NSAs+Perfect+Citizen+Program++Big+Brother+or+Cybersecurity+Savior/article18969.htm"><span data-contrast="none">NSA's Perfect Citizen Program: Big Brother or Cybersecurity Saviour?</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="14" data-aria-level="1"><a href="https://www.baltimoresun.com/2013/05/06/nsa-plans-new-computing-center-for-cyber-threats/"><span data-contrast="none">NSA Plans New Computing Center for Cyber Threats</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="15" data-aria-level="1"><a href="http://www.deseretnews.com/article/705363940/Utahs-15-billion-cyber-security-center-under-way.html"><span data-contrast="none">Utah's $1.5 Billion Cyber-Security Center Under Way</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="16" data-aria-level="1"><a href="https://www.theguardian.com/world/2012/mar/01/menwith-hill-eavesdropping-base-expansion"><span data-contrast="none">Menwith Hill Eavesdropping Base Undergoes Massive Expansion</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="17" data-aria-level="1"><a href="https://www.baltimoresun.com/2007/01/26/nsa-electricity-crisis-gets-senate-scrutiny/"><span data-contrast="none">NSA Electricity Crisis Gets Senate Scrutiny</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="18" data-aria-level="1"><a href="https://www.washingtonpost.com/world/national-security/nsa-growth-fueled-by-need-to-target-terrorists/2013/07/21/24c93cf4-f0b1-11e2-bed3-b9b6fe264871_story.html"><span data-contrast="none">NSA Growth Fueled by Need to Target Terrorists</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="19" data-aria-level="1"><a href="https://web.archive.org/web/20130614022314/http://www.nsa.gov/about/cryptologic_heritage/60th/book/NSA_60th_Anniversary.pdf"><span data-contrast="none">NSA 60th Anniversary PDF</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="20" data-aria-level="1"><a href="http://www.spiegel.de/international/world/prism-leak-inside-the-controversial-us-data-surveillance-program-a-904761.html"><span data-contrast="none">Spiegel Online - PRISM Leak Inside the Controversial US Data Surveillance Program</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="21" data-aria-level="1"><a href="https://en.wikipedia.org/wiki/Edward_Snowden"><span data-contrast="none">Edward Snowden - Wikipedia</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="22" data-aria-level="1"><a href="https://www.history.com/this-day-in-history/edward-snowden-discloses-u-s-government-operations"><span data-contrast="none">Edward Snowden discloses U.S. government operations | June 5, 2013 | HISTORY</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="23" data-aria-level="1"><a href="https://spyscape.com/article/15-top-nsa-spy-secrets-revealed-by-snowden"><span data-contrast="none">15 Top NSA Spy Secrets Revealed by Edward Snowden</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="24" data-aria-level="1"><a href="https://www.theguardian.com/world/2014/feb/01/edward-snowden-intelligence-leak-nsa-contractor-extract"><span data-contrast="none">How Edward Snowden went from loyal NSA contractor to whistleblower | Edward Snowden | The Guardian</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="25" data-aria-level="1"><a href="https://golem.ph.utexas.edu/category/2014/10/new_evidence_of_nsa_weakening.html"><span data-contrast="none">New Evidence of the NSA Deliberately Weakening Encryption | The n-Category Café</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="26" data-aria-level="1"><a href="https://en.wikipedia.org/wiki/Bullrun_%28decryption_program%29"><span data-contrast="none">Bullrun (decryption program) - Wikipedia</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="27" data-aria-level="1"><a href="https://www.theverge.com/2013/9/11/4718694/how-far-did-the-nsa-go-to-weaken-cryptography-standards"><span data-contrast="none">How far did the NSA go to weaken cryptography standards? - The Verge</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="28" data-aria-level="1"><a href="https://www.nytimes.com/2013/09/06/us/nsa-foils-much-internet-encryption.html"><span data-contrast="none">N.S.A. Able to Foil Basic Safeguards of Privacy on Web - The New York Times</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="29" data-aria-level="1"><a href="https://www.quora.com/What-encryption-methods-does-the-NSA-use-and-how-effective-are-they-at-thwarting-attacks"><span data-contrast="none">What encryption methods does the NSA use and how effective are they at thwarting attacks? - Quora</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="30" data-aria-level="1"><a href="https://www.theatlantic.com/politics/archive/2015/07/nsa-encryption-ungoverned-spaces/398423/"><span data-contrast="none">The NSA and End-to-End Encryption - The Atlantic</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="31" data-aria-level="1"><a href="https://en.wikipedia.org/wiki/NSA_cryptography"><span data-contrast="none">NSA cryptography - Wikipedia</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="32" data-aria-level="1"><a href="https://www.mrcy.com/company/blogs/history-and-future-nsa-type-1-encryption"><span data-contrast="none">That’s classified! The history and future of NSA Type 1 encryption | Mercury Systems</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="33" data-aria-level="1"><a href="https://en.wikipedia.org/wiki/NSA_encryption_systems"><span data-contrast="none">NSA encryption systems - Wikipedia</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<ul>
-<li data-leveltext="" data-font="Symbol" data-listid="5" data-list-defn-props="{&quot;134225954&quot;:true,&quot;134225961&quot;:true,&quot;335552541&quot;:1,&quot;335559683&quot;:0,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Symbol&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="34" data-aria-level="1"><a href="https://csrc.nist.gov/glossary/term/nsa_approved_cryptography"><span data-contrast="none">NSA-approved cryptography - Glossary | CSRC</span></a><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></li>
-</ul>
-<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;335551550&quot;:0,&quot;335551620&quot;:0,&quot;335559685&quot;:720,&quot;335559738&quot;:0,&quot;335559739&quot;:0}"> </span></p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>ERR_QUIC_PROTOCOL_ERROR in Nginx Proxy Manager Home Lab Configuration </title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/err_quic_protocol_error-in-nginx-proxy-manager-home-lab-configuration/"/>
-        <id>https://blog.ehmad.site/err_quic_protocol_error-in-nginx-proxy-manager-home-lab-configuration/</id>
-        <media:content url="https://blog.ehmad.site/media/posts/28/Screenshot_20250224-125050~2.png" medium="image" />
-            <category term="QUIC_PROTOCOL"/>
-
-        <updated>2025-02-24T12:57:40+05:00</updated>
-            <summary>
-                <![CDATA[
-                        <img src="https://blog.ehmad.site/media/posts/28/Screenshot_20250224-125050~2.png" alt="ERR_QUIC_PROTOCOL_ERROR" />
-                    I recently encountered an ERR_QUIC_PROTOCOL_ERROR while accessing my Pi-hole admin interface (https://example.com/admin/) locally via Chromium-based browsers, such as Google Chrome and Microsoft Edge. Although I implemented workarounds, the root cause remains elusive. This article details the issue, troubleshooting efforts, and current mitigation—while seeking insights from&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                    <p><img src="https://blog.ehmad.site/media/posts/28/Screenshot_20250224-125050~2.png" class="type:primaryImage" alt="ERR_QUIC_PROTOCOL_ERROR" /></p>
-                <p>I recently encountered an <code>ERR_QUIC_PROTOCOL_ERROR</code> while accessing my Pi-hole admin interface (<code>https://example.com/admin/</code>) locally via Chromium-based browsers, such as Google Chrome and Microsoft Edge. Although I implemented workarounds, the root cause remains elusive. This article details the issue, troubleshooting efforts, and current mitigation—while seeking insights from others to resolve it fully.</p><h4 id="system-architecture">System Architecture</h4>
-<p>The setup utilizes a single domain, <code>example.com</code>, with two distinct access paths:</p><ul>
-<li><strong>Local Access</strong>: On the home network, a local DNS server resolves the domain to Nginx Proxy Manager (NPM), running in a Docker container. NPM, secured with a Let’s Encrypt SSL certificate, proxies requests to the Pi-hole server (e.g., <code>10.1.15.103:81</code>).</li>
-<li><strong>Remote Access</strong>: Externally, traffic flows through a Cloudflare tunnel, secured with a Google Trust Services SSL certificate, before reaching the same local infrastructure.</li>
-</ul>
-<p>Both paths generally function, but the local Chromium-specific error prompted an in-depth investigation.</p><h4 id="problem-description">Problem Description</h4>
-<p>The <code>ERR_QUIC_PROTOCOL_ERROR</code> occurs exclusively in Chromium-based browsers during local access to the Pi-hole admin page. Firefox loads the page without issue, and remote access via Cloudflare operates seamlessly. An initial <code>curl -I https://example.com/admin/</code> test returned an HTTP/2 403 response from Cloudflare, suggesting possible DNS misrouting, though local requests should target NPM directly. This discrepancy hinted at a protocol-level issue tied to QUIC.</p><h4 id="troubleshooting-efforts">Troubleshooting Efforts</h4>
-<p>QUIC, the UDP-based foundation of HTTP/3, operates over UDP port 443 and is enabled by default in Chromium, unlike Firefox, which defaults to TCP-based HTTP/2. Initial findings revealed that Docker exposes only TCP ports by default—my NPM container lacked UDP/443 mapping (<code>-p 443:443/udp</code>). Adding this port resolved the error temporarily, allowing Chromium to connect locally.</p><p>However, enabling caching in NPM—by removing <code>no-cache</code> headers (<code>Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0</code>)—caused the error to recur. Reverting to a no-cache configuration stabilized access again, but this oscillation suggests an underlying issue beyond port configuration.</p><h4 id="current-mitigation">Current Mitigation</h4>
-<p>The following adjustments provide a functional workaround:</p><ol>
-<li><p><strong>Docker Port Configuration</strong>: Ensured UDP/443 is exposed alongside TCP/443 in the NPM container:</p><pre><code class="language-yaml">services:
-  nginx-proxy-manager:
+<h2 id="step-1-define-the-docker-compose-file">Step 1: Define the Docker Compose File</h2>
+<p>The Bitwarden unified deployment simplifies self-hosting by bundling most components into a single container, though it still requires a separate database. We’ll use MariaDB for this setup. Below is a <code>docker-compose.yml</code> file configured to join an existing network with static IPs.</p><h3 id="docker-composeyml"><code>docker-compose.yml</code></h3>
+<pre><code class="language-yaml">services:
+  bitwarden:
+    depends_on:
+      - db
+    env_file:
+      - settings.env
+    image: bitwarden/self-host:beta
+    restart: always
     ports:
-      - &quot;443:443/tcp&quot;
-      - &quot;443:443/udp&quot;
+      - &quot;80:8080&quot;
+      - &quot;443:8443&quot;
+    volumes:
+      - ./bitwarden-data:/etc/bitwarden
+      - ./logs:/var/log/bitwarden
+    networks:
+      homelab_private_network:
+        ipv4_address: 192.168.2.110
+
+  db:
+    environment:
+      MARIADB_USER: &quot;bitwarden&quot;
+      MARIADB_PASSWORD: &quot;[REDACTED]&quot;
+      MARIADB_DATABASE: &quot;bitwarden_vault&quot;
+      MARIADB_RANDOM_ROOT_PASSWORD: &quot;true&quot;
+    image: mariadb:10
+    restart: always
+    volumes:
+      - ./db-data:/var/lib/mysql
+    networks:
+      homelab_private_network:
+        ipv4_address: 192.168.2.111
+
+networks:
+  homelab_private_network:
+    external: true
 </code></pre>
-<p>Applied via <code>docker-compose up -d</code> or equivalent <code>docker run</code> command.</p></li>
-<li><p><strong>NPM Configuration</strong>: Maintained a no-cache policy for <code>example.com</code>:</p><pre><code class="language-nginx">server {
-    listen 443 ssl http2;
-    server_name example.com;
-    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers HIGH:!aNULL:!MD5;
-    add_header Cache-Control &quot;no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0&quot;;
-    add_header Pragma &quot;no-cache&quot;;
-    add_header Expires &quot;0&quot;;
-    location / {
-        proxy_pass http://10.1.15.103:81;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-</code></pre>
-<p>Changes were applied through NPM and the container restarted.</p></li>
-</ol>
-<p>This configuration enables local access via Chromium and Firefox, alongside remote access through Cloudflare, without errors—as long as caching remains disabled.</p><h4 id="unresolved-root-cause">Unresolved Root Cause</h4>
-<p>Despite these mitigations, the fundamental issue persists:</p><ul>
-<li><strong>QUIC and Caching Interaction</strong>: Enabling caching in NPM consistently triggers the <code>ERR_QUIC_PROTOCOL_ERROR</code> in Chromium, suggesting a compatibility issue. NPM supports HTTP/2 but not HTTP/3 natively, and caching may disrupt QUIC’s UDP-based sessions—possibly due to stale responses or improper header handling.</li>
-<li><strong>Hypotheses</strong>: Potential causes include an NPM limitation with QUIC traffic, a Docker networking quirk, or an incompatibility between Pi-hole’s dynamic content and cached QUIC responses. Logs from NPM and Chromium’s <code>chrome://net-internals/#quic</code> showed no definitive errors beyond the protocol failure.</li>
-<li><strong>Contrast with Cloudflare</strong>: Remote access via Cloudflare, which fully supports QUIC, remains unaffected, highlighting a local configuration gap.</li>
-</ul>
-<h4 id="technical-observations">Technical Observations</h4>
+<h3 id="key-components">Key Components</h3>
 <ul>
-<li><strong>Port Dependency</strong>: UDP/443 is essential for QUIC, and Docker’s TCP-only default obscured this requirement initially.</li>
-<li><strong>Browser Variability</strong>: Chromium’s QUIC adoption contrasts with Firefox’s TCP reliance, isolating the issue to QUIC-capable clients.</li>
-<li><strong>Caching Sensitivity</strong>: Disabling caching is a workaround, not a fix, as it sidesteps rather than resolves the underlying incompatibility.</li>
+<li><strong>Bitwarden Service</strong>: Uses the <code>bitwarden/self-host:beta</code> image, maps ports <code>80</code> and <code>443</code> to internal ports <code>8080</code> and <code>8443</code>, and mounts volumes for configuration and logs.</li>
+<li><strong>MariaDB Service</strong>: Runs a MySQL-compatible database with predefined credentials and a random root password for security.</li>
+<li><strong>Network</strong>: Joins an existing <code>homelab_private_network</code> with static IPs (<code>192.168.2.110</code> for Bitwarden, <code>192.168.2.111</code> for MariaDB).</li>
 </ul>
-<h4 id="call-for-insight">Call for Insight</h4>
-<p>While the current setup is operational, I have yet to identify the root cause of the QUIC-caching conflict. If anyone has encountered similar behavior with Nginx Proxy Manager, Docker, and QUIC—or knows how to enable caching without breaking QUIC compatibility—I’d appreciate your expertise. Please share your insights or solutions to help fully resolve this issue. <a href="https://github.com/NginxProxyManager/nginx-proxy-manager/issues/4390">Github Issue</a></p><h4 id="conclusion">Conclusion</h4>
-<p>This investigation highlights the complexities of integrating modern protocols into containerized environments. For now, exposing UDP/443 and disabling caching in NPM ensures consistent access to <code>example.com</code> locally and remotely. However, the unresolved QUIC error with caching enabled remains a puzzle. Community input could unlock a more comprehensive solution, enhancing this home lab’s robustness.</p>
+<blockquote>
+<p><strong>Note</strong>: The <code>version</code> field (e.g., <code>3.7</code>) is omitted as it’s obsolete in Docker Compose v2. The schema is inferred from the features used.</p></blockquote>
+<h2 id="step-2-configure-environment-variables">Step 2: Configure Environment Variables</h2>
+<p>Bitwarden requires environment variables for database connectivity and domain settings. Create a <code>settings.env</code> file in the same directory as <code>docker-compose.yml</code>.</p><h3 id="settingsenv"><code>settings.env</code></h3>
+<pre><code>DOMAIN=http://192.168.2.110
+DATABASE_PROVIDER=mysql
+DATABASE_SERVER=db
+DATABASE_NAME=bitwarden_vault
+DATABASE_USERNAME=bitwarden
+DATABASE_PASSWORD=[REDACTED]
+ADMIN_ENABLED=true
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_SSL=false
+SMTP_USERNAME=[REDACTED]
+SMTP_PASSWORD=[REDACTED]
+</code></pre>
+<h3 id="explanation">Explanation</h3>
+<ul>
+<li><code>DOMAIN</code>: Set to the Bitwarden container’s static IP (adjust for your setup or use a domain with SSL).</li>
+<li><code>DATABASE_*</code>: Matches the MariaDB service’s credentials and service name.</li>
+<li><code>ADMIN_ENABLED</code>: Enables the admin interface (optional).</li>
+<li><code>SMTP_*</code>: Configures email notifications (optional; replace with your SMTP provider’s details).</li>
+</ul>
+<blockquote>
+<p><strong>Security Tip</strong>: Replace <code>[REDACTED]</code> placeholders with strong, unique passwords and credentials.</p></blockquote>
+<h2 id="step-3-prepare-the-environment">Step 3: Prepare the Environment</h2>
+<p>Create directories for persistent data:</p><pre><code class="language-bash">mkdir -p ./bitwarden-data ./logs ./db-data
+</code></pre>
+<p>Ensure your custom network exists and its subnet includes the chosen IPs. Check with:</p><pre><code class="language-bash">docker network inspect homelab_private_network
+</code></pre>
+<p>Example output might show a subnet of <code>192.168.2.0/24</code>, supporting IPs from <code>192.168.2.1</code> to <code>192.168.2.254</code>. Adjust the IPs in <code>docker-compose.yml</code> if they don’t match (e.g., if the subnet were <code>192.168.0.0/24</code>, use <code>192.168.0.110</code> and <code>192.168.0.111</code>).</p><h2 id="step-4-deploy-the-services">Step 4: Deploy the Services</h2>
+<p>Start the containers in detached mode:</p><pre><code class="language-bash">docker compose up -d
+</code></pre>
+<p>Verify they’re running:</p><pre><code class="language-bash">docker compose ps
+</code></pre>
+<p>You should see both <code>bitwarden</code> and <code>db</code> listed as <code>Up</code>.</p><h2 id="step-5-troubleshooting-common-issues">Step 5: Troubleshooting Common Issues</h2>
+<h3 id="issue-1-obsolete-version-warning">Issue 1: Obsolete <code>version</code> Warning</h3>
+<p>If you see a warning like:</p><pre><code>WARN[0000] docker-compose.yaml: the attribute `version` is obsolete...
+</code></pre>
+<p>Remove the <code>version</code> line from <code>docker-compose.yml</code>. It’s no longer needed in modern Docker Compose versions.</p><h3 id="issue-2-subnet-mismatch-error">Issue 2: Subnet Mismatch Error</h3>
+<p>An error like:</p><pre><code>Error response from daemon: invalid config for network homelab_private_network: ... no configured subnet or ip-range contain the IP address 192.168.0.111
+</code></pre>
+<p>means the assigned IPs don’t match the network’s subnet. Inspect the network:</p><pre><code class="language-bash">docker network inspect homelab_private_network
+</code></pre>
+<p>If the subnet is <code>192.168.2.0/24</code> but your IPs are <code>192.168.0.x</code>, update <code>docker-compose.yml</code> to use <code>192.168.2.110</code> and <code>192.168.2.111</code>, then restart:</p><pre><code class="language-bash">docker compose down
+docker compose up -d
+</code></pre>
+<h3 id="issue-3-container-exits-immediately">Issue 3: Container Exits Immediately</h3>
+<p>If <code>bitwarden</code> or <code>db</code> stops (check with <code>docker compose ps -a</code>), view logs:</p><pre><code class="language-bash">docker compose logs bitwarden
+docker compose logs db
+</code></pre>
+<p>Common causes include mismatched database credentials or missing SMTP settings (though SMTP is optional).</p><h2 id="step-6-access-bitwarden">Step 6: Access Bitwarden</h2>
+<p>Once running, access Bitwarden at <code>http://192.168.2.110</code> (or your chosen IP) in a browser. Set up an account and test functionality. For production, consider:</p><ul>
+<li>Adding SSL with a reverse proxy (e.g., Nginx or Traefik) <strong>Important</strong>.</li>
+<li>Backing up the <code>./bitwarden-data</code> and <code>./db-data</code> directories.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Self-hosting Bitwarden with Docker Compose on a custom network offers flexibility and control over your password management on alpine linux. By assigning static IPs and troubleshooting subnet issues, you can integrate it seamlessly into an existing homelab setup. The unified beta deployment simplifies the process, making it accessible even for those new to Docker and alpine.</p><p>For advanced configurations, explore Bitwarden’s official <a href="https://bitwarden.com/help/install-on-premise-linux/">documentation</a> or integrate cloud features with an installation ID and key. Happy self-hosting!</p>
             ]]>
         </content>
     </entry>
@@ -1398,6 +1212,131 @@ iwr -useb get.scoop.sh | iex
 </tr>
 </tbody></table>
 <p>Each of these package managers has its strengths and use cases. <strong>winget</strong>, <strong>Chocolatey</strong>, and <strong>Scoop</strong> are widely used for general-purpose package management, while <strong>Ninite</strong> is useful for batch installation, and <strong>PortableApps</strong> is great for portable software.</p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>How to Fix WebDAV Connection Issues in Windows and Map a WebDAV Drive</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/how-to-fix-webdav-connection-issues-in-windows-and-map-a-webdav-drive/"/>
+        <id>https://blog.ehmad.site/how-to-fix-webdav-connection-issues-in-windows-and-map-a-webdav-drive/</id>
+
+        <updated>2024-12-14T15:14:46+05:00</updated>
+            <summary>
+                <![CDATA[
+                    WebDAV (Web-based Distributed Authoring and Versioning) is a protocol that allows users to manage and share files over the web. While connecting to a WebDAV endpoint is straightforward on many platforms, Windows users may encounter challenges, such as errors while mapping WebDAV drives or accessing&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>WebDAV (Web-based Distributed Authoring and Versioning) is a protocol that allows users to manage and share files over the web. While connecting to a WebDAV endpoint is straightforward on many platforms, Windows users may encounter challenges, such as errors while mapping WebDAV drives or accessing files. This guide explains how to troubleshoot common WebDAV issues and successfully map a WebDAV drive in Windows.</p><hr>
+<h2 id="common-webdav-issues-in-windows"><strong>Common WebDAV Issues in Windows</strong></h2>
+<p>Some common errors while attempting to map a WebDAV drive in Windows include:</p><ol>
+<li><strong>“System error 67 has occurred”</strong>: Indicates that Windows could not find the specified network resource.</li>
+<li><strong>“The network name cannot be found”</strong>: Often caused by URL formatting issues or an inactive WebClient service.</li>
+<li><strong>Login prompts with valid credentials</strong>: Indicates a mismatch between authentication requirements or unsupported protocols.</li>
+<li><strong>“The folder you entered does not appear to be valid”</strong>: Usually occurs when Windows cannot verify the WebDAV endpoint.</li>
+</ol>
+<hr>
+<h2 id="steps-to-map-a-webdav-drive-in-windows"><strong>Steps to Map a WebDAV Drive in Windows</strong></h2>
+<h3 id="1-test-the-webdav-url"><strong>1. Test the WebDAV URL</strong></h3>
+<p>Before mapping a drive, ensure the WebDAV server is working correctly:</p><ol>
+<li>Open a web browser and visit your WebDAV URL (e.g., <code>https://example.com/webdav</code>).</li>
+<li>Verify that you can log in and access the files.</li>
+</ol>
+<p>If the URL works in the browser, proceed to the next step. If not, check your server settings or consult your server administrator.</p><hr>
+<h3 id="2-use-the-correct-unc-path-for-webdav"><strong>2. Use the Correct UNC Path for WebDAV</strong></h3>
+<p>Windows requires a specific UNC format for WebDAV connections over HTTPS. Use the following syntax:</p><pre><code>\\hostname@SSL\path
+</code></pre>
+<p>For example:</p><ul>
+<li>If your WebDAV URL is <code>https://example.com/webdav</code>, the UNC path would be:<pre><code>\\example.com@SSL\webdav
+</code></pre>
+</li>
+</ul>
+<hr>
+<h3 id="3-map-the-webdav-drive"><strong>3. Map the WebDAV Drive</strong></h3>
+<p>To map a WebDAV drive in Windows:</p><ol>
+<li>Open <strong>Command Prompt</strong> as Administrator.</li>
+<li>Run the following command:<pre><code class="language-cmd">net use Y: \\example.com@SSL\webdav /user:YourUsername YourPassword /persistent:yes
+</code></pre>
+<ul>
+<li>Replace <code>Y:</code> with your desired drive letter.</li>
+<li>Replace <code>YourUsername</code> and <code>YourPassword</code> with your WebDAV credentials.</li>
+</ul>
+</li>
+</ol>
+<p>If successful, you’ll see a confirmation message. The drive will now appear in File Explorer.</p><hr>
+<h3 id="4-enable-the-webclient-service"><strong>4. Enable the WebClient Service</strong></h3>
+<p>The Windows WebDAV client relies on the WebClient service. Ensure it’s running:</p><ol>
+<li>Press <code>Win + R</code>, type <code>services.msc</code>, and press Enter.</li>
+<li>Locate <strong>WebClient</strong> in the list.</li>
+<li>If the service is stopped, right-click and select <strong>Start</strong>.</li>
+<li>Set the <strong>Startup Type</strong> to <strong>Automatic</strong>.</li>
+</ol>
+<p>Restart the service if necessary.</p><hr>
+<h3 id="5-configure-windows-for-basic-authentication"><strong>5. Configure Windows for Basic Authentication</strong></h3>
+<p>Some WebDAV servers use Basic Authentication, which may need to be explicitly enabled in Windows:</p><ol>
+<li>Press <code>Win + R</code>, type <code>regedit</code>, and press Enter.</li>
+<li>Navigate to:<pre><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WebClient\Parameters
+</code></pre>
+</li>
+<li>Modify or create the following registry keys:<ul>
+<li><strong>BasicAuthLevel</strong>: Set this DWORD value to <code>2</code> (enables Basic Authentication over HTTPS).</li>
+<li><strong>UseBasicAuth</strong>: Set this DWORD value to <code>1</code>.</li>
+</ul>
+</li>
+</ol>
+<p>Restart the WebClient service after making these changes.</p><hr>
+<h3 id="6-save-webdav-credentials"><strong>6. Save WebDAV Credentials</strong></h3>
+<p>To avoid repeated login prompts, save your WebDAV credentials:</p><ol>
+<li>Open <strong>Control Panel</strong> &gt; <strong>Credential Manager</strong>.</li>
+<li>Add a new <strong>Windows Credential</strong>:<ul>
+<li>Network address: <code>example.com</code></li>
+<li>Username: Your WebDAV username.</li>
+<li>Password: Your WebDAV password.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="7-address-webdav-upload-limits"><strong>7. Address WebDAV Upload Limits</strong></h3>
+<p>If your WebDAV server limits file uploads (e.g., 100 MB):</p><ol>
+<li>Adjust the upload size limit on the server. For example:<ul>
+<li><strong>Apache</strong>: Increase <code>LimitRequestBody</code> and <code>php.ini</code> file size limits.</li>
+<li><strong>Nginx</strong>: Increase <code>client_max_body_size</code>.</li>
+<li><strong>IIS</strong>: Modify the <code>maxAllowedContentLength</code> property.</li>
+</ul>
+</li>
+<li>Use chunked uploads if supported by your WebDAV client.</li>
+</ol>
+<hr>
+<h3 id="8-test-with-third-party-webdav-clients"><strong>8. Test with Third-Party WebDAV Clients</strong></h3>
+<p>If Windows fails to connect, try a third-party WebDAV client:</p><ul>
+<li><strong>Cyberduck</strong>: An open-source client for managing WebDAV connections.</li>
+<li><strong>WinSCP</strong>: A robust tool for FTP, SFTP, and WebDAV.</li>
+<li><strong>RaiDrive</strong>: Maps WebDAV as a network drive with additional configuration options.</li>
+</ul>
+<hr>
+<h2 id="troubleshooting-common-errors"><strong>Troubleshooting Common Errors</strong></h2>
+<h3 id="error-system-error-67-has-occurred"><strong>Error: System Error 67 Has Occurred</strong></h3>
+<p>This error typically occurs due to:</p><ul>
+<li>Incorrect URL formatting: Use <code>\\hostname@SSL\path</code>.</li>
+<li>The WebClient service not running: Start the service via <code>services.msc</code>.</li>
+</ul>
+<h3 id="error-login-prompt-fails-despite-correct-credentials"><strong>Error: Login Prompt Fails Despite Correct Credentials</strong></h3>
+<ul>
+<li>Check server-side authentication settings.</li>
+<li>Save credentials in the Credential Manager.</li>
+</ul>
+<h3 id="error-the-folder-you-entered-does-not-appear-to-be-valid"><strong>Error: The Folder You Entered Does Not Appear to Be Valid</strong></h3>
+<ul>
+<li>Use the UNC format (<code>\\hostname@SSL\path</code>).</li>
+<li>Ensure the WebClient service is running.</li>
+</ul>
+<hr>
+<h2 id="conclusion"><strong>Conclusion</strong></h2>
+<p>Mapping a WebDAV drive in Windows requires careful attention to URL formatting, service configuration, and authentication settings. By following the steps outlined in this guide, you can successfully resolve connection issues and map your WebDAV drive. If problems persist, third-party WebDAV clients can provide additional flexibility and troubleshooting insights.</p><p>Let me know if you’d like to customize this article further!</p>
             ]]>
         </content>
     </entry>

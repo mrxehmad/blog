@@ -41,14 +41,6 @@
 <lastmod>2025-01-08T19:14:59+05:00</lastmod>
 </url>
 <url>
-<loc>https://blog.ehmad.site/err_quic_protocol_error-in-nginx-proxy-manager-home-lab-configuration/</loc>
-<lastmod>2025-02-24T12:58:58+05:00</lastmod>
-<image:image>
-<image:loc>https://blog.ehmad.site/media/posts/28/Screenshot_20250224-125050~2.png</image:loc>
-<image:title><![CDATA[ERR_QUIC_PROTOCOL_ERROR]]></image:title>
-</image:image>
-</url>
-<url>
 <loc>https://blog.ehmad.site/how-to-fix-webdav-connection-issues-in-windows-and-map-a-webdav-drive/</loc>
 <lastmod>2024-12-14T15:14:46+05:00</lastmod>
 </url>
@@ -85,10 +77,6 @@
 </image:image>
 </url>
 <url>
-<loc>https://blog.ehmad.site/nsa-2/</loc>
-<lastmod>2025-02-24T16:15:04+05:00</lastmod>
-</url>
-<url>
 <loc>https://blog.ehmad.site/page/2/</loc>
 </url>
 <url>
@@ -99,9 +87,6 @@
 </url>
 <url>
 <loc>https://blog.ehmad.site/page/5/</loc>
-</url>
-<url>
-<loc>https://blog.ehmad.site/page/6/</loc>
 </url>
 <url>
 <loc>https://blog.ehmad.site/phishing-attack-chain-report-fiverr/</loc>
@@ -118,6 +103,10 @@
 <url>
 <loc>https://blog.ehmad.site/securely-connecting-to-an-rdp-server-using-cloudflare-zero-trust-and-warp/</loc>
 <lastmod>2024-11-29T13:34:41+05:00</lastmod>
+</url>
+<url>
+<loc>https://blog.ehmad.site/self-hosting-bitwarden-with-docker-compose-on-alpine-linux/</loc>
+<lastmod>2025-03-03T10:20:27+05:00</lastmod>
 </url>
 <url>
 <loc>https://blog.ehmad.site/setting-up-a-secure-and-optimized-searxng-instance-with-docker-compose/</loc>
