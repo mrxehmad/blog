@@ -3,7 +3,7 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-03-04T17:35:04+05:00</updated>
+    <updated>2025-03-04T18:01:42+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
@@ -52,11 +52,29 @@
 <li>Add <code>.github/workflows/</code> to the exclusion list.
 <em>(This prevents Publii from deleting the workflow every time you sync.)</em></li>
 </ol>
-<h2 id="what-happens-now"><strong>What Happens Now?</strong></h2>
+<h2 id="unofficial-fix-store-workflow-files-inside-publiis-input-folder"><strong>Unofficial Fix: Store Workflow Files Inside Publii’s Input Folder</strong></h2>
+<p>Since Publii syncs only what’s inside the <code>output/</code> folder, a workaround is to place the <code>.github/workflows</code> directory inside <strong><code>input/root-files/</code></strong>. This ensures that Publii will upload the workflow file along with the rest of the website content.</p><h3 id="steps-to-apply-this-fix"><strong>Steps to Apply This Fix:</strong></h3>
+<ol>
+<li><strong>Navigate to your Publii site’s input folder:</strong><pre><code class="language-sh">cd path/to/your/publii/site/input/root-files
+</code></pre>
+</li>
+<li><strong>Create the <code>.github/workflows/</code> directory:</strong><pre><code class="language-sh">mkdir -p .github/workflows
+</code></pre>
+</li>
+<li><strong>Move your workflow file into this directory:</strong><pre><code class="language-sh">mv path/to/your/workflow.yml .github/workflows/
+</code></pre>
+</li>
+<li><strong>Sync your site again using Publii.</strong><ul>
+<li>The workflow file should now be included automatically in the deployment.</li>
+</ul>
+</li>
+</ol>
+<p>You can read more about this fix in this GitHub issue:<br>🔗 <a href="https://github.com/GetPublii/Publii/issues/2077">Publii GitHub Issue #2077</a></p><h2 id="what-happens-now"><strong>What Happens Now?</strong></h2>
 <ul>
 <li><strong>You pull the latest changes first (keeps workflow).</strong></li>
 <li><strong>Then you sync with Publii (adds articles).</strong></li>
 <li><strong>No workflow deletion, no Git errors. �</strong>*</li>
+<li><strong>If you store workflows in <code>input/root-files/</code>, Publii will automatically upload them every sync.</strong></li>
 </ul>
 <p>By following these steps, you can seamlessly update your blog content without interfering with your deployment workflow.</p>
             ]]>
