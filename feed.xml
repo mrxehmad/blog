@@ -3,7 +3,7 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-03-03T11:31:53+05:00</updated>
+    <updated>2025-03-04T17:35:04+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
@@ -58,8 +58,7 @@
 <li><strong>Then you sync with Publii (adds articles).</strong></li>
 <li><strong>No workflow deletion, no Git errors. �</strong>*</li>
 </ul>
-<p>By following these steps, you can seamlessly update your blog content without interfering with your deployment workflow.
-2</p>
+<p>By following these steps, you can seamlessly update your blog content without interfering with your deployment workflow.</p>
             ]]>
         </content>
     </entry>

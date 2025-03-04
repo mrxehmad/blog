@@ -1,0 +1,24 @@
+name:  Sync Workflow Logs
+
+on:
+  push:
+    branches:
+      - blog  # Trigger workflow when Publii syncs to the blog branch
+
+jobs:
+  test_sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Create a Log File
+        run: echo "Sync occurred at $(date)" >> sync-log.txt
+
+      - name: Commit and Push Log File
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add sync-log.txt
+          git commit -m "Sync detected - $(date)" || echo "No changes to commit"
+          git push origin blog || echo "No changes to push"
