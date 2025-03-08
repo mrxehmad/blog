@@ -3,12 +3,211 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-03-04T18:01:42+05:00</updated>
+    <updated>2025-03-08T17:57:57+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>How to Fix Intermittent SSL Errors in Local Networks When Using Cloudflare Tunnels</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/how-to-fix-intermittent-ssl-errors-in-local-networks-when-using-cloudflare-tunnels/"/>
+        <id>https://blog.ehmad.site/how-to-fix-intermittent-ssl-errors-in-local-networks-when-using-cloudflare-tunnels/</id>
+
+        <updated>2025-03-08T17:57:57+05:00</updated>
+            <summary>
+                <![CDATA[
+                    If you’re hosting a service on your local network and using Cloudflare tunnels for external access, you might encounter intermittent SSL errors like ssl_error_unrecognized_name_alert when accessing your site locally. This issue arises due to DNS resolution inconsistencies or certificate mismatches between your local server and&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>If you’re hosting a service on your local network and using Cloudflare tunnels for external access, you might encounter intermittent SSL errors like <code>ssl_error_unrecognized_name_alert</code> when accessing your site locally. This issue arises due to DNS resolution inconsistencies or certificate mismatches between your local server and Cloudflare’s CDN. In this article, we’ll explore the root cause of the problem and provide a comprehensive solution. This journey made me cry fr.</p><hr>
+<h2 id="the-problem-why-does-this-happen"><strong>The Problem: Why Does This Happen?</strong></h2>
+<p>When you host a service (e.g., a website) on your local network and use Cloudflare tunnels for external access, there are two distinct paths for traffic:</p><ol>
+<li><p><strong>Local Network Traffic</strong>:</p><ul>
+<li>Clients within the local network should resolve the domain (e.g., <code>pihole.example.com</code>) to the internal IP address of your server (e.g., <code>192.168.1.100</code>).</li>
+<li>The local server serves an SSL certificate issued by Let’s Encrypt for <code>*.example.com</code>.</li>
+</ul>
+</li>
+<li><p><strong>External Network Traffic</strong>:</p><ul>
+<li>Clients outside the local network resolve the domain to Cloudflare’s external IP (e.g., <code>104.x.x.x</code>).</li>
+<li>Cloudflare serves its own SSL certificate for <code>example.com</code>.</li>
+</ul>
+</li>
+</ol>
+<h3 id="why-do-ssl-errors-occur-locally"><strong>Why Do SSL Errors Occur Locally?</strong></h3>
+<ul>
+<li><strong>DNS Resolution Fluctuations</strong>: If your local DNS resolver (e.g., Pi-hole) intermittently resolves the domain to the external IP instead of the internal IP, the request routes through Cloudflare. Cloudflare’s certificate does not match the subdomain (<code>pihole.example.com</code>), causing an SSL error.</li>
+<li><strong>SNI Misconfiguration</strong>: Some clients or devices may not send the correct Server Name Indication (SNI) header, leading the server to default to an incorrect certificate.</li>
+</ul>
+<hr>
+<h2 id="solution-how-to-fix-the-issue"><strong>Solution: How to Fix the Issue</strong></h2>
+<p>To resolve the problem, you need to ensure consistent DNS resolution and proper SSL certificate handling for local clients. Follow these steps:</p><hr>
+<h3 id="step-1-configure-split-horizon-dns-in-pi-hole"><strong>Step 1: Configure Split-Horizon DNS in Pi-hole</strong></h3>
+<p>Split-horizon DNS ensures that local clients resolve the domain to the internal IP address while external clients resolve it to the external IP.</p><ol>
+<li><p><strong>Add Local DNS Records</strong>:</p><ul>
+<li>Go to <strong>Pi-hole &gt; Local DNS &gt; DNS Records</strong>.</li>
+<li>Add a wildcard entry for your domain:<pre><code>Domain: *.example.com
+IP: 192.168.1.100
+</code></pre>
+</li>
+<li>Save the configuration.</li>
+</ul>
+</li>
+<li><p><strong>Disable Upstream Forwarding</strong>:</p><ul>
+<li>Navigate to <strong>Pi-hole &gt; Settings &gt; DNS</strong>.</li>
+<li>Under <strong>“Never forward the following domains”</strong>, add:<pre><code>example.com
+</code></pre>
+</li>
+<li>Save the settings to prevent Pi-hole from querying external DNS servers for this domain.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="step-2-verify-web-server-configuration"><strong>Step 2: Verify Web Server Configuration</strong></h3>
+<p>Ensure your web server (e.g., Nginx or Apache) is properly configured to handle requests for the subdomain (<code>pihole.example.com</code>).</p><h4 id="for-nginx"><strong>For Nginx</strong>:</h4>
+<pre><code class="language-nginx">server {
+    listen 443 ssl;
+    server_name pihole.example.com;
+
+    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+
+    # Other SSL settings...
+}
+</code></pre>
+<h4 id="for-apache"><strong>For Apache</strong>:</h4>
+<pre><code class="language-apache">&lt;VirtualHost *:443&gt;
+    ServerName pihole.example.com
+
+    SSLEngine on
+    SSLCertificateFile /etc/letsencrypt/live/example.com/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/example.com/privkey.pem
+
+    # Other SSL settings...
+&lt;/VirtualHost&gt;
+</code></pre>
+<hr>
+<h3 id="step-3-test-dns-resolution"><strong>Step 3: Test DNS Resolution</strong></h3>
+<p>After configuring Pi-hole, verify that the domain resolves correctly to the internal IP:</p><pre><code class="language-bash">nslookup pihole.example.com 192.168.1.100
+</code></pre>
+<p>The output should return:</p><pre><code>Address: 192.168.1.100
+</code></pre>
+<p>If it returns the external IP (e.g., <code>104.21.50.106</code>), revisit your Pi-hole configuration to ensure split-horizon DNS is working as expected.</p><hr>
+<h3 id="step-4-clear-client-side-caches"><strong>Step 4: Clear Client-Side Caches</strong></h3>
+<p>Sometimes, old DNS records or browser caches can cause issues. Clear them as follows:</p><h4 id="clear-dns-cache"><strong>Clear DNS Cache</strong>:</h4>
+<pre><code class="language-bash"># Windows
+ipconfig /flushdns
+
+# Linux/macOS
+sudo systemd-resolve --flush-caches
+</code></pre>
+<h4 id="clear-browser-cache"><strong>Clear Browser Cache</strong>:</h4>
+<p>Use incognito mode or manually clear your browser’s cache.</p><hr>
+<h3 id="step-5-test-ssl-handshake"><strong>Step 5: Test SSL Handshake</strong></h3>
+<p>Finally, test the SSL handshake to confirm that the correct certificate is being served:</p><pre><code class="language-bash">openssl s_client -connect 192.168.1.100:443 -servername pihole.example.com
+</code></pre>
+<p>Look for the following in the output:</p><ul>
+<li><strong>Subject</strong>: <code>CN = *.example.com</code></li>
+<li><strong>Issuer</strong>: <code>C = US, O = Let&#39;s Encrypt, CN = E6</code></li>
+</ul>
+<p>If the certificate matches, your setup is correct.</p><hr>
+<p>Yes, that’s correct! If you’re using Cloudflare for external access and also want to serve your domains locally within your network, it’s important to ensure that <strong>all domains managed by Cloudflare</strong> (including the main domain and its subdomains) are properly forwarded to your local server and have valid SSL certificates issued by Let’s Encrypt. This ensures consistent behavior for both local and external traffic.</p><p>Here’s a detailed explanation of why this is necessary and how to implement it:</p><hr>
+<h2 id="why-should-all-domains-managed-by-cloudflare-be-forwarded-locally"><strong>Why Should All Domains Managed by Cloudflare Be Forwarded Locally?</strong></h2>
+<ol>
+<li><p><strong>Consistent DNS Resolution</strong>:</p><ul>
+<li>When a domain or subdomain is managed by Cloudflare, external clients resolve it to Cloudflare’s IP addresses. However, local clients should resolve it to your internal server’s IP address (e.g., <code>192.168.1.100</code>).</li>
+<li>Without proper local DNS forwarding, local clients might inadvertently resolve the domain to Cloudflare’s external IP, causing SSL mismatches or routing issues.</li>
+</ul>
+</li>
+<li><p><strong>Avoid Certificate Mismatches</strong>:</p><ul>
+<li>Cloudflare serves its own SSL certificate for domains it manages. If a local client resolves a domain to Cloudflare’s external IP, the certificate presented will not match the local server’s configuration.</li>
+<li>By forwarding all domains locally and using Let’s Encrypt certificates on your local server, you ensure that local clients always receive the correct certificate.</li>
+</ul>
+</li>
+<li><p><strong>Performance and Reliability</strong>:</p><ul>
+<li>Routing local traffic through Cloudflare introduces unnecessary latency and dependency on external services. By resolving domains locally, you improve performance and reduce reliance on external infrastructure.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="forward-main-domain-and-sub-domain-locally-and-secure-them-with-lets-encrypt"><strong>Forward Main Domain and Sub Domain Locally and Secure Them with Let’s Encrypt</strong></h2>
+<h3 id="step-1-add-local-dns-records-for-all-domains"><strong>Step 1: Add Local DNS Records for All Domains</strong></h3>
+<p>In Pi-hole, configure split-horizon DNS to ensure all domains and subdomains resolve to your local server’s IP address.</p><ol>
+<li><p>Go to <strong>Pi-hole &gt; Local DNS &gt; DNS Records</strong>.</p></li>
+<li><p>Add entries for your main domain and subdomains:</p><pre><code>Domain: example.com
+IP: 192.168.1.100
+
+Domain: *.example.com
+IP: 192.168.1.100
+</code></pre>
+<ul>
+<li>The wildcard entry (<code>*.example.com</code>) ensures that all subdomains (e.g., <code>pihole.example.com</code>, <code>www.example.com</code>) resolve locally.(pihle local dns doens’t support wildcards. You have to add each domain manually )</li>
+</ul>
+</li>
+<li><p>Save the configuration.</p></li>
+</ol>
+<hr>
+<h3 id="step-2-disable-upstream-forwarding-for-all-domains-optional"><strong>Step 2: Disable Upstream Forwarding for All Domains (Optional)</strong></h3>
+<p>Prevent Pi-hole from querying external DNS servers for your domains.</p><ol>
+<li>Navigate to <strong>Pi-hole &gt; Domains</strong>.</li>
+<li>Under <strong>“Add Wildcard Regex blocklist”</strong>, add:<pre><code>*.example.com
+</code></pre>
+</li>
+<li>Save the settings.</li>
+</ol>
+<hr>
+<h3 id="step-3-obtain-lets-encrypt-certificates-for-all-domains-google-it-if-you-dont-have"><strong>Step 3: Obtain Let’s Encrypt Certificates for All Domains (Google it if you don’t have)</strong></h3>
+<h3 id="step-4-test-your-configuration"><strong>Step 4: Test Your Configuration</strong></h3>
+<p>After setting up DNS and SSL, test the following:</p><ol>
+<li><p><strong>DNS Resolution</strong>:</p><pre><code class="language-bash">nslookup example.com 192.168.1.100
+nslookup pihole.example.com 192.168.1.100
+</code></pre>
+<ul>
+<li>Both should return <code>192.168.1.100</code>.</li>
+</ul>
+</li>
+<li><p><strong>SSL Handshake</strong>:</p><pre><code class="language-bash">openssl s_client -connect 192.168.1.100:443 -servername pihole.example.com
+</code></pre>
+<ul>
+<li>Verify that the certificate matches <code>*.example.com</code>.</li>
+</ul>
+</li>
+<li><p><strong>Browser Access</strong>:</p><ul>
+<li>Open <code>https://pihole.example.com</code> in a browser and confirm that the site loads without SSL errors.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="key-points-to-remember"><strong>Key Points to Remember</strong></h2>
+<ol>
+<li><p><strong>All Domains Must Resolve Locally</strong>:</p><ul>
+<li>Ensure that both the main domain (<code>example.com</code>) and all subdomains  resolve to your local server’s IP address.</li>
+</ul>
+</li>
+<li><p><strong>Use Let’s Encrypt for Local SSL</strong>:</p><ul>
+<li>Let’s Encrypt certificates are free, widely trusted, and easy to renew. They ensure that local clients receive valid SSL certificates.</li>
+</ul>
+</li>
+<li><p><strong>Avoid External Dependencies</strong>:</p><ul>
+<li>By resolving domains locally, you eliminate the need for local traffic to pass through Cloudflare, improving performance and reliability.</li>
+</ul>
+</li>
+<li><p><strong>Monitor Logs</strong>:</p><ul>
+<li>Regularly check your web server logs and Pi-hole logs to ensure everything is functioning as expected.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="conclusion"><strong>Conclusion</strong></h2>
+<p>When using Cloudflare for external access, it’s crucial to configure your local network to handle all domains and subdomains internally. By forwarding all domains to your local server, disabling upstream DNS forwarding, and securing them with Let’s Encrypt certificates, you can ensure seamless and secure access for both local and external clients.</p><p>This approach eliminates intermittent SSL errors, improves performance, and provides a consistent user experience across your network. If you follow these steps, your setup will be robust and reliable for all users.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Fixing PushRejectedError in Publii CMS While Syncing with GitHub</title>
         <author>
@@ -1138,94 +1337,6 @@ This phishing attempt leveraged an innovative technique by embedding a QR code i
 <li>Buffering mechanisms</li>
 </ul>
 
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Remove apps using ADB (Android Debug Bridge)</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/remove-apps-using-adb-android-debug-bridge/"/>
-        <id>https://blog.ehmad.site/remove-apps-using-adb-android-debug-bridge/</id>
-
-        <updated>2025-01-05T11:01:00+05:00</updated>
-            <summary>
-                <![CDATA[
-                    You can remove apps using ADB (Android Debug Bridge) by following these steps: Connect Your Device: Verify ADB Connection: adb devices If prompted on your device, grant USB debugging permission. The terminal should display your device’s serial number, confirming the connection. List Installed Apps: adb&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>You can remove apps using <strong>ADB (Android Debug Bridge)</strong> by following these steps:</p><h3 id="prerequisites">Prerequisites:</h3>
-<ol>
-<li><strong>Enable Developer Options</strong> on your Android device:<ul>
-<li>Go to <strong>Settings &gt; About phone</strong>.</li>
-<li>Tap <strong>Build number</strong> seven times to enable Developer Options.</li>
-</ul>
-</li>
-<li><strong>Enable USB Debugging</strong>:<ul>
-<li>In <strong>Settings &gt; Developer Options</strong>, toggle on <strong>USB Debugging</strong>.</li>
-</ul>
-</li>
-<li><strong>Install ADB on your computer</strong>:<ul>
-<li>Download the <strong>ADB and Fastboot platform tools</strong> from the <a href="https://developer.android.com/studio/releases/platform-tools">official Android Developer website</a>.</li>
-<li>Extract the ZIP file to a folder on your computer.</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="steps-to-remove-apps-using-adb">Steps to Remove Apps Using ADB:</h3>
-<ol>
-<li><p><strong>Connect Your Device</strong>:</p><ul>
-<li>Plug your Android device into your computer using a USB cable.</li>
-<li>Ensure your device is set to <strong>File Transfer (MTP)</strong> mode if prompted.</li>
-</ul>
-</li>
-<li><p><strong>Verify ADB Connection</strong>:</p><ul>
-<li>Open a terminal (or Command Prompt) on your computer.</li>
-<li>Navigate to the folder where you extracted the ADB tools.</li>
-<li>Run the following command:<pre><code class="language-bash">adb devices
-</code></pre>
-</li>
-<li>If prompted on your device, grant <strong>USB debugging permission</strong>.</li>
-<li>The terminal should display your device’s serial number, confirming the connection.</li>
-</ul>
-</li>
-<li><p><strong>List Installed Apps</strong>:</p><ul>
-<li>Run the following command to see a list of installed packages:<pre><code class="language-bash">adb shell pm list packages
-</code></pre>
-</li>
-<li>This will return a list of package names (e.g., <code>com.example.app</code>).</li>
-</ul>
-</li>
-<li><p><strong>Uninstall the App</strong>:</p><ul>
-<li>Use the following command to uninstall an app:<pre><code class="language-bash">adb shell pm uninstall --user 0 &lt;package_name&gt;
-</code></pre>
-</li>
-<li>Replace <code>&lt;package_name&gt;</code> with the package name of the app you want to remove.</li>
-<li>Example:<pre><code class="language-bash">adb shell pm uninstall --user 0 com.facebook.katana
-</code></pre>
-</li>
-<li>This removes the app for the current user but does not delete it from the system partition (useful for pre-installed apps).</li>
-</ul>
-</li>
-<li><p><strong>Verify Uninstallation</strong>:</p><ul>
-<li>Re-run the package list command to ensure the app is no longer listed:<pre><code class="language-bash">adb shell pm list packages
-</code></pre>
-</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="notes">Notes:</h3>
-<ul>
-<li><strong>Pre-installed Apps</strong>: Using <code>--user 0</code> disables the app for the current user, which is usually sufficient. However, to permanently delete system apps, you would need root access.</li>
-<li><strong>Reinstall Disabled Apps</strong>: To restore an uninstalled app:<pre><code class="language-bash">adb shell cmd package install-existing &lt;package_name&gt;
-</code></pre>
-</li>
-</ul>
-<p>Let me know if you need help with any specific app removal!</p>
             ]]>
         </content>
     </entry>
