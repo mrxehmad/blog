@@ -3,7 +3,7 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-03-09T16:48:30+05:00</updated>
+    <updated>2025-03-09T16:50:50+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
@@ -20,13 +20,13 @@
         <updated>2025-03-09T16:47:39+05:00</updated>
             <summary>
                 <![CDATA[
-                    SSL Error “ERR_SSL_UNRECOGNIZED_NAME_ALERT” in Local Networks Using Cloudflare Tunnels In a previous article, I discussed the issue of intermittent SSL errors when using Cloudflare tunnels in local networks and explored possible solutions. However, the methods suggested did not completely resolve the issue. Thanks to a&hellip;
+                    SSL Error “ERR_SSL_UNRECOGNIZED_NAME_ALERT” in Local Networks Using Cloudflare Tunnels In a previous article, I discussed the issue of intermittent SSL error “ERR_SSL_UNRECOGNIZED_NAME_ALERT” when using Cloudflare tunnels in local networks and explored possible solutions. However, the methods suggested did not completely resolve the issue. Thanks to&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
                 <h3 id="ssl-error-err_ssl_unrecognized_name_alert-------------in-local-networks-using-cloudflare-tunnels">SSL Error “ERR_SSL_UNRECOGNIZED_NAME_ALERT”             in Local Networks Using Cloudflare Tunnels</h3>
-<p>In a previous article, I discussed the issue of intermittent SSL errors when using Cloudflare tunnels in local networks and explored possible solutions. However, the methods suggested did not completely resolve the issue. Thanks to a detailed analysis and solution provided by <a href="https://github.com/dasunsrule32">@dasunsrule32</a> on a <a href="https://github.com/NginxProxyManager/nginx-proxy-manager/issues/3982#issuecomment-2408597306">GitHub issue</a>, we now have a much better fix that ensures seamless connectivity without breaking HTTPS queries.</p><h2 id="understanding-the-root-cause"><strong>Understanding the Root Cause</strong></h2>
+<p>In a previous article, I discussed the issue of intermittent SSL error “ERR_SSL_UNRECOGNIZED_NAME_ALERT” when using Cloudflare tunnels in local networks and explored possible solutions. However, the methods suggested did not completely resolve the issue. Thanks to a detailed analysis and solution provided by <a href="https://github.com/dasunsrule32">@dasunsrule32</a> on a <a href="https://github.com/NginxProxyManager/nginx-proxy-manager/issues/3982#issuecomment-2408597306">GitHub issue</a>, we now have a much better fix that ensures seamless connectivity without breaking HTTPS queries.</p><h2 id="understanding-the-root-cause"><strong>Understanding the Root Cause</strong></h2>
 <p>The issue stems from modern browsers prioritizing <code>HTTPS</code> records with <code>ipv4hint</code> and <code>ipv6hint</code> when resolving domains. These records, deployed by Cloudflare, Google, and other major providers, speed up DNS resolution but can cause conflicts in local networks when using Pi-hole or custom DNS configurations.</p><p>Previously, many users (myself included) attempted workarounds like disabling IPv6, modifying local DNS configurations, or relying on the default Pi-hole settings. However, these solutions were either incomplete or required manual intervention on client devices.</p><h2 id="the-improved-solution"><strong>The Improved Solution</strong></h2>
 <p><a href="https://github.com/dasunsrule32">@dasunsrule32</a> provided a better approach that ensures Pi-hole properly handles these HTTPS record queries without breaking other services. The key fix is to <strong>block <code>HTTPS</code> record lookups for specific domains while keeping normal DNS functionality intact.</strong></p><h3 id="implementation-steps-in-pi-hole"><strong>Implementation Steps in Pi-hole</strong></h3>
 <ol>
