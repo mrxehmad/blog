@@ -3,12 +3,79 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-03-09T16:50:50+05:00</updated>
+    <updated>2025-04-16T17:54:22+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>Assembly Language Basics - P01</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/assembly-language-basics-p01/"/>
+        <id>https://blog.ehmad.site/assembly-language-basics-p01/</id>
+
+        <updated>2025-04-16T17:54:22+05:00</updated>
+            <summary>
+                <![CDATA[
+                    If you’re lookin’ ta get into assembly language, buckle up! It’s not the easiest thing in the world, but trust me—it’s worth it. Assembly is a low-level programming langwage that lets ya talk directly to your computer’s hardware. Unlike high level stuff like Python or&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>If you’re lookin’ ta get into assembly language, buckle up! It’s not the easiest thing in the world, but trust me—it’s worth it. Assembly is a low-level programming langwage that lets ya talk directly to your computer’s hardware. Unlike high level stuff like Python or Java, assembly makes you deal with registers, memory, n’ all sortsa tiny details. But hey, once u get the hang of it, it can be super rewarding.</p><h4 id="what-even-is-assembly"><strong>What Even Is Assembly?</strong></h4>
+<p>Assembly langauge is kinda like writin’ machine code—but in human-readable form (well, sorta readable). Each processor famly has its own set of instructions—called “machine language”—which are just strings of 1s n’ 0s. Assembly simplifies this by using symbols instead of raw binary. For example, <code>ADD</code> means addition, <code>MOV</code> means move data around, etc. Its close to the metal, so you’ll needa understand things like registers, memory addressing, and how binary/hexadecimal numbers work.</p><h4 id="why-bother-learnin-this-stuff"><strong>Why Bother Learnin’ This Stuff?</strong></h4>
+<p>You might be thinkin’, “Why should I bother with assembly when theres easier languages out there?” Well, heres a few reasons:</p><ul>
+<li><strong>Deep Understanding:</strong> You’ll learn exactly how software interacts with hardware. Ever wondered how programs actually run on ur CPU? Assembly shows ya!</li>
+<li><strong>Optimization:</strong> If you wanna write super fast code, assembly is king. No extra bloat here!</li>
+<li><strong>Embedded Systems:</strong> Workin’ on microcontrollers? Assembly is often used for small devices where efficiency matters.</li>
+<li><strong>Debuggin’ Skills:</strong> Knowin’ assembly helps ya debug complex issues, especially if you’re reverse engineerin’ compiled programs.</li>
+</ul>
+<p>So yeah, it’s tough at first, but stick with it!</p><h4 id="registers-the-tiny-storage-units"><strong>Registers: The Tiny Storage Units</strong></h4>
+<p>Registers are like the fastest storage locations inside yer CPU. They hold data the procesor needs right away. Think of em as sticky notes—quick n’ easy access. There’s different types:</p><ul>
+<li><strong>General Purpose Registers:</strong> Like <code>EAX</code>, <code>EBX</code>, <code>ECX</code>, <code>EDX</code>. These bad boys do math, store addresses, and more.</li>
+<li><strong>Pointer Registers:</strong> Such as <code>ESP</code> (stack pointer) and <code>EBP</code> (base pointer). Pointers help manage memory.</li>
+<li><strong>Index Registers:</strong> Like <code>ESI</code> (source index) and <code>EDI</code> (destination index). Used for string operations and such.</li>
+</ul>
+<p>Oh, and dont forget—you can acess these registers in diffrent sizes: 8-bit (<code>AL</code>, <code>AH</code>), 16-bit (<code>AX</code>), 32-bit (<code>EAX</code>), even 64-bit (<code>RAX</code>) on modern systems.</p><h4 id="basic-arithmetic-instructions"><strong>Basic Arithmetic Instructions</strong></h4>
+<p>Alrighty, lets talk about doin’ math in assembly. Heres the basics:</p><ul>
+<li><strong>Addition (<code>ADD</code>):</strong> Adds two numbers together. Example:<pre><code class="language-assembly">MOV AX, 5   ; Load 5 into AX
+ADD AX, 3   ; Add 3 to AX (result = 8)
+</code></pre>
+</li>
+<li><strong>Subtraction (<code>SUB</code>):</strong> Subtracts one number from another.<pre><code class="language-assembly">MOV BX, 10  ; Load 10 into BX
+SUB BX, 4   ; Subtract 4 from BX (result = 6)
+</code></pre>
+</li>
+<li><strong>Multiplication (<code>MUL</code>/<code>IMUL</code>):</strong> Multiplys numbers. Watch out tho—the result goes into specific registers depending on the size.</li>
+<li><strong>Division (<code>DIV</code>/<code>IDIV</code>):</strong> Divides numbers. Also uses special regsiters for quotients and remainders.</li>
+</ul>
+<p>Pro tip: Always clear <code>DX</code> before multiplyin’ or dividin’ larger numbers. Otherwise, weird stuff happens!</p><h4 id="addressing-modes-wheres-my-data"><strong>Addressing Modes: Where’s My Data??</strong></h4>
+<p>When writing assembly, you gotta tell the CPU where to find its operands. Theres three main ways:</p><ol>
+<li><strong>Register Addressing:</strong> Both operands come from registers. Fastest option!<pre><code class="language-assembly">ADD AX, BX  ; Adds BX to AX
+</code></pre>
+</li>
+<li><strong>Immediate Addressing:</strong> One operand is a constant value.<pre><code class="language-assembly">ADD CX, 7   ; Adds 7 to CX
+</code></pre>
+</li>
+<li><strong>Memory Addressing:</strong> One operand comes from memory. Slower, cuz ya gotta fetch it.<pre><code class="language-assembly">MOV DX, [1000H]  ; Moves data from memory location 1000H into DX
+</code></pre>
+</li>
+</ol>
+<h4 id="common-mistakes-newbies-make"><strong>Common Mistakes Newbies Make</strong></h4>
+<p>Here’s some pitfalls ta watch out for:</p><ul>
+<li><strong>Forgetting to Clear Registers:</strong> Always reset registers like <code>DX</code> before usin’ em in multiplcation or division.</li>
+<li><strong>Mixing Up Sizes:</strong> Make sure both operands are the same size (e.g., 16-bit vs 32-bit).</li>
+<li><strong>Typos in Code:</strong> Yeah, assembly doesn’t forgive typos. Double check everything!</li>
+<li><strong>Overflow Errors:</strong> Division can cause overflow if the quotient is too big. Be carefull!</li>
+</ul>
+<h4 id="final-thoughts"><strong>Final Thoughts</strong></h4>
+<p>Assembly ain’t easy, but its powerful. Start small—write simple programs like adding numbers or printin’ characters. Then gradually move on to bigger challenges like loops, input/output, and advanced arithmetic. And remember, practice makes perfect. Don’t give up if ya hit a wall—it happens to everyone.</p><p>Happy coding, folks!</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Follow-Up: Solution for SSL Error &quot;ERR_SSL_UNRECOGNIZED_NAME_ALERT&quot; in Local</title>
         <author>
@@ -900,321 +967,6 @@ I recently encountered a phishing attempt within my Fiverr inbox. The attacker u
 </ol>
 <p><strong>Conclusion:</strong>
 This phishing attempt leveraged an innovative technique by embedding a QR code in a GIF to bypass detection and used social engineering to prompt credit card submission. Users should remain vigilant and report suspicious activity to prevent potential financial loss.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Data Communications and Networking 5th edition</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/data-communications-and-networking-5th-edition/"/>
-        <id>https://blog.ehmad.site/data-communications-and-networking-5th-edition/</id>
-            <category term="book summery"/>
-
-        <updated>2025-01-08T19:14:02+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Chapter 18: Introduction to Network Layer in Data Communications and Networking (5th edition) by Behrouz A. Forouzan: The network layer plays a critical role in delivering data between devices over interconnected networks. It provides the following key services: Packet switching is a fundamental method for&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p><strong>Chapter 18: Introduction to Network Layer</strong> in Data Communications and Networking (5th edition) by Behrouz A. Forouzan:</p><hr>
-<h3 id="181-network-layer-services"><strong>18.1 NETWORK-LAYER SERVICES</strong></h3>
-<p>The network layer plays a critical role in delivering data between devices over interconnected networks. It provides the following key services:</p><h4 id="1811-packetizing"><strong>18.1.1 Packetizing</strong></h4>
-<ul>
-<li><strong>Definition</strong>: Packetizing is the process of dividing large chunks of data into smaller units called packets, which are easier to manage, transmit, and process.</li>
-<li><strong>Structure</strong>: Each packet contains:<ul>
-<li><strong>Payload</strong>: The actual data being transmitted.</li>
-<li><strong>Header</strong>: Contains metadata such as the source and destination addresses, sequence numbers, and error-checking information.</li>
-</ul>
-</li>
-<li><strong>Purpose</strong>: <ul>
-<li>Facilitates efficient use of the network.</li>
-<li>Allows for error detection and recovery by retransmitting only the affected packets instead of the entire data.</li>
-</ul>
-</li>
-</ul>
-<h4 id="1812-routing-and-forwarding"><strong>18.1.2 Routing and Forwarding</strong></h4>
-<ul>
-<li><strong>Routing</strong>:<ul>
-<li>Involves determining the optimal path for packets to travel from the source to the destination.</li>
-<li>Algorithms like Dijkstra’s and Bellman-Ford are commonly used.</li>
-<li>Factors considered: network topology, link costs, and policy constraints.</li>
-</ul>
-</li>
-<li><strong>Forwarding</strong>:<ul>
-<li>The act of moving a packet to its next destination (next-hop router or the final recipient).</li>
-<li>Based on information in the routing table, the router decides the best outgoing link.</li>
-</ul>
-</li>
-</ul>
-<h4 id="1813-other-services"><strong>18.1.3 Other Services</strong></h4>
-<ol>
-<li><strong>Error Handling</strong>:<ul>
-<li>Detects and sometimes corrects errors in transmitted packets.</li>
-<li>Error detection methods like checksums are used.</li>
-</ul>
-</li>
-<li><strong>Quality of Service (QoS)</strong>:<ul>
-<li>Ensures performance requirements such as bandwidth, delay, and jitter are met.</li>
-<li>Differentiates traffic types (e.g., voice, video, or text) to prioritize critical data.</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="182-packet-switching"><strong>18.2 PACKET SWITCHING</strong></h3>
-<p>Packet switching is a fundamental method for data transfer in modern networks, enabling flexibility and efficiency. It involves breaking data into smaller packets that are sent independently.</p><h4 id="1821-datagram-approach-connectionless-service"><strong>18.2.1 Datagram Approach: Connectionless Service</strong></h4>
-<ul>
-<li><strong>Characteristics</strong>:<ul>
-<li>Each packet is treated as an independent entity.</li>
-<li>Packets may take different paths through the network to reach the destination.</li>
-<li>Each packet includes full routing information (source and destination addresses).</li>
-</ul>
-</li>
-<li><strong>Advantages</strong>:<ul>
-<li>Highly scalable and robust.</li>
-<li>No need for establishing or maintaining a connection.</li>
-</ul>
-</li>
-<li><strong>Example</strong>: The Internet Protocol (IP) operates using this approach.</li>
-</ul>
-<h4 id="1822-virtual-circuit-approach-connection-oriented-service"><strong>18.2.2 Virtual-Circuit Approach: Connection-Oriented Service</strong></h4>
-<ul>
-<li><strong>Characteristics</strong>:<ul>
-<li>A logical connection is established between the source and destination before data transfer.</li>
-<li>All packets follow the same pre-established path, ensuring order.</li>
-</ul>
-</li>
-<li><strong>Advantages</strong>:<ul>
-<li>Reliable communication with guaranteed sequencing and error detection.</li>
-<li>Simplified processing at intermediate routers.</li>
-</ul>
-</li>
-<li><strong>Example</strong>: Asynchronous Transfer Mode (ATM) and Multi-Protocol Label Switching (MPLS).</li>
-</ul>
-<hr>
-<h3 id="183-network-layer-performance"><strong>18.3 NETWORK-LAYER PERFORMANCE</strong></h3>
-<p>The efficiency and reliability of the network layer are measured using the following metrics:</p><h4 id="1831-delay"><strong>18.3.1 Delay</strong></h4>
-<ul>
-<li><strong>Types of Delay</strong>:<ol>
-<li><strong>Propagation Delay</strong>: <ul>
-<li>Time for a signal to travel from source to destination through the physical medium.</li>
-<li>Formula: ( \text{Propagation Delay} = \frac{\text{Distance}}{\text{Propagation Speed}} )</li>
-</ul>
-</li>
-<li><strong>Transmission Delay</strong>: <ul>
-<li>Time required to push all bits of a packet onto the transmission medium.</li>
-<li>Formula: ( \text{Transmission Delay} = \frac{\text{Packet Size}}{\text{Bandwidth}} )</li>
-</ul>
-</li>
-<li><strong>Queuing Delay</strong>:<ul>
-<li>Time a packet spends waiting in a router’s queue before being processed or transmitted.</li>
-<li>Varies depending on network congestion.</li>
-</ul>
-</li>
-<li><strong>Processing Delay</strong>:<ul>
-<li>Time taken by a router to examine and forward a packet.</li>
-<li>Includes route lookup, header parsing, and error checking.</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h4 id="1832-throughput"><strong>18.3.2 Throughput</strong></h4>
-<ul>
-<li><strong>Definition</strong>: The rate at which data is successfully transmitted and received over the network.</li>
-<li><strong>Factors Affecting Throughput</strong>:<ul>
-<li><strong>Bandwidth</strong>: The maximum data transfer rate of the medium.</li>
-<li><strong>Network Congestion</strong>: Overloaded links or routers reduce throughput.</li>
-<li><strong>Protocol Overhead</strong>: Header and control data can consume significant portions of bandwidth.</li>
-</ul>
-</li>
-</ul>
-<h4 id="1833-packet-loss"><strong>18.3.3 Packet Loss</strong></h4>
-<ul>
-<li><strong>Definition</strong>: The percentage of packets that fail to reach their destination due to errors, congestion, or buffer overflow at routers.</li>
-<li><strong>Effects</strong>:<ul>
-<li>Degrades the quality of real-time applications like VoIP or video streaming.</li>
-<li>Increases retransmissions, causing further delays and congestion.</li>
-</ul>
-</li>
-<li><strong>Mitigation Techniques</strong>:<ul>
-<li>Implementing retransmission protocols (e.g., TCP).</li>
-<li>Using redundant packet encoding to recover lost data.</li>
-</ul>
-</li>
-</ul>
-<h4 id="1834-congestion-control"><strong>18.3.4 Congestion Control</strong></h4>
-<ul>
-<li><strong>Definition</strong>: Strategies to prevent and manage excessive packet buildup in the network.</li>
-<li><strong>Techniques</strong>:<ol>
-<li><strong>Traffic Shaping</strong>:<ul>
-<li>Regulates the flow of data entering the network to prevent sudden bursts of traffic.</li>
-<li>Example: Token Bucket and Leaky Bucket algorithms.</li>
-</ul>
-</li>
-<li><strong>Packet Scheduling</strong>:<ul>
-<li>Prioritizes certain packets based on their importance or type.</li>
-<li>Example: First-Come-First-Serve (FCFS) and Priority Scheduling.</li>
-</ul>
-</li>
-<li><strong>Retransmission Strategies</strong>:<ul>
-<li>Automatically resends lost or corrupted packets.</li>
-<li>Includes mechanisms like Automatic Repeat Request (ARQ).</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<hr>
-<h3 id="184-ipv4-addresses"><strong>18.4 IPv4 ADDRESSES</strong></h3>
-<p>IPv4 addresses are a fundamental aspect of the network layer, ensuring that devices can be uniquely identified for communication.</p><h4 id="1841-address-space"><strong>18.4.1 Address Space</strong></h4>
-<ul>
-<li><strong>32-Bit Addressing</strong>: IPv4 uses a 32-bit structure, allowing for (2^{32}) unique addresses, approximately 4.3 billion.</li>
-<li><strong>Depletion</strong>: Due to the rapid growth of devices, the IPv4 address space is nearly exhausted, leading to the adoption of solutions like NAT and IPv6.</li>
-</ul>
-<h4 id="1842-classful-addressing"><strong>18.4.2 Classful Addressing</strong></h4>
-<ul>
-<li>IPv4 originally divided its address space into five classes, identified by the first few bits of the address:<ul>
-<li><strong>Class A</strong>: <ul>
-<li>Range: (0.0.0.0) to (127.255.255.255).</li>
-<li>Large networks with up to (2^{24}) hosts.</li>
-</ul>
-</li>
-<li><strong>Class B</strong>:<ul>
-<li>Range: (128.0.0.0) to (191.255.255.255).</li>
-<li>Medium-sized networks with up to (2^{16}) hosts.</li>
-</ul>
-</li>
-<li><strong>Class C</strong>:<ul>
-<li>Range: (192.0.0.0) to (223.255.255.255).</li>
-<li>Small networks with up to (2^{8}) hosts.</li>
-</ul>
-</li>
-<li><strong>Class D</strong>:<ul>
-<li>Range: (224.0.0.0) to (239.255.255.255).</li>
-<li>Reserved for multicast communication.</li>
-</ul>
-</li>
-<li><strong>Class E</strong>:<ul>
-<li>Range: (240.0.0.0) to (255.255.255.255).</li>
-<li>Reserved for experimental use.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="1843-classless-addressing"><strong>18.4.3 Classless Addressing</strong></h4>
-<ul>
-<li><strong>CIDR (Classless Inter-Domain Routing)</strong>:<ul>
-<li>Eliminates rigid address classes, allowing for flexible allocation of IP addresses.</li>
-<li>Uses <strong>prefix notation</strong> (e.g., (192.168.1.0/24)), where the “/24” indicates the number of bits in the network prefix.</li>
-</ul>
-</li>
-<li><strong>Variable-Length Subnet Masking (VLSM)</strong>:<ul>
-<li>Divides an IP address into subnets of different sizes.</li>
-<li>Helps optimize address utilization and reduce wastage.</li>
-</ul>
-</li>
-</ul>
-<h4 id="1844-dynamic-host-configuration-protocol-dhcp"><strong>18.4.4 Dynamic Host Configuration Protocol (DHCP)</strong></h4>
-<ul>
-<li><strong>Purpose</strong>:<ul>
-<li>Automates the assignment of IP addresses, subnet masks, gateways, and DNS settings.</li>
-</ul>
-</li>
-<li><strong>Advantages</strong>:<ul>
-<li>Reduces manual configuration errors.</li>
-<li>Allows for reusing IP addresses when devices leave the network.</li>
-</ul>
-</li>
-<li><strong>Process</strong>:<ul>
-<li>A device sends a <strong>DHCP Discovery</strong> request.</li>
-<li>The server responds with a <strong>DHCP Offer</strong> containing configuration details.</li>
-<li>The device accepts via a <strong>DHCP Request</strong>, and the server confirms with a <strong>DHCP Acknowledgment</strong>.</li>
-</ul>
-</li>
-</ul>
-<h4 id="1845-network-address-translation-nat"><strong>18.4.5 Network Address Translation (NAT)</strong></h4>
-<ul>
-<li><strong>Purpose</strong>:<ul>
-<li>Allows multiple devices on a private network to share a single public IP address.</li>
-<li>Conserves the limited IPv4 address space.</li>
-</ul>
-</li>
-<li><strong>Types</strong>:<ul>
-<li><strong>Static NAT</strong>: Maps one private IP to one public IP.</li>
-<li><strong>Dynamic NAT</strong>: Maps private IPs to available public IPs from a pool.</li>
-<li><strong>Port Address Translation (PAT)</strong>: Maps multiple private IPs to a single public IP using unique port numbers.</li>
-</ul>
-</li>
-<li><strong>Advantages</strong>:<ul>
-<li>Enhances security by hiding internal network structure.</li>
-<li>Reduces the demand for public IP addresses.</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="185-forwarding-of-ip-packets"><strong>18.5 FORWARDING OF IP PACKETS</strong></h3>
-<p>Forwarding is the mechanism by which routers move packets from their source to the correct destination.</p><h4 id="1851-forwarding-based-on-destination-address"><strong>18.5.1 Forwarding Based on Destination Address</strong></h4>
-<ul>
-<li><strong>Process</strong>:<ol>
-<li>The router examines the destination IP address in the packet header.</li>
-<li>It consults its <strong>routing table</strong> to determine the next hop.</li>
-<li>The packet is forwarded to the next router or the final destination.</li>
-</ol>
-</li>
-<li><strong>Routing Table Entries</strong>:<ul>
-<li><strong>Destination Network</strong>: Identifies the target subnet.</li>
-<li><strong>Next Hop</strong>: The IP address of the next router.</li>
-<li><strong>Metric</strong>: A value representing the cost or distance to the destination.</li>
-</ul>
-</li>
-</ul>
-<h4 id="1852-forwarding-based-on-label"><strong>18.5.2 Forwarding Based on Label</strong></h4>
-<ul>
-<li><strong>Label-Based Forwarding</strong>:<ul>
-<li>Utilized in <strong>Multiprotocol Label Switching (MPLS)</strong>.</li>
-<li>Packets are assigned a <strong>label</strong> at the ingress router.</li>
-<li>Intermediate routers use labels, not IP addresses, for forwarding decisions.</li>
-</ul>
-</li>
-<li><strong>Advantages</strong>:<ul>
-<li>Faster forwarding as label lookups are simpler than IP-based routing.</li>
-<li>Supports traffic engineering, allowing for efficient use of network resources.</li>
-</ul>
-</li>
-</ul>
-<h4 id="1853-routers-as-packet-switches"><strong>18.5.3 Routers as Packet Switches</strong></h4>
-<ul>
-<li><strong>Functionality</strong>:<ul>
-<li>Routers act as intelligent devices in packet-switched networks.</li>
-<li>They handle:<ol>
-<li>Receiving packets from the input interface.</li>
-<li>Analyzing headers to determine the next hop.</li>
-<li>Forwarding packets via the appropriate output interface.</li>
-</ol>
-</li>
-</ul>
-</li>
-<li><strong>Key Roles</strong>:<ul>
-<li><strong>Packet Inspection</strong>: Examines headers for routing and QoS decisions.</li>
-<li><strong>Routing Table Maintenance</strong>: Updates routes dynamically using protocols like OSPF or BGP.</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="summary-of-key-concepts"><strong>Summary of Key Concepts</strong></h3>
-<ul>
-<li><strong>Packet Switching</strong>: Core mechanism for efficient data transfer.</li>
-<li><strong>Routing and Forwarding</strong>: Ensure packets traverse networks to reach their destination.</li>
-<li><strong>IP Addressing</strong>: Vital for device identification and communication, with techniques like CIDR, DHCP, and NAT enhancing efficiency.</li>
-<li><strong>Performance Metrics</strong>: Delay, throughput, and congestion control are essential for optimizing communication.</li>
-<li><strong>DHCP and NAT</strong>: Critical protocols for managing IP address allocation and conservation.</li>
-</ul>
-
             ]]>
         </content>
     </entry>
