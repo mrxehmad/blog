@@ -3,12 +3,50 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-04-16T17:54:22+05:00</updated>
+    <updated>2025-04-19T08:12:31+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>The SSH Exploit That Shook the Erlang World: A Hacker&#x27;s Dream Come True</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/the-ssh-exploit-that-shook-the-erlang-world-a-hackers-dream-come-true/"/>
+        <id>https://blog.ehmad.site/the-ssh-exploit-that-shook-the-erlang-world-a-hackers-dream-come-true/</id>
+
+        <updated>2025-04-19T08:12:31+05:00</updated>
+            <summary>
+                <![CDATA[
+                    In the realm of cybersecurity, few discoveries send as many shockwaves through the community as a critical vulnerability that allows unauthorized access to servers. Recently, such an exploit was uncovered, and it is nothing short of a hacker’s dream come true . With a CVSS&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p><strong>In the realm of cybersecurity</strong>, few discoveries send as many shockwaves through the community as a critical vulnerability that allows unauthorized access to servers. Recently, such an exploit was uncovered, and it is nothing short of a hacker’s dream come true . With a CVSS score of 10, this bug exposed significant security flaws in certain SSH server implementations—specifically within the Erlang programming language.</p><h4 id="the-nature-of-the-vulnerability">The Nature of the Vulnerability</h4>
+<p>At first glance, one might think this was a flaw in OpenSSH, the widely used open-source implementation of the Secure Shell (SSH) protocol. However, this particular bug resides not in OpenSSH but within the Erlang/OTP framework—an environment lauded for building scalable, real-time systems utilized in telecoms, banking, e-commerce, and instant messaging.</p><p>Erlang, developed by Ericsson, has powered some of the most robust telecommunications infrastructure worldwide. Unfortunately, this makes the discovery of such a severe vulnerability even more alarming. The bug, identified as CVE-2025-32433, allows attackers to bypass authentication entirely, granting them unrestricted access to the server without any credentials—a scenario that could have catastrophic implications if exploited maliciously .</p><h4 id="how-it-was-discovered">How It Was Discovered</h4>
+<p>Interestingly, this entire saga began with a tweet from Horizon 3, who hinted at having a working concept for the vulnerability but refrained from disclosing a proof-of-concept exploit responsibly until patches were available. This act of restraint highlights the delicate balance between responsible disclosure and public awareness .</p><p>Enter Platform Security, a lesser-known entity that took the baton and ran with it. Leveraging AI tools like ChatGPT, they meticulously analyzed the differences between vulnerable and patched versions of OTP (Open Telecom Platform). Through this process, they identified that sending a specific message to the server could trigger arbitrary code execution before authentication took place—a glaring oversight in the logic of the SSH implementation .</p><h4 id="the-proof-of-concept">The Proof of Concept</h4>
+<p>Using insights gained from their analysis, Platform Security crafted a Python-based proof-of-concept script. This script performs a standard SSH key exchange, establishes a session, and then sends requests over the channel prior to completing authentication. In essence, it demonstrates how easily an attacker could manipulate the system to execute commands at will.</p><p>To illustrate the exploit, consider running an Erlang interpreter inside a Docker container with port 2222 forwarded locally. By initiating the exploit script, an unauthenticated user can create files on the server, exemplified by writing “troll lol” into a text file named <code>lab</code>. The simplicity and effectiveness of this attack underscore its severity [[File]].</p><h4 id="implications-beyond-erlang">Implications Beyond Erlang</h4>
+<p>While thankful that OpenSSH remains unaffected, the incident raises questions about implementing protocols in newer languages versus relying on battle-tested codebases. For instance, while Rust and other modern languages offer memory safety guarantees, they cannot inherently prevent logical errors introduced during development [[File]].</p><p>OpenSSH’s C-based implementation, despite being written in a memory-unsafe language, benefits from decades of rigorous auditing and fuzz testing. These efforts have made it one of the most secure SSH implementations available today [[File]]. Conversely, reimplementing such protocols in alternative languages introduces risks associated with reinterpreting both the spatial and logical aspects of the protocol—a task prone to human error [[File]].</p><h4 id="broader-context-and-mitigation">Broader Context and Mitigation</h4>
+<p>Google’s ongoing efforts to tackle spammy, low-quality content highlight the importance of reliable sources when researching vulnerabilities. Ensuring accurate information dissemination helps mitigate misinformation spread online . Similarly, updating knowledge bases with relevant data ensures organizations stay informed about emerging threats .</p><p>For those interested in diving deeper into cybersecurity topics, exploring courses that cover foundational programming skills and network security principles can provide valuable insights [[File]]. Stay informed, stay vigilant, and remember—the next big vulnerability might just be around the corner.</p><h4 id="references">References</h4>
+<ol>
+<li>“<a href="https://help.salesforce.com/s/articleView?id=sf.knowledge_data_loader.htm&type=5">Update Knowledge Base articles with Data Loader - Salesforce Help</a>“ </li>
+<li>“<a href="https://blog.google/products/search/new-ways-tackling-spammy-low-quality-content-search/">New ways we’re tackling spammy, low-quality content on Search</a>“ </li>
+<li>“<a href="https://pubmed.ncbi.nlm.nih.gov/help/">Help - PubMed - National Institutes of Health (NIH)</a>“ </li>
+<li>“<a href="https://support.microsoft.com/en-us/office/add-or-change-sources-citations-and-bibliographies-7e6a9c3b-2d13-4a9f-8e8c-7a2d80c7e9b3">Add or change sources, citations, and bibliographies</a>“ </li>
+<li>“<a href="https://docs.microsoft.com/en-us/dynamics365/customerengagement/on-premises/customize/add-knowledge-base-search-control-forms">Add the Knowledge Base Search control to forms - Learn Microsoft</a>“ </li>
+<li>“<a href="https://support.google.com/business/answer/13751?hl=en">Edit your Business Profile - Google Help</a>“ </li>
+<li>“<a href="https://developers.google.com/search/docs">In-Depth Guide to How Google Search Works | Documentation</a>“ </li>
+<li>“<a href="https://www.aliyun.com/security/cve/CVE-2025-32433">CVE-2025-32433 - 阿里云漏洞库</a>“ </li>
+<li>“<a href="https://platformsecurity.com/blog/CVE-2025-32433-poc">Critical Erlang/OTP SSH pre-auth RCE is ‘Surprisingly Easy’ to</a>“ </li>
+<li>“<a href="https://threatpost.com/critical-erlang-otp-ssh-flaw-exposes-many-devices-to-remote/185318/">Critical Erlang/OTP SSH Flaw Exposes Many Devices to Remote</a>“</li>
+</ol>
+
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Assembly Language Basics - P01</title>
         <author>
@@ -893,80 +931,6 @@ else:
 <p>Ensure your JSON payload is correctly formatted. Missing brackets, quotes, or commas can cause errors.</p><hr>
 <h2 id="conclusion"><strong>Conclusion</strong></h2>
 <p>Discord webhooks are a versatile and easy-to-use tool for automating messages and integrating external services with your server. Whether you’re sending notifications, logging events, or creating custom bots, webhooks can help streamline your workflows and keep your community informed.</p><p>By following the steps outlined in this guide, you can set up and use webhooks effectively while keeping your server secure. Experiment with different use cases and customize your messages to make the most of this powerful feature!</p><p>Happy automating! 🚀</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Phishing Attack Chain Report - Fiverr</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/phishing-attack-chain-report-fiverr/"/>
-        <id>https://blog.ehmad.site/phishing-attack-chain-report-fiverr/</id>
-
-        <updated>2025-01-26T21:23:13+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Phishing Attack Chain Report Incident Overview: I recently encountered a phishing attempt within my Fiverr inbox. The attacker used a GIF image to bypass Fiverr’s security measures and avoid detection. The GIF contained a QR code that, when scanned, directed me to a phishing page.
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p><strong>Phishing Attack Chain Report</strong></p><p><strong>Incident Overview:</strong>
-I recently encountered a phishing attempt within my Fiverr inbox. The attacker used a GIF image to bypass Fiverr’s security measures and avoid detection. The GIF contained a QR code that, when scanned, directed me to a phishing page.</p><p><strong>Phishing URL:</strong><br>Initial URL: <a href="https://fiverr.offer984732.cfd/7ky7njr1pzz7970t">https://fiverr.offer984732.cfd/7ky7njr1pzz7970t</a></p><p><strong>Attack Chain:</strong></p><ol>
-<li><p><strong>Initial Contact:</strong>  </p><ul>
-<li>The phishing attempt began with a message in my Fiverr inbox containing a GIF image.</li>
-<li>The GIF displayed a QR code instead of a direct link, likely to circumvent Fiverr’s security mechanisms.</li>
-</ul>
-</li>
-<li><p><strong>Phishing Page:</strong>  </p><ul>
-<li>Scanning the QR code redirected me to a phishing website disguised to resemble Fiverr’s official payment page.</li>
-<li>The page prompted me to “receive payment” from a client by adding my credit card details.</li>
-<li>Notably, right-clicking and other browser functions, such as saving the page, were disabled to prevent analysis or inspection.</li>
-</ul>
-</li>
-<li><p><strong>Redirection to Payment Form:</strong>  </p><ul>
-<li>Upon attempting to “receive funds,” I was redirected to another URL:
-<a href="https://fiverr.offer984732.cfd/merchant/order/7ky7njr1pzz7970t">https://fiverr.offer984732.cfd/merchant/order/7ky7njr1pzz7970t</a></li>
-<li>This page requested full credit card details under the guise of processing the payment.</li>
-</ul>
-</li>
-<li><p><strong>Transaction Failure:</strong>  </p><ul>
-<li>After entering test card details, the page displayed a “transaction failed” message.</li>
-<li>This indicates the phishing attempt’s goal was purely to collect financial information rather than process any real transaction.</li>
-</ul>
-</li>
-</ol>
-<p><strong>Observations and Indicators of Compromise (IoCs):</strong></p><ul>
-<li>The URL contains suspicious subdomains and random alphanumeric paths.</li>
-<li>The use of QR codes in phishing attempts to avoid link detection.</li>
-<li>Browser functions such as right-clicking being disabled, which is a common phishing tactic.</li>
-<li>Fake payment processing followed by a transaction failure message.</li>
-</ul>
-<p><strong>Recommendations:</strong></p><ol>
-<li><strong>Avoid Scanning Unknown QR Codes:</strong>  <ul>
-<li>Do not scan QR codes from unknown or unverified sources, especially in online freelance platforms.</li>
-</ul>
-</li>
-<li><strong>Verify URLs Carefully:</strong>  <ul>
-<li>Always cross-check URLs and avoid interacting with unfamiliar domains.</li>
-</ul>
-</li>
-<li><strong>Enable Security Features:</strong>  <ul>
-<li>Use browser extensions and security tools to identify phishing sites.</li>
-</ul>
-</li>
-<li><strong>Report the Incident:</strong>  <ul>
-<li>Report such incidents to Fiverr’s support team and relevant cybersecurity authorities.</li>
-</ul>
-</li>
-<li><strong>Monitor Financial Accounts:</strong>  <ul>
-<li>If any sensitive information was entered, monitor bank statements and enable fraud alerts.</li>
-</ul>
-</li>
-</ol>
-<p><strong>Conclusion:</strong>
-This phishing attempt leveraged an innovative technique by embedding a QR code in a GIF to bypass detection and used social engineering to prompt credit card submission. Users should remain vigilant and report suspicious activity to prevent potential financial loss.</p>
             ]]>
         </content>
     </entry>
