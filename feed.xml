@@ -3,12 +3,129 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-04-22T08:50:01+05:00</updated>
+    <updated>2025-04-24T16:17:51+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>Analysis of the Recent 4chan Hack: Motivations, Methods, and Perpetrators</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/analysis-of-the-recent-4chan-hack-motivations-methods-and-perpetrators/"/>
+        <id>https://blog.ehmad.site/analysis-of-the-recent-4chan-hack-motivations-methods-and-perpetrators/</id>
+
+        <updated>2025-04-24T16:17:36+05:00</updated>
+            <summary>
+                <![CDATA[
+                    Key Points It seems likely that the recent 4chan hack was motivated by rivalry with Soyjak.party, a competing imageboard. Research suggests the hack involved exploiting vulnerabilities, possibly due to outdated software, with access for over a year. The evidence leans toward Soyjak.party users, particularly an&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h2 id="key-points">Key Points</h2>
+<ul>
+<li>It seems likely that the recent 4chan hack was motivated by rivalry with Soyjak.party, a competing imageboard.</li>
+<li>Research suggests the hack involved exploiting vulnerabilities, possibly due to outdated software, with access for over a year.</li>
+<li>The evidence leans toward Soyjak.party users, particularly an anonymous hacker, being responsible, though identities remain unclear.</li>
+<li>There is controversy around the hack’s full impact, with some speculating legal risks for hackers, while others see no immediate consequences.</li>
+</ul>
+<hr>
+<h2 id="background">Background</h2>
+<p>4chan, founded in 2003, is an anonymous message board known for memes, subcultures, and controversial content, including ties to extremist movements. It has faced scrutiny for incidents like the 2019 Christchurch shooting and 2022 Buffalo shooting, linked to its platform.</p><h2 id="why-it-happened">Why It Happened</h2>
+<p>The hack appears to stem from a rivalry between 4chan and Soyjak.party, a spinoff imageboard formed by former 4chan users, particularly from the banned /qa/ board. Soyjak.party, dedicated to soyjak memes, has positioned itself in opposition to 4chan, with ideological differences and competition for users fueling tensions. The attack was likely a deliberate act to disrupt 4chan and assert dominance, as claimed by Soyjak.party users celebrating the breach.</p><h2 id="how-it-happened">How It Happened</h2>
+<p>The exact method is not fully known, but the hacker claimed over a year of access, suggesting a persistent exploit, possibly a zero-day vulnerability or backdoor. Reports indicate 4chan’s outdated, unpatched software likely contributed, allowing deep access to backend systems, leaking source code, moderator emails, and user data.</p><h2 id="who-did-it-and-impact-on-them">Who Did It and Impact on Them</h2>
+<p>Soyjak.party users, particularly an anonymous hacker using the handle “Chud,” claimed responsibility. The hacker’s identity remains unknown, and as of April 24, 2025, no legal consequences have been reported, likely due to anonymity. However, increased scrutiny could pose future risks.</p><hr>
+<h2 id="detailed-report-analysis-of-the-recent-4chan-hack">Detailed Report: Analysis of the Recent 4chan Hack</h2>
+<h3 id="introduction">Introduction</h3>
+<p>On April 15, 2025, the notorious internet message board 4chan, founded in 2003 by Christopher Poole, was subjected to a significant cybersecurity breach, first reported on rival Soyjak.party. The site experienced outages, with a defunct section displaying “U GOT HACKED,” and leaked data included moderator emails, source code, and personal information, causing widespread disruption. This report provides a comprehensive analysis of why the hack occurred, how it was executed, who was behind it, and the potential impact on those responsible, based on reports from reputable sources such as <em>Reuters</em>, <em>WIRED</em>, <em>TechCrunch</em>, and others, as of April 24, 2025.</p><h3 id="background-context">Background Context</h3>
+<p>4chan is known for its anonymous, unmoderated forums, which have been a breeding ground for memes, subcultures, and controversial content, including ties to far-right extremism. It has been linked to significant incidents, such as the 2019 Christchurch shooting (<a href="https://www.washingtonpost.com/world/2020/01/15/new-zealand-vowed-silence-alleged-christchurch-killers-hateful-speech-letter-he-wrote-was-posted-4chan/">Washington Post</a>) and the 2022 Buffalo shooting (<a href="https://www.theguardian.com/commentisfree/2022/may/17/4chan-helped-radicalize-the-buffalo-shooter-its-time-to-treat-it-like-a-terrorist-network">The Guardian</a>). The platform’s history of minimal oversight and association with toxic activity, including QAnon and incel movements, sets the stage for understanding the hack’s motivations and implications.</p><h3 id="why-did-it-happen">Why Did It Happen?</h3>
+<p>The hack was likely motivated by the ongoing rivalry between 4chan and Soyjak.party, a competing imageboard. Soyjak.party, also known as “The Party” or “The Sharty,” was formed in September 2020 by users from 4chan’s banned /qa/ board, primarily dedicated to creating and sharing soyjak memes (<a href="https://knowyourmeme.com/memes/sites/soyjakparty">Know Your Meme</a>). This spinoff has positioned itself in opposition to 4chan, with ideological differences and competition for users fueling tensions.</p><ul>
+<li><strong>Rivalry and Animosity</strong>: Reports suggest a history of conflict, with Soyjak.party users often criticizing 4chan for its perceived decline and association with extremism, while 4chan users view Soyjak.party as a derivative platform (<a href="https://wiki.soyjak.st/Soyjak.party">Soyjak Wiki</a>). This mutual disdain created fertile ground for retaliatory actions, as evidenced by Soyjak.party users claiming the hack as a victory.</li>
+<li><strong>Community Infighting</strong>: The breach was announced on Soyjak.party by a user with the handle “Chud,” describing it as “operation soyclipse,” suggesting a premeditated and symbolic act to disrupt 4chan (<a href="https://www.bleepingcomputer.com/news/security/infamous-message-board-4chan-taken-down-following-major-hack/">BleepingComputer</a>). This indicates the hack was likely driven by a desire to expose vulnerabilities, assert dominance, and potentially damage 4chan’s reputation.</li>
+</ul>
+<p>Thus, the evidence leans toward the hack being a deliberate act of rivalry, with Soyjak.party users seeking to undermine 4chan’s operations and community standing.</p><h3 id="how-did-it-happen">How Did It Happen?</h3>
+<p>The exact technical details of the hack are not fully disclosed, but available reports provide insights into the breach’s execution:</p><ul>
+<li><strong>Prolonged Access</strong>: The hacker claimed to have been inside 4chan’s systems for over a year, as reported by <em>TechCrunch</em> and <em>BleepingComputer</em> (<a href="https://techcrunch.com/2025/04/15/notorious-image-board-4chan-hacked-and-internal-data-leaked/">TechCrunch</a>, <a href="https://www.bleepingcomputer.com/news/security/infamous-message-board-4chan-taken-down-following-major-hack/">BleepingComputer</a>). This suggests a sophisticated and persistent attack, possibly involving a zero-day exploit or a backdoor that allowed the attacker to maintain access without detection.</li>
+<li><strong>Deep System Access</strong>: The leaked data included 4chan’s source code, moderator emails, usernames, photos, and personal information of 4chan Pass subscribers, indicating the hacker gained administrative or root-level privileges (<a href="https://www.wired.com/story/2025-4chan-hack-admin-leak/">WIRED</a>). This level of access allowed the extraction of sensitive backend systems, including templates to ban users and moderation logs.</li>
+<li><strong>Outdated Infrastructure</strong>: Experts, including those quoted in <em>WIRED</em>, noted that 4chan may have been running on legacy, unpatched software, not properly maintained for years (<a href="https://www.wired.com/story/2025-4chan-hack-admin-leak/">WIRED</a>). This lack of security updates likely contributed to the vulnerability, making it easier for the hacker to exploit weaknesses in the site’s infrastructure.</li>
+<li><strong>Execution and Disclosure</strong>: The hack became public when a defunct section of 4chan was reactivated, displaying “U GOT HACKED,” and screenshots of the backend, source code, and internal data were circulated online (<a href="https://www.reuters.com/technology/cybersecurity/notorious-internet-messageboard-4chan-has-been-hacked-posts-claim-2025-04-15/">Reuters</a>). This public disclosure, claimed by Soyjak.party, led to widespread outages and confirmed the breach’s severity.</li>
+</ul>
+<p>While the precise method of initial access remains unclear, the prolonged nature of the breach and the depth of compromised data point to a highly skilled attacker who exploited significant vulnerabilities in 4chan’s infrastructure.</p><h3 id="who-carried-out-the-attack-and-impact-on-them">Who Carried Out the Attack and Impact on Them</h3>
+<p>The hack was claimed by users of Soyjak.party, with a user named “Chud” announcing the breach on their platform. According to reports, the hacker responsible had been inside 4chan’s systems for over a year before executing the attack, but their identity remains anonymous (<a href="https://www.bleepingcomputer.com/news/security/infamous-message-board-4chan-taken-down-following-major-hack/">BleepingComputer</a>).</p><ul>
+<li><strong>Soyjak.party’s Role</strong>: While Soyjak.party users celebrated the hack and claimed responsibility, it is unclear whether the hacker was a single individual or part of a coordinated group. The announcement described the hack as “operation soyclipse,” suggesting a premeditated and symbolic act, and Soyjak.party users began doxxing the leaked accounts, further escalating the impact (<a href="https://consequence.net/2025/04/4chan-hacked/">Consequence</a>).</li>
+<li><strong>Anonymity and Identity</strong>: The hacker’s identity has not been publicly revealed, and given the anonymous nature of both platforms, it is unlikely they will be identified. Law enforcement or cybersecurity experts may be investigating, but as of April 24, 2025, no arrests or public actions against the hacker have been reported (<a href="https://www.newsweek.com/4chan-down-hack-downdetector-reports-2059862">Newsweek</a>).</li>
+<li><strong>Impact on Those Responsible</strong>: There is no public information indicating that those responsible have faced legal or personal consequences. The anonymity of the hacker and the decentralized nature of Soyjak.party make it difficult to trace or hold individuals accountable. However, the hack has heightened awareness of cybersecurity vulnerabilities in imageboard platforms, potentially leading to increased scrutiny by law enforcement and cybersecurity experts, which could pose future risks.</li>
+</ul>
+<p>Thus, while Soyjak.party users took credit for the hack, the actual perpetrator remains an anonymous individual or group, with no reported consequences as of now, though controversy exists around potential future legal risks.</p><h3 id="broader-implications-and-controversy">Broader Implications and Controversy</h3>
+<p>The hack raises significant questions about the security of online forums, especially those prioritizing anonymity. It could mark “the end of 4chan as we know it,” given exposed data and risks to moderators, as suggested by <em>Sky News</em> (<a href="https://news.sky.com/story/is-this-the-end-of-notorious-4chan-internet-forum-13349823">Sky News</a>). There is controversy around the hack’s full impact, with some speculating legal risks for hackers due to exposed data, while others see no immediate consequences, highlighting the complexity of addressing such breaches in anonymous communities.</p><h3 id="summary-table-key-details-of-the-hack">Summary Table: Key Details of the Hack</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Aspect</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Date of Hack</td>
+<td>Around April 15, 2025</td>
+</tr>
+<tr>
+<td>Reported By</td>
+<td>Soyjak.party, various news outlets (Reuters, WIRED, TechCrunch, etc.)</td>
+</tr>
+<tr>
+<td>Why It Happened</td>
+<td>Likely due to rivalry with Soyjak.party, motivated by competition and animosity</td>
+</tr>
+<tr>
+<td>How It Happened</td>
+<td>Hacker had access for over a year, exploited vulnerabilities, possibly outdated software</td>
+</tr>
+<tr>
+<td>Who Did It</td>
+<td>Claimed by Soyjak.party users, anonymous hacker, identity unclear</td>
+</tr>
+<tr>
+<td>Impact on Hackers</td>
+<td>No reported consequences as of April 24, 2025, potential future scrutiny</td>
+</tr>
+<tr>
+<td>Verification Status</td>
+<td>Partially confirmed by a moderator; some claims unverified</td>
+</tr>
+<tr>
+<td>Site Impact</td>
+<td>Down or intermittently available, outages lasted over a day</td>
+</tr>
+<tr>
+<td>Potential Risks</td>
+<td>Moderator safety, site vulnerability, possible legal risks for hackers</td>
+</tr>
+</tbody></table>
+<p>This table summarizes the critical aspects of the hack, providing a quick reference for understanding its scope, motivations, and implications.</p><h3 id="conclusion">Conclusion</h3>
+<p>The April 2025 4chan hack was a significant cybersecurity incident driven by rivalry with Soyjak.party, executed by an anonymous hacker exploiting vulnerabilities in 4chan’s infrastructure. The breach exposed sensitive data, with no reported consequences for the hackers as of April 24, 2025, though potential future scrutiny remains. It underscores the challenges of maintaining security on anonymous platforms and highlights the risks of community rivalries escalating into cyberattacks.</p><hr>
+<h2 id="key-citations">Key Citations</h2>
+<ul>
+<li><a href="https://www.reuters.com/technology/cybersecurity/notorious-internet-messageboard-4chan-has-been-hacked-posts-claim-2025-04-15/">Notorious internet messageboard 4chan has been hacked, posts claim</a></li>
+<li><a href="https://www.wired.com/story/2025-4chan-hack-admin-leak/">Suspected 4chan Hack Could Expose Longtime, Anonymous Admins</a></li>
+<li><a href="https://techcrunch.com/2025/04/15/notorious-image-board-4chan-hacked-and-internal-data-leaked/">Notorious image board 4chan hacked and internal data leaked</a></li>
+<li><a href="https://www.bleepingcomputer.com/news/security/infamous-message-board-4chan-taken-down-following-major-hack/">Infamous message board 4chan taken down following major hack</a></li>
+<li><a href="https://wiki.soyjak.st/Soyjak.party">Soyjak.party - Soyjak Wiki</a></li>
+<li><a href="https://en.wikipedia.org/wiki/4chan">4chan - Wikipedia</a></li>
+<li><a href="https://knowyourmeme.com/memes/sites/soyjakparty">Soyjak.party | Know Your Meme</a></li>
+<li><a href="https://www.newsweek.com/4chan-down-hack-downdetector-reports-2059862">Is 4chan Down? What We Know Amid Hack Reports</a></li>
+<li><a href="https://consequence.net/2025/04/4chan-hacked/">4chan Likely Gone Forever After Hackers Take Control</a></li>
+<li><a href="https://news.sky.com/story/is-this-the-end-of-notorious-4chan-internet-forum-13349823">‘The end of 4chan as we know it’: Why hacking attack could kill notorious internet forum</a></li>
+<li><a href="https://www.washingtonpost.com/world/2020/01/15/new-zealand-vowed-silence-alleged-christchurch-killers-hateful-speech-letter-he-wrote-was-posted-4chan/">New Zealand vowed silence on alleged Christchurch killer’s hateful speech. The letter he wrote was posted on 4chan</a></li>
+<li><a href="https://www.theguardian.com/commentisfree/2022/may/17/4chan-helped-radicalize-the-buffalo-shooter-its-time-to-treat-it-like-a-terrorist-network">4chan helped radicalize the Buffalo shooter. It’s time to treat it like a terrorist network</a></li>
+</ul>
+
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>The Wine Loader Malware Campaign: A Sophisticated Cyber Espionage Tool Targeting EU Diplomats</title>
         <author>
@@ -828,72 +945,6 @@ docker compose logs db
 </ul>
 <h2 id="conclusion">Conclusion</h2>
 <p>Self-hosting Bitwarden with Docker Compose on a custom network offers flexibility and control over your password management on alpine linux. By assigning static IPs and troubleshooting subnet issues, you can integrate it seamlessly into an existing homelab setup. The unified beta deployment simplifies the process, making it accessible even for those new to Docker and alpine.</p><p>For advanced configurations, explore Bitwarden’s official <a href="https://bitwarden.com/help/install-on-premise-linux/">documentation</a> or integrate cloud features with an installation ID and key. Happy self-hosting!</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Tenda AC9 Firmware Analysis</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/tenda-ac9-firmware-analysis/"/>
-        <id>https://blog.ehmad.site/tenda-ac9-firmware-analysis/</id>
-
-        <updated>2025-02-23T15:59:55+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Reverse Engineering the Tenda AC9 Firmware Routers are the unsung heroes of our connected lives—quietly humming away, keeping us online. But what’s really going on inside them? I recently got curious about my Tenda AC9 router and decided to crack open its firmware—US_AC9V1.0BR_V15.03.05.15_multi_TDE01.bin—to see what&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h1 id="reverse-engineering-the-tenda-ac9-firmware">Reverse Engineering the Tenda AC9 Firmware</h1>
-<p>Routers are the unsung heroes of our connected lives—quietly humming away, keeping us online. But what’s <em>really</em> going on inside them? I recently got curious about my Tenda AC9 router and decided to crack open its firmware—<code>US_AC9V1.0BR_V15.03.05.15_multi_TDE01.bin</code>—to see what secrets it holds. Spoiler: it’s a mix of the expected, the quirky, and the slightly unsettling. Here’s what I found, how I got there, and why it might matter.</p><h2 id="step-1-cracking-the-shell-with-binwalk">Step 1: Cracking the Shell with Binwalk</h2>
-<p>First things first—I needed to unpack the firmware. It’s a 7.4MB file, a u-boot uImage for a Linux/ARM kernel, timestamped October 29, 2020. Sounded like a job for <code>binwalk</code>, a go-to tool for firmware analysis. After installing it (<code>sudo apt install binwalk</code>), I ran a quick scan:</p><pre><code class="language-bash">wget https://github.com/mrxehmad/Tenda-AC9-Firmware-Analysis/raw/refs/heads/main/US_AC9V1.0BR_V15.03.05.15_multi_TDE01.zip
-</code></pre>
-<pre><code class="language-bash">binwalk US_AC9V1.0BR_V15.03.05.15_multi_TDE01.bin
-</code></pre>
-<p>The output revealed a TRX header, an LZMA-compressed kernel, and a SquashFS filesystem. To get inside, I extracted it:</p><pre><code class="language-bash">binwalk -e US_AC9V1.0BR_V15.03.05.15_multi_TDE01.bin
-</code></pre>
-<p>This gave me a folder with a compressed kernel (<code>5C.LZMA</code>) and a filesystem (<code>18EB48.squashfs</code>). One more command to decompress the filesystem:</p><pre><code class="language-bash">unsquashfs -f -d squashfs-root 18EB48.squashfs
-</code></pre>
-<p>And voilà—a treasure trove of files in <code>squashfs-root/</code>. Time to explore.</p><h2 id="step-2-open-ports-and-a-network-surprise">Step 2: Open Ports and a Network Surprise</h2>
-<p>Before diving into the files, I scanned my router (<code>10.1.15.1</code>) with Nmap to see what it’s exposing:</p><pre><code>PORT      STATE SERVICE
-80/tcp    open  http
-5500/tcp  open  hotline
-8180/tcp  open  unknown
-9000/tcp  open  cslistener
-10004/tcp open  emcrmirccd
-</code></pre>
-<p>Port 80? Expected for the web interface. 8180? Probably a secondary UI (more on that later). But 5500, 9000, and 10004? Those raised eyebrows. “Hotline” and “emcrmirccd” didn’t scream “router,” so I knew I had some digging to do.</p><h2 id="step-3-the-filesystem-tells-a-story">Step 3: The Filesystem Tells a Story</h2>
-<p>Inside <code>squashfs-root/</code>, I found a mix of binaries, libraries, and configs. Nginx was running on port 8180 (<code>/usr/bin/nginx</code>), serving a Luci interface with a FastCGI backend on 8188 (<code>/usr/bin/app_data_center</code>). Port 80 was handled by <code>httpd</code>—standard stuff. But then things got interesting.</p><h3 id="hardcoded-connections">Hardcoded Connections</h3>
-<p>Grepping through the files, I spotted hardcoded IPs and domains:</p><ul>
-<li><code>cloud.tenda.com.cn</code></li>
-<li><code>182.254.148.51</code></li>
-<li><code>download.cloud.tenda.com.cn</code></li>
-<li><code>182.254.218.214</code></li>
-<li><code>182.254.136.200</code></li>
-</ul>
-<p>These popped up in files like <code>./bin/auto_discover</code>, which sends your MAC address and timestamp to <code>api.cloud.tenda.com.cn/route/mac/v1</code>. Device tracking, perhaps? Meanwhile, <code>httpd</code> fetches ad URLs from <code>api.cloud.tenda.com.cn/route/adverts/v1</code>, defaulting to <code>www.tenda.com.cn</code> if it fails. An old-school User-Agent (<code>MSIE 5.01</code>) hinted this code hasn’t been touched in years.</p><h3 id="quirky-binaries">Quirky Binaries</h3>
-<ul>
-<li><code>./bin/speedtest</code>: Pings domains like <code>www.taobao.com</code> and <code>www.google.com</code>—likely a bandwidth test.</li>
-<li><code>./bin/88ip</code>: Sends XML to <code>link.dipserver.com</code> for dynamic DNS.</li>
-<li><code>./bin/logserver</code>: Tries (and often fails) to ship logs somewhere external.</li>
-<li><code>./usr/sbin/telnetd</code>: A Telnet server! No startup script activated it, but its presence felt like a debug leftover.</li>
-</ul>
-<h3 id="firewall-rules">Firewall Rules</h3>
-<p>Hardcoded <code>iptables</code> commands caught my eye:</p><pre><code>iptables -A OUTPUT -p udp --dport %d -m state --state NEW -j %s
-iptables -A %s -o %s -j DROP
-</code></pre>
-<p>These seem to manage outbound traffic—maybe to those Tenda cloud servers?</p><h2 id="step-4-what-does-it-mean">Step 4: What Does It Mean?</h2>
-<p>This firmware is chatty. It phones home to Tenda’s cloud, potentially sharing device info, fetching ads, and running services on non-standard ports (5500 and 10004 still elude me—debug backdoors?). The Telnet binary is dormant but tempting for anyone with root access. And those hardcoded IPs? A security researcher’s red flag—perfect for spoofing or tracking.</p><h2 id="why-it-matters">Why It Matters</h2>
-<p>Routers like the Tenda AC9 are everywhere, yet we rarely peek inside. This little adventure showed me how much they’re doing behind the scenes—some useful, some questionable. I’ve dumped my findings on GitHub (link below) with extraction steps, hoping others might join the fun. Could 5500 be a mislabeled Telnet port? Is <code>libupnp.so</code> behind 9000? I’m a newbie at this, but tools like Ghidra are calling—I’ll dive deeper if you do.</p><p>What do you think? Ever analyzed your own gear? Let’s swap notes!</p><ul>
-<li><a href="https://github.com/mrxehmad/Tenda-AC9-Firmware-Analysis">Tenda AC9 Firmware Analysis</a></li>
-<li><a href="https://github.com/mrxehmad/api.cloud.tenda.com.cn">api.cloud.tenda.com.cn</a></li>
-<li><a href="https://github.com/SC0p30N3/Tenda-AC15-Firmware-V15.03.05.18">Tenda AC15 Analysis</a> </li>
-<li><a href="https://ea.github.io/blog/2013/10/18/tenda-backdoor/">Tenda Backdoor Blog</a></li>
-</ul>
-
             ]]>
         </content>
     </entry>
