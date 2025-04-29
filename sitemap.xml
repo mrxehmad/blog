@@ -57,6 +57,22 @@
 <lastmod>2025-03-09T16:50:50+05:00</lastmod>
 </url>
 <url>
+<loc>https://blog.ehmad.site/how-to-enable-remote-shutdown-on-windows-1011-step-by-step/</loc>
+<lastmod>2025-04-29T08:29:38+05:00</lastmod>
+<image:image>
+<image:loc>https://blog.ehmad.site/media/posts/38/Screenshot-2025-04-29-082211.png</image:loc>
+<image:title><![CDATA[Remote Registry]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://blog.ehmad.site/media/posts/38/Screenshot-2025-04-29-082507.png</image:loc>
+<image:title><![CDATA[Shut down the system]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://blog.ehmad.site/media/posts/38/Screenshot-2025-04-29-082441-2.png</image:loc>
+<image:title><![CDATA[Force shutdown from a remote system]]></image:title>
+</image:image>
+</url>
+<url>
 <loc>https://blog.ehmad.site/how-to-fix-intermittent-ssl-errors-in-local-networks-when-using-cloudflare-tunnels/</loc>
 <lastmod>2025-03-09T16:48:30+05:00</lastmod>
 </url>
