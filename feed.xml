@@ -3,12 +3,142 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-04-29T08:29:38+05:00</updated>
+    <updated>2025-05-07T09:15:00+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>GPG for Beginners: Sign, Encrypt, and Verify Like a Pro</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/gpg-for-beginners-sign-encrypt-and-verify-like-a-pro/"/>
+        <id>https://blog.ehmad.site/gpg-for-beginners-sign-encrypt-and-verify-like-a-pro/</id>
+
+        <updated>2025-05-07T09:15:00+05:00</updated>
+            <summary>
+                <![CDATA[
+                    You’ve probably seen this in hacker movies or privacy tools: -----BEGIN PGP SIGNED MESSAGE----- That’s GPG (aka PGP). It’s real cryptography that you can use today — to sign, encrypt, and verify messages like a cybersecurity pro. Let’s jump in. Open your terminal and type:&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>You’ve probably seen this in hacker movies or privacy tools:</p><pre><code>-----BEGIN PGP SIGNED MESSAGE-----
+</code></pre>
+<p>That’s GPG (aka PGP). It’s <strong>real cryptography</strong> that you can use today — to <strong>sign, encrypt, and verify</strong> messages like a cybersecurity pro.</p><p>Let’s jump in.</p><hr>
+<h2 id="🎯-step-1-generate-your-gpg-key-pair">🎯 Step 1: Generate Your GPG Key Pair</h2>
+<p>Open your terminal and type:</p><pre><code class="language-bash">gpg --full-generate-key
+</code></pre>
+<p>When prompted:</p><ul>
+<li>Select <code>RSA and RSA</code> (default)</li>
+<li>Choose 4096 bits</li>
+<li>Set an expiration (or 0 for none)</li>
+<li>Enter your <strong>name</strong> and <strong>email</strong></li>
+<li>Create a strong passphrase (you’ll need this to unlock your private key)</li>
+</ul>
+<p>Done. You now have:</p><ul>
+<li>A <strong>private key</strong> (keep this safe!)</li>
+<li>A <strong>public key</strong> (share it with the world)</li>
+</ul>
+<hr>
+<h2 id="🕵️♂️-step-2-sign-a-message-prove-you-wrote-it">🕵️‍♂️ Step 2: Sign a Message (Prove You Wrote It)</h2>
+<p>Create a simple file:</p><pre><code class="language-bash">echo &quot;This is a top-secret message&quot; &gt; message.txt
+</code></pre>
+<p>Now sign it:</p><pre><code class="language-bash">gpg --clearsign message.txt
+</code></pre>
+<p>You’ll get <code>message.txt.asc</code> — a signed version readable by anyone.</p><hr>
+<h2 id="🧪-step-3-verify-a-signed-message">🧪 Step 3: Verify a Signed Message</h2>
+<p>Let’s say someone sends you a <code>.asc</code> file. To verify it:</p><pre><code class="language-bash">gpg --verify message.txt.asc
+</code></pre>
+<p>If you have their <strong>public key</strong>, GPG will tell you if the signature is valid.</p><hr>
+<h2 id="🔐-step-4-encrypt-a-message-only-receiver-can-read-it">🔐 Step 4: Encrypt a Message (Only Receiver Can Read It)</h2>
+<p>You want to send someone a private file.</p><p>First, import their public key:</p><pre><code class="language-bash">gpg --import their-public-key.asc
+</code></pre>
+<p>Then encrypt:</p><pre><code class="language-bash">gpg --encrypt --recipient their@email.com secret.txt
+</code></pre>
+<p>It outputs <code>secret.txt.gpg</code>, only readable by the recipient’s private key.</p><hr>
+<h2 id="🔓-step-5-decrypt-a-message-sent-to-you">🔓 Step 5: Decrypt a Message (Sent to You)</h2>
+<p>If someone sent you an encrypted file:</p><pre><code class="language-bash">gpg --decrypt secret.txt.gpg
+</code></pre>
+<p>You’ll be prompted for your passphrase. Then boom — message decrypted.</p><hr>
+<h2 id="🌍-step-6-share-your-public-key">🌍 Step 6: Share Your Public Key</h2>
+<p>Want others to verify your signatures or send you encrypted messages?</p><p>Export your key:</p><pre><code class="language-bash">gpg --armor --export your@email.com &gt; mykey.asc
+</code></pre>
+<p>Now send that file, or upload it to a public keyserver:</p><pre><code class="language-bash">gpg --keyserver hkps://keys.openpgp.org --send-keys YOUR_KEY_ID
+</code></pre>
+<p>To get your key ID:</p><pre><code class="language-bash">gpg --list-keys
+</code></pre>
+<hr>
+<h2 id="🧠-real-world-example-signing-a-statement">🧠 Real-World Example: Signing a Statement</h2>
+<p>Let’s say you publish this:</p><pre><code>I stand by this message 100%.
+</code></pre>
+<p>You sign it with GPG. Anyone can now <strong>verify</strong> that it really came from you and hasn’t been altered.</p><p>This is <strong>trust without needing a website or platform</strong>. Pure cryptography.</p><hr>
+<h2 id="🧼-clean-up-see-and-manage-your-keys">🧼 Clean Up: See and Manage Your Keys</h2>
+<p>List your keys:</p><pre><code class="language-bash">gpg --list-keys
+</code></pre>
+<p>Delete a key (be careful!):</p><pre><code class="language-bash">gpg --delete-secret-and-public-key your@email.com
+</code></pre>
+<hr>
+<h2 id="💡-final-thoughts">💡 Final Thoughts</h2>
+<p>Using GPG isn’t about looking cool — it’s about <strong>owning your identity</strong> in a world of phishing and fake messages.</p><ul>
+<li>✅ Signing proves “I wrote this.”</li>
+<li>✅ Encrypting ensures “Only you can read this.”</li>
+<li>✅ Verifying protects you from lies.</li>
+</ul>
+<p>Get comfortable with these basics, and you’ll be ready for secure comms like a professional.</p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Fixing SSH Login Errors Due to Improper Home Directory Permissions</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/fixing-ssh-login-errors-due-to-improper-home-directory-permissions/"/>
+        <id>https://blog.ehmad.site/fixing-ssh-login-errors-due-to-improper-home-directory-permissions/</id>
+
+        <updated>2025-05-07T09:13:06+05:00</updated>
+            <summary>
+                <![CDATA[
+                    When configuring SSH access for a user on a Linux system, one common issue that can block login attempts is improper file or directory permissions. A real-world example of this involves the error: Authentication refused: bad ownership or modes for directory /home/username This error typically&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>When configuring SSH access for a user on a Linux system, one common issue that can block login attempts is improper file or directory permissions. A real-world example of this involves the error:</p><pre><code>Authentication refused: bad ownership or modes for directory /home/username
+</code></pre>
+<p>This error typically occurs when the SSH daemon (<code>sshd</code>) detects that the user’s home directory permissions are too permissive, which is considered a security risk. In this case, the SSH server rejects the login attempt even if the credentials or SSH keys are correct.</p><h3 id="understanding-the-problem">Understanding the Problem</h3>
+<p>The SSH daemon is configured to reject connections if the user’s home directory or <code>.ssh</code> directory is writable by group or others. This protects against unauthorized access or tampering of sensitive files such as <code>authorized_keys</code>.</p><p>In the case encountered, the user’s home directory had overly permissive ownership and permissions on files such as:</p><ul>
+<li>Files owned by <code>root</code> instead of the user.</li>
+<li>Files with <code>777</code> or <code>766</code> permissions, making them writable by group and others.</li>
+<li>A <code>.ssh</code> directory or <code>authorized_keys</code> file with insecure permissions.</li>
+</ul>
+<h3 id="solution">Solution</h3>
+<p>To resolve the issue, the following steps were taken:</p><ol>
+<li><p><strong>Corrected ownership</strong> of the user’s home directory and its contents:</p><pre><code class="language-bash">sudo chown -R username:username /home/username
+</code></pre>
+</li>
+<li><p><strong>Set the proper permissions</strong> for the home and <code>.ssh</code> directories:</p><pre><code class="language-bash">chmod 700 /home/username
+chmod 700 /home/username/.ssh
+chmod 600 /home/username/.ssh/authorized_keys
+</code></pre>
+</li>
+<li><p><strong>Restarted the SSH service</strong> to apply the changes:</p><pre><code class="language-bash">sudo systemctl restart ssh
+</code></pre>
+</li>
+</ol>
+<p>Once these corrections were made, SSH logins via key-based authentication succeeded without further issues.</p><h3 id="best-practices">Best Practices</h3>
+<ul>
+<li>Always ensure <code>.ssh</code> directories and <code>authorized_keys</code> files are owned by the user and not writable by others.</li>
+<li>Avoid placing files with <code>root</code> ownership or world-writeable permissions inside the user’s home directory when SSH access is needed.</li>
+<li>Use <code>journalctl -u ssh</code> or review <code>/var/log/auth.log</code> for specific error messages when troubleshooting SSH issues.</li>
+</ul>
+<p>By securing directory permissions appropriately, SSH can operate safely and efficiently, helping maintain the integrity of remote access setups.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>How to Enable Remote Shutdown on Windows 10/11 (Step-by-Step!)</title>
         <author>
@@ -703,213 +833,6 @@ nslookup pihole.example.com 192.168.1.100
 <hr>
 <h2 id="conclusion"><strong>Conclusion</strong></h2>
 <p>When using Cloudflare for external access, it’s crucial to configure your local network to handle all domains and subdomains internally. By forwarding all domains to your local server, disabling upstream DNS forwarding, and securing them with Let’s Encrypt certificates, you can ensure seamless and secure access for both local and external clients.</p><p>This approach eliminates intermittent SSL errors, improves performance, and provides a consistent user experience across your network. If you follow these steps, your setup will be robust and reliable for all users.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Fixing PushRejectedError in Publii CMS While Syncing with GitHub</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/fixing-pushrejectederror-in-publii-cms-while-syncing-with-github/"/>
-        <id>https://blog.ehmad.site/fixing-pushrejectederror-in-publii-cms-while-syncing-with-github/</id>
-
-        <updated>2025-03-03T11:21:27+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Issue Overview When using Publii CMS to sync a site to GitHub, you may encounter this error: ERROR: PushRejectedError: Push rejected because it was not a simple fast-forward. Use &quot;force: true&quot; to override. This happens because Publii tries to push changes to the blog branch,&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h2 id="issue-overview"><strong>Issue Overview</strong></h2>
-<p>When using <strong>Publii CMS</strong> to sync a site to GitHub, you may encounter this error:</p><pre><code>ERROR: PushRejectedError: Push rejected because it was not a simple fast-forward. Use &quot;force: true&quot; to override.
-</code></pre>
-<p>This happens because <strong>Publii tries to push changes to the <code>blog</code> branch</strong>, but GitHub has a newer version of that branch (with the Azure workflow file). Since Publii does not pull before pushing, Git rejects the push.</p><p>If you <strong>force push</strong>, you risk overwriting and deleting important files, such as your <strong>GitHub Actions workflow</strong> that automates deployments to Azure.</p><h2 id="solution-pull-changes-before-syncing"><strong>Solution: Pull Changes Before Syncing</strong></h2>
-<p>To prevent the workflow from being deleted, you must <strong>manually pull the latest changes before syncing</strong> in Publii.</p><h3 id="step-by-step-fix-using-git"><strong>Step-by-Step Fix Using Git</strong></h3>
-<ol>
-<li><strong>Open your terminal or command prompt.</strong></li>
-<li><strong>Navigate to your Publii website folder.</strong><pre><code class="language-sh">cd path/to/your/publii/site/output
-</code></pre>
- <em>(Replace <code>path/to/your/publii/site/output</code> with the actual path)</em></li>
-<li><strong>Pull the latest changes from GitHub.</strong><pre><code class="language-sh">git pull origin blog --rebase
-</code></pre>
- If there are conflicts, Git will ask you to resolve them.</li>
-<li><strong>Go back to Publii and sync again.</strong><ul>
-<li>Since Publii now has the latest version (including the workflow), it won’t overwrite it.</li>
-</ul>
-</li>
-</ol>
-<h2 id="alternative-exclude-githubworkflows-from-publii-sync"><strong>Alternative: Exclude <code>.github/workflows</code> from Publii Sync</strong></h2>
-<p>If Publii is overwriting everything in the <code>blog</code> branch, you can <strong>exclude the <code>.github</code> folder</strong> (which contains your workflow file) from being removed.</p><h3 id="steps-to-exclude-files-in-publii"><strong>Steps to Exclude Files in Publii:</strong></h3>
-<ol>
-<li>In <strong>Publii</strong>, go to:
-<strong>Settings → Server → Additional Sync Options</strong></li>
-<li>Look for an <strong>“Exclude files/folders from sync”</strong> option.</li>
-<li>Add <code>.github/workflows/</code> to the exclusion list.
-<em>(This prevents Publii from deleting the workflow every time you sync.)</em></li>
-</ol>
-<h2 id="unofficial-fix-store-workflow-files-inside-publiis-input-folder"><strong>Unofficial Fix: Store Workflow Files Inside Publii’s Input Folder</strong></h2>
-<p>Since Publii syncs only what’s inside the <code>output/</code> folder, a workaround is to place the <code>.github/workflows</code> directory inside <strong><code>input/root-files/</code></strong>. This ensures that Publii will upload the workflow file along with the rest of the website content.</p><h3 id="steps-to-apply-this-fix"><strong>Steps to Apply This Fix:</strong></h3>
-<ol>
-<li><strong>Navigate to your Publii site’s input folder:</strong><pre><code class="language-sh">cd path/to/your/publii/site/input/root-files
-</code></pre>
-</li>
-<li><strong>Create the <code>.github/workflows/</code> directory:</strong><pre><code class="language-sh">mkdir -p .github/workflows
-</code></pre>
-</li>
-<li><strong>Move your workflow file into this directory:</strong><pre><code class="language-sh">mv path/to/your/workflow.yml .github/workflows/
-</code></pre>
-</li>
-<li><strong>Sync your site again using Publii.</strong><ul>
-<li>The workflow file should now be included automatically in the deployment.</li>
-</ul>
-</li>
-</ol>
-<p>You can read more about this fix in this GitHub issue:<br>🔗 <a href="https://github.com/GetPublii/Publii/issues/2077">Publii GitHub Issue #2077</a></p><h2 id="what-happens-now"><strong>What Happens Now?</strong></h2>
-<ul>
-<li><strong>You pull the latest changes first (keeps workflow).</strong></li>
-<li><strong>Then you sync with Publii (adds articles).</strong></li>
-<li><strong>No workflow deletion, no Git errors. �</strong>*</li>
-<li><strong>If you store workflows in <code>input/root-files/</code>, Publii will automatically upload them every sync.</strong></li>
-</ul>
-<p>By following these steps, you can seamlessly update your blog content without interfering with your deployment workflow.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Resolving Git Merge Conflicts: A Step-by-Step Guide</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/resolving-git-merge-conflicts-a-step-by-step-guide/"/>
-        <id>https://blog.ehmad.site/resolving-git-merge-conflicts-a-step-by-step-guide/</id>
-
-        <updated>2025-03-03T10:59:58+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Git is a powerful version control system that allows developers to collaborate on projects efficiently. However, when multiple contributors work on the same branch or repository, conflicts can arise during merges. These conflicts occur when Git cannot automatically reconcile differences between the local and remote&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Git is a powerful version control system that allows developers to collaborate on projects efficiently. However, when multiple contributors work on the same branch or repository, conflicts can arise during merges. These conflicts occur when Git cannot automatically reconcile differences between the local and remote versions of files. In this article, we’ll explore a real-world example of Git merge conflicts and provide a step-by-step guide to resolving them.</p><hr>
-<h2 id="understanding-the-conflict-scenario">Understanding the Conflict Scenario</h2>
-<p>In our example, a developer attempted to pull updates from the <code>main</code> branch of a remote repository using the command:</p><pre><code class="language-bash">git pull origin main
-</code></pre>
-<p>However, the operation resulted in numerous merge conflicts. The conflict log revealed two primary types of conflicts:</p><ol>
-<li><p><strong>Modify/Delete Conflicts</strong>:</p><ul>
-<li>Some files were deleted in the local branch (<code>HEAD</code>) but modified in the remote branch (<code>origin/main</code>).</li>
-<li>Git could not determine whether to keep the remote changes or respect the local deletion.</li>
-</ul>
-</li>
-<li><p><strong>Rename/Delete Conflicts</strong>:</p><ul>
-<li>A file was renamed in the remote branch but deleted in the local branch.</li>
-<li>Git was unsure whether to apply the rename or honor the deletion.</li>
-</ul>
-</li>
-</ol>
-<p>The conflicting files included HTML pages, CSS stylesheets, configuration files, and metadata files like <code>feed.json</code> and <code>sitemap.xml</code>. These files are critical for maintaining the structure and functionality of the project, so resolving the conflicts correctly is essential.</p><hr>
-<h2 id="why-do-merge-conflicts-happen">Why Do Merge Conflicts Happen?</h2>
-<p>Merge conflicts typically occur due to one of the following reasons:</p><ol>
-<li><p><strong>Divergent Changes</strong>:</p><ul>
-<li>Multiple contributors modify the same part of a file or delete files independently.</li>
-</ul>
-</li>
-<li><p><strong>Outdated Local Branch</strong>:</p><ul>
-<li>The local branch has not been updated with the latest changes from the remote repository, leading to inconsistencies.</li>
-</ul>
-</li>
-<li><p><strong>File Renaming or Deletion</strong>:</p><ul>
-<li>Files are renamed or deleted in one branch while being modified in another.</li>
-</ul>
-</li>
-</ol>
-<p>In our case, the developer’s local branch had deleted several files, while the remote branch had made significant modifications to those same files. This divergence caused Git to flag conflicts during the merge process.</p><hr>
-<h2 id="how-to-resolve-merge-conflicts">How to Resolve Merge Conflicts</h2>
-<p>Resolving merge conflicts requires careful consideration of the changes in both branches. Below is a step-by-step guide to resolving the conflicts described in our scenario.</p><hr>
-<h3 id="step-1-review-the-conflicts">Step 1: Review the Conflicts</h3>
-<p>Run the following command to identify all conflicting files:</p><pre><code class="language-bash">git status
-</code></pre>
-<p>This will display a list of files marked as “both modified” or “deleted by us/them.” For example:</p><pre><code>Unmerged paths:
-  both modified:   index.html
-  deleted by us:   assets/css/style.css
-</code></pre>
-<hr>
-<h3 id="step-2-decide-on-a-resolution-strategy">Step 2: Decide on a Resolution Strategy</h3>
-<p>For each conflicting file, decide whether to:</p><ol>
-<li><p><strong>Keep the Remote Version</strong>:</p><ul>
-<li>If the remote changes are important and should be retained, use:<pre><code class="language-bash">git checkout --theirs &lt;file&gt;
-</code></pre>
-</li>
-</ul>
-</li>
-<li><p><strong>Keep the Local Version</strong>:</p><ul>
-<li>If the local deletion was intentional and the remote changes are irrelevant, use:<pre><code class="language-bash">git checkout --ours &lt;file&gt;
-</code></pre>
-</li>
-</ul>
-</li>
-<li><p><strong>Manually Merge</strong>:</p><ul>
-<li>If both versions contain valuable changes, manually edit the file to combine the changes. Open the file in your text editor, resolve any conflict markers (e.g., <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code>), and save the file.</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="step-3-handle-renamedelete-conflicts">Step 3: Handle Rename/Delete Conflicts</h3>
-<p>For files involved in rename/delete conflicts, decide whether to:</p><ol>
-<li><p><strong>Apply the Rename</strong>:</p><ul>
-<li>If the rename is valid and the file should exist, use:<pre><code class="language-bash">git mv &lt;old-name&gt; &lt;new-name&gt;
-</code></pre>
-</li>
-</ul>
-</li>
-<li><p><strong>Delete the File</strong>:</p><ul>
-<li>If the file should no longer exist, remove it:<pre><code class="language-bash">git rm &lt;file&gt;
-</code></pre>
-</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="step-4-mark-conflicts-as-resolved">Step 4: Mark Conflicts as Resolved</h3>
-<p>After resolving each conflict, stage the resolved files:</p><pre><code class="language-bash">git add &lt;file&gt;
-</code></pre>
-<p>Repeat this process for all conflicting files.</p><hr>
-<h3 id="step-5-complete-the-merge">Step 5: Complete the Merge</h3>
-<p>Once all conflicts are resolved and staged, complete the merge by committing the changes:</p><pre><code class="language-bash">git commit
-</code></pre>
-<p>Git will generate a merge commit message. You can edit it if needed.</p><hr>
-<h3 id="step-6-push-the-changes">Step 6: Push the Changes</h3>
-<p>Finally, push the resolved changes to the remote repository:</p><pre><code class="language-bash">git push origin main
-</code></pre>
-<hr>
-<h2 id="best-practices-to-avoid-merge-conflicts">Best Practices to Avoid Merge Conflicts</h2>
-<p>While conflicts are inevitable in collaborative projects, you can minimize their occurrence by following these best practices:</p><ol>
-<li><p><strong>Frequent Pulls</strong>:</p><ul>
-<li>Regularly pull updates from the remote repository to keep your local branch up-to-date.</li>
-</ul>
-</li>
-<li><p><strong>Clear Communication</strong>:</p><ul>
-<li>Coordinate with your team to avoid working on the same files simultaneously.</li>
-</ul>
-</li>
-<li><p><strong>Feature Branches</strong>:</p><ul>
-<li>Use feature branches for new developments and merge them into the main branch after thorough testing.</li>
-</ul>
-</li>
-<li><p><strong>Code Reviews</strong>:</p><ul>
-<li>Conduct code reviews before merging branches to ensure compatibility.</li>
-</ul>
-</li>
-<li><p><strong>Automated Testing</strong>:</p><ul>
-<li>Implement automated tests to catch integration issues early.</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="conclusion">Conclusion</h2>
-<p>Merge conflicts are a natural part of collaborative software development. While they can be frustrating, understanding the root cause and following a systematic resolution process can help you overcome them efficiently. By keeping your branches synchronized, communicating effectively with your team, and adopting best practices, you can reduce the likelihood of conflicts and maintain a smooth workflow.</p><p>Remember, resolving conflicts is not just about fixing errors—it’s an opportunity to ensure that your project reflects the collective effort of your team. With patience and attention to detail, you can turn conflicts into collaboration success stories.</p>
             ]]>
         </content>
     </entry>
