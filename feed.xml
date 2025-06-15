@@ -3,14 +3,14 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-06-15T09:15:34+05:00</updated>
+    <updated>2025-06-15T09:23:45+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
     <entry>
-        <title> 🛠️ Homelab Reverse Proxy Migration — Part 1</title>
+        <title>Homelab Reverse Proxy Migration — Part 1</title>
         <author>
             <name>Ehmad</name>
         </author>
