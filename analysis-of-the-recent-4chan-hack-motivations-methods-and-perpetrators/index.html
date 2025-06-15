@@ -322,7 +322,11 @@
             console.log('🍪 Allowed group: ' + allowedGroup);
         }
 
+<<<<<<< HEAD
         if (window.publiiCBGCM && (!cbConfig.initialLsState || cbConfig.initialLsState.indexOf(allowedGroup) === -1)) {
+=======
+        if (window.publiiCBGCM && cbConfig.initialLsState.indexOf(allowedGroup) === -1) {
+>>>>>>> ad187b78290adfe1beb49a3d384dc703a060df05
             let consentResult = {};
             let group = window.publiiCBGCM.groups.find(group => group.cookieGroup === allowedGroup);
 
