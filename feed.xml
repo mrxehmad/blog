@@ -3,12 +3,135 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-06-15T09:23:45+05:00</updated>
+    <updated>2025-07-01T15:16:54+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>🛠️ Migrating from Nginx Proxy Manager to Traefik – Part 2</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/migrating-from-nginx-proxy-manager-to-traefik-part-2/"/>
+        <id>https://blog.ehmad.site/migrating-from-nginx-proxy-manager-to-traefik-part-2/</id>
+
+        <updated>2025-07-01T15:16:54+05:00</updated>
+            <summary>
+                <![CDATA[
+                    🌀 Traefik Comes Online Once Traefik was set up, I configured it with the following key features in the traefik.yml: entryPoints: web: address: &quot;:80&quot; websecure: address: &quot;:443&quot; providers: docker: exposedByDefault: false file: directory: /etc/traefik/dynamic watch: true certificatesResolvers: cloudflare: acme: dnsChallenge: provider: cloudflare email: example@example.com storage:&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h3 id="🌀-traefik-comes-online">🌀 Traefik Comes Online</h3>
+<p>Once Traefik was set up, I configured it with the following key features in the <code>traefik.yml</code>:</p><pre><code class="language-yaml">entryPoints:
+  web:
+    address: &quot;:80&quot;
+  websecure:
+    address: &quot;:443&quot;
+
+providers:
+  docker:
+    exposedByDefault: false
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+
+certificatesResolvers:
+  cloudflare:
+    acme:
+      dnsChallenge:
+        provider: cloudflare
+        email: example@example.com
+        storage: /letsencrypt/acme.json
+</code></pre>
+<p>This set the stage for dynamic config files and DNS-01 validation via Cloudflare.</p><hr>
+<h3 id="🧱-dynamic-configs-for-each-app">🧱 Dynamic Configs for Each App</h3>
+<p>Instead of using Compose labels like Nginx Proxy Manager, I created <code>.yml</code> files in <code>/etc/traefik/dynamic/</code> for each service. Here are some examples:</p><h4 id="🔌-wolyml">🔌 <code>wol.yml</code></h4>
+<pre><code class="language-yaml">http:
+  routers:
+    wol:
+      rule: &quot;Host(`wol.example.site`)&quot;
+      service: wol-svc
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+
+  services:
+    wol-svc:
+      loadBalancer:
+        servers:
+          - url: &quot;http://host.docker.internal:9002&quot;
+</code></pre>
+<h4 id="📡-tenda-apiyml-no-https">📡 <code>tenda-api.yml</code> (No HTTPS)</h4>
+<pre><code class="language-yaml">http:
+  routers:
+    tenda:
+      rule: &quot;Host(`api.cloud.tenda.com.cn`)&quot;
+      service: tenda-svc
+      entryPoints:
+        - web
+
+  services:
+    tenda-svc:
+      loadBalancer:
+        servers:
+          - url: &quot;http://host.docker.internal:9001&quot;
+</code></pre>
+<blockquote>
+<p>✅ Dynamic configs helped manage services independently and avoided bloating the Docker Compose.</p></blockquote>
+<hr>
+<h3 id="🔐-blocking-external-access-to-certain-ports">🔐 Blocking External Access to Certain Ports</h3>
+<p>Instead of using a firewall to block apps like Pi-hole on ports like 53/82/85, I used <strong>binding tricks</strong>:</p><h4 id="for-apache-apps">For Apache apps:</h4>
+<p>You can bind internal apps to localhost or internal IPs in Docker Compose or Apache:</p><pre><code class="language-apache">Listen 127.0.0.1:82
+</code></pre>
+<p>Or Docker Compose:</p><pre><code class="language-yaml">ports:
+  - &quot;127.0.0.1:85:85&quot;
+</code></pre>
+<p>That way, the service is inaccessible from outside but usable internally and by Traefik.</p><hr>
+<h3 id="📦-internal-dns-proxy-doh">📦 Internal DNS Proxy (DoH)</h3>
+<p>I also had a <code>dnsproxy</code> DoH service that exposed port <code>5052</code>. To hide it from public access, I updated the systemd unit:</p><pre><code class="language-ini">ExecStart=/opt/dnsproxy/dnsproxy \
+  -u https://cloudflare-gateway.com/dns-query \
+  -b 1.1.1.1:53 -l 127.0.0.1 -p 5052
+</code></pre>
+<p>Binding to <code>127.0.0.1</code> ensures it can’t be reached externally, only locally.</p><hr>
+<h3 id="📉-what-are-entrypoints-like-8080">📉 What Are EntryPoints like <code>:8080</code>?</h3>
+<p>By default, Traefik exposes a dashboard on port <code>8080</code>. I didn’t want it public, so I either:</p><ul>
+<li>Disabled the dashboard completely.</li>
+<li>Or protected it via IP whitelisting or basic auth using middleware.</li>
+</ul>
+<hr>
+<h3 id="📊-metrics-logs--tracing">📊 Metrics, Logs &amp; Tracing</h3>
+<p>Traefik supports features like:</p><ul>
+<li><strong>Access logs</strong></li>
+<li><strong>Prometheus metrics</strong></li>
+<li><strong>Jaeger tracing</strong></li>
+</ul>
+<p>To enable access logs in <code>traefik.yml</code>:</p><pre><code class="language-yaml">accessLog: {}
+</code></pre>
+<p>To enable Prometheus:</p><pre><code class="language-yaml">metrics:
+  prometheus: {}
+</code></pre>
+<p>And for tracing:</p><pre><code class="language-yaml">tracing:
+  jaeger:
+    samplingServerURL: http://jaeger:5778/sampling
+</code></pre>
+<blockquote>
+<p>These helped monitor and debug routing and cert issues in real time.</p></blockquote>
+<hr>
+<h3 id="🔍-final-notes">🔍 Final Notes</h3>
+<p>Some lessons learned:</p><ul>
+<li><strong>Don’t use <code>127.0.0.1</code> from inside containers</strong> to access host apps. Use <code>host.docker.internal</code> or a shared network.</li>
+<li><strong>ACME timeouts</strong> were mostly DNS issues or misconfigured firewalls.</li>
+<li><strong>Exposing internal-only services publicly</strong> is easily preventable with proper Docker port binding (<code>127.0.0.1:port</code>).</li>
+</ul>
+
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Homelab Reverse Proxy Migration — Part 1</title>
         <author>
@@ -884,73 +1007,6 @@ chmod 600 /home/username/.ssh/authorized_keys
 <li>“<a href="https://threatpost.com/critical-erlang-otp-ssh-flaw-exposes-many-devices-to-remote/185318/">Critical Erlang/OTP SSH Flaw Exposes Many Devices to Remote</a>“</li>
 </ol>
 
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Assembly Language Basics - P01</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/assembly-language-basics-p01/"/>
-        <id>https://blog.ehmad.site/assembly-language-basics-p01/</id>
-
-        <updated>2025-04-16T17:54:22+05:00</updated>
-            <summary>
-                <![CDATA[
-                    If you’re lookin’ ta get into assembly language, buckle up! It’s not the easiest thing in the world, but trust me—it’s worth it. Assembly is a low-level programming langwage that lets ya talk directly to your computer’s hardware. Unlike high level stuff like Python or&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>If you’re lookin’ ta get into assembly language, buckle up! It’s not the easiest thing in the world, but trust me—it’s worth it. Assembly is a low-level programming langwage that lets ya talk directly to your computer’s hardware. Unlike high level stuff like Python or Java, assembly makes you deal with registers, memory, n’ all sortsa tiny details. But hey, once u get the hang of it, it can be super rewarding.</p><h4 id="what-even-is-assembly"><strong>What Even Is Assembly?</strong></h4>
-<p>Assembly langauge is kinda like writin’ machine code—but in human-readable form (well, sorta readable). Each processor famly has its own set of instructions—called “machine language”—which are just strings of 1s n’ 0s. Assembly simplifies this by using symbols instead of raw binary. For example, <code>ADD</code> means addition, <code>MOV</code> means move data around, etc. Its close to the metal, so you’ll needa understand things like registers, memory addressing, and how binary/hexadecimal numbers work.</p><h4 id="why-bother-learnin-this-stuff"><strong>Why Bother Learnin’ This Stuff?</strong></h4>
-<p>You might be thinkin’, “Why should I bother with assembly when theres easier languages out there?” Well, heres a few reasons:</p><ul>
-<li><strong>Deep Understanding:</strong> You’ll learn exactly how software interacts with hardware. Ever wondered how programs actually run on ur CPU? Assembly shows ya!</li>
-<li><strong>Optimization:</strong> If you wanna write super fast code, assembly is king. No extra bloat here!</li>
-<li><strong>Embedded Systems:</strong> Workin’ on microcontrollers? Assembly is often used for small devices where efficiency matters.</li>
-<li><strong>Debuggin’ Skills:</strong> Knowin’ assembly helps ya debug complex issues, especially if you’re reverse engineerin’ compiled programs.</li>
-</ul>
-<p>So yeah, it’s tough at first, but stick with it!</p><h4 id="registers-the-tiny-storage-units"><strong>Registers: The Tiny Storage Units</strong></h4>
-<p>Registers are like the fastest storage locations inside yer CPU. They hold data the procesor needs right away. Think of em as sticky notes—quick n’ easy access. There’s different types:</p><ul>
-<li><strong>General Purpose Registers:</strong> Like <code>EAX</code>, <code>EBX</code>, <code>ECX</code>, <code>EDX</code>. These bad boys do math, store addresses, and more.</li>
-<li><strong>Pointer Registers:</strong> Such as <code>ESP</code> (stack pointer) and <code>EBP</code> (base pointer). Pointers help manage memory.</li>
-<li><strong>Index Registers:</strong> Like <code>ESI</code> (source index) and <code>EDI</code> (destination index). Used for string operations and such.</li>
-</ul>
-<p>Oh, and dont forget—you can acess these registers in diffrent sizes: 8-bit (<code>AL</code>, <code>AH</code>), 16-bit (<code>AX</code>), 32-bit (<code>EAX</code>), even 64-bit (<code>RAX</code>) on modern systems.</p><h4 id="basic-arithmetic-instructions"><strong>Basic Arithmetic Instructions</strong></h4>
-<p>Alrighty, lets talk about doin’ math in assembly. Heres the basics:</p><ul>
-<li><strong>Addition (<code>ADD</code>):</strong> Adds two numbers together. Example:<pre><code class="language-assembly">MOV AX, 5   ; Load 5 into AX
-ADD AX, 3   ; Add 3 to AX (result = 8)
-</code></pre>
-</li>
-<li><strong>Subtraction (<code>SUB</code>):</strong> Subtracts one number from another.<pre><code class="language-assembly">MOV BX, 10  ; Load 10 into BX
-SUB BX, 4   ; Subtract 4 from BX (result = 6)
-</code></pre>
-</li>
-<li><strong>Multiplication (<code>MUL</code>/<code>IMUL</code>):</strong> Multiplys numbers. Watch out tho—the result goes into specific registers depending on the size.</li>
-<li><strong>Division (<code>DIV</code>/<code>IDIV</code>):</strong> Divides numbers. Also uses special regsiters for quotients and remainders.</li>
-</ul>
-<p>Pro tip: Always clear <code>DX</code> before multiplyin’ or dividin’ larger numbers. Otherwise, weird stuff happens!</p><h4 id="addressing-modes-wheres-my-data"><strong>Addressing Modes: Where’s My Data??</strong></h4>
-<p>When writing assembly, you gotta tell the CPU where to find its operands. Theres three main ways:</p><ol>
-<li><strong>Register Addressing:</strong> Both operands come from registers. Fastest option!<pre><code class="language-assembly">ADD AX, BX  ; Adds BX to AX
-</code></pre>
-</li>
-<li><strong>Immediate Addressing:</strong> One operand is a constant value.<pre><code class="language-assembly">ADD CX, 7   ; Adds 7 to CX
-</code></pre>
-</li>
-<li><strong>Memory Addressing:</strong> One operand comes from memory. Slower, cuz ya gotta fetch it.<pre><code class="language-assembly">MOV DX, [1000H]  ; Moves data from memory location 1000H into DX
-</code></pre>
-</li>
-</ol>
-<h4 id="common-mistakes-newbies-make"><strong>Common Mistakes Newbies Make</strong></h4>
-<p>Here’s some pitfalls ta watch out for:</p><ul>
-<li><strong>Forgetting to Clear Registers:</strong> Always reset registers like <code>DX</code> before usin’ em in multiplcation or division.</li>
-<li><strong>Mixing Up Sizes:</strong> Make sure both operands are the same size (e.g., 16-bit vs 32-bit).</li>
-<li><strong>Typos in Code:</strong> Yeah, assembly doesn’t forgive typos. Double check everything!</li>
-<li><strong>Overflow Errors:</strong> Division can cause overflow if the quotient is too big. Be carefull!</li>
-</ul>
-<h4 id="final-thoughts"><strong>Final Thoughts</strong></h4>
-<p>Assembly ain’t easy, but its powerful. Start small—write simple programs like adding numbers or printin’ characters. Then gradually move on to bigger challenges like loops, input/output, and advanced arithmetic. And remember, practice makes perfect. Don’t give up if ya hit a wall—it happens to everyone.</p><p>Happy coding, folks!</p>
             ]]>
         </content>
     </entry>
