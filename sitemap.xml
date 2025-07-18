@@ -137,6 +137,9 @@
 </image:image>
 </url>
 <url>
+<loc>https://blog.ehmad.site/opera/</loc>
+</url>
+<url>
 <loc>https://blog.ehmad.site/page/2/</loc>
 </url>
 <url>
@@ -172,6 +175,10 @@
 <url>
 <loc>https://blog.ehmad.site/resolving-git-merge-conflicts-a-step-by-step-guide/</loc>
 <lastmod>2025-03-03T10:59:58+05:00</lastmod>
+</url>
+<url>
+<loc>https://blog.ehmad.site/secure-your-backups-with-rclone-crypt-s3/</loc>
+<lastmod>2025-07-18T15:24:22+05:00</lastmod>
 </url>
 <url>
 <loc>https://blog.ehmad.site/securely-connecting-to-an-rdp-server-using-cloudflare-zero-trust-and-warp/</loc>
