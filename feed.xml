@@ -3,12 +3,133 @@
     <title>Ehmi</title>
     <link href="https://blog.ehmad.site/feed.xml" rel="self" />
     <link href="https://blog.ehmad.site" />
-    <updated>2025-07-01T15:16:54+05:00</updated>
+    <updated>2025-07-18T15:10:20+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://blog.ehmad.site</id>
 
+    <entry>
+        <title>How to Set Up Automated Server Backups to Tebi.io with rclone</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://blog.ehmad.site/how-to-set-up-automated-server-backups-to-tebiio-with-rclone/"/>
+        <id>https://blog.ehmad.site/how-to-set-up-automated-server-backups-to-tebiio-with-rclone/</id>
+
+        <updated>2025-07-18T15:10:20+05:00</updated>
+            <summary>
+                <![CDATA[
+                    This guide explains how to configure a secure, automated backup system that uploads essential directories (like /etc, /home, /var/www, /DATA) to Tebi.io’s S3-compatible object storage, using rclone. curl https://rclone.org/install.sh | sudo bash 2. Configure rclone for Tebi.io Run: rclone config Then follow the prompts: Choose:&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>This guide explains how to configure a secure, automated backup system that uploads essential directories (like <code>/etc</code>, <code>/home</code>, <code>/var/www</code>, <code>/DATA</code>) to <a href="https://tebi.io">Tebi.io’s S3-compatible object storage</a>, using <code>rclone</code>.</p><hr>
+<h2 id="🔧-requirements">🔧 Requirements</h2>
+<ul>
+<li>A Linux server (Ubuntu/Debian/CentOS tested)</li>
+<li><code>rclone</code> installed (<code>v1.62+</code> recommended)</li>
+<li>A Tebi.io bucket + S3 credentials (access key, secret key, and endpoint)</li>
+<li>Root/sudo access</li>
+</ul>
+<hr>
+<h2 id="🛠️-step-by-step-setup">🛠️ Step-by-Step Setup</h2>
+<h3 id="1-install-rclone">1. <strong>Install rclone</strong></h3>
+<pre><code class="language-bash">curl https://rclone.org/install.sh | sudo bash
+</code></pre>
+<hr>
+<h3 id="2-configure-rclone-for-tebiio">2. <strong>Configure rclone for Tebi.io</strong></h3>
+<p>Run:</p><pre><code class="language-bash">rclone config
+</code></pre>
+<p>Then follow the prompts:</p><ol>
+<li><p>Choose: <code>n</code> for new remote</p></li>
+<li><p>Name it: <code>tebi-backup</code> (or anything you like)</p></li>
+<li><p>Choose storage type: <code>s3</code></p></li>
+<li><p>Provider: <code>Other</code></p></li>
+<li><p>Enter your:</p><ul>
+<li><code>access_key_id</code></li>
+<li><code>secret_access_key</code></li>
+<li><code>endpoint</code>: <code>https://s3.tebi.io</code></li>
+</ul>
+</li>
+<li><p>Region: Leave blank</p></li>
+<li><p>Location Constraint: Leave blank</p></li>
+<li><p>ACL: Choose <code>private</code></p></li>
+</ol>
+<p>When done, run <code>rclone listremotes</code> to verify:</p><pre><code class="language-bash">tebi-backup:
+</code></pre>
+<hr>
+<h3 id="3-create-the-backup-script">3. <strong>Create the Backup Script</strong></h3>
+<p>Create a new script:</p><pre><code class="language-bash">sudo nano /usr/local/bin/tebi-backup.sh
+</code></pre>
+<p>Paste the following:</p><pre><code class="language-bash">#!/bin/bash
+
+REMOTE=&quot;tebi-backup:your-bucket-name/backups&quot;
+DATE=$(date +%F)
+DAY=$(date +%u)
+LOG_FILE=&quot;/var/log/tebi-backup.log&quot;
+
+echo &quot;========== Backup started at $(date) ==========&quot; &gt;&gt; &quot;$LOG_FILE&quot;
+
+rclone -P sync /home &quot;$REMOTE/home&quot; &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
+rclone -P sync /var/www &quot;$REMOTE/var-www&quot; &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
+rclone -P sync /DATA &quot;$REMOTE/DATA&quot; &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
+rclone -P sync /etc &quot;$REMOTE/etc&quot; &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
+
+if [ &quot;$DAY&quot; -eq 5 ]; then
+  SNAPSHOT_DIR=&quot;$REMOTE/etc-snapshots/$DATE&quot;
+  echo &quot;Weekly snapshot: /etc to $SNAPSHOT_DIR&quot; &gt;&gt; &quot;$LOG_FILE&quot;
+  rclone -P copy /etc &quot;$SNAPSHOT_DIR&quot; &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
+
+  echo &quot;Deleting old snapshots (&gt;30d)...&quot; &gt;&gt; &quot;$LOG_FILE&quot;
+  rclone lsd &quot;$REMOTE/etc-snapshots&quot; --max-age 720h |
+  awk &#39;{print $NF}&#39; |
+  while read -r folder; do
+    rclone purge &quot;$REMOTE/etc-snapshots/$folder&quot; &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
+  done
+fi
+
+echo &quot;========== Backup finished at $(date) ==========&quot; &gt;&gt; &quot;$LOG_FILE&quot;
+</code></pre>
+<p>Replace <code>your-bucket-name</code> with your actual bucket.</p><p>Then make the script executable:</p><pre><code class="language-bash">sudo chmod +x /usr/local/bin/tebi-backup.sh
+</code></pre>
+<hr>
+<h3 id="4-automate-with-cron">4. <strong>Automate with Cron</strong></h3>
+<p>Edit root’s crontab:</p><pre><code class="language-bash">sudo crontab -e
+</code></pre>
+<p>Add this line to run backups daily at 2:30 AM:</p><pre><code class="language-bash">30 2 * * * /usr/local/bin/tebi-backup.sh
+</code></pre>
+<hr>
+<h2 id="📂-folder-structure-on-tebi">📂 Folder Structure on Tebi</h2>
+<p>Your backups will be neatly organized like this:</p><pre><code>backups/
+├── home/
+├── var-www/
+├── DATA/
+├── etc/
+└── etc-snapshots/
+    ├── 2025-07-05/
+    ├── 2025-07-12/
+    └── ...
+</code></pre>
+<hr>
+<h2 id="🧪-test-the-backup">🧪 Test the Backup</h2>
+<p>Run manually to test:</p><pre><code class="language-bash">sudo /usr/local/bin/tebi-backup.sh
+</code></pre>
+<p>Then check:</p><pre><code class="language-bash">rclone lsf tebi-backup:your-bucket-name/backups/
+</code></pre>
+<hr>
+<h2 id="✅-best-practices">✅ Best Practices</h2>
+<ul>
+<li><strong>Restrict</strong> Tebi.io S3 credentials to a backup-only IAM role.</li>
+<li><strong>Rotate</strong> your credentials every 90 days.</li>
+<li><strong>Encrypt</strong> backups at rest (Tebi supports server-side encryption).</li>
+<li>Use <code>rclone crypt</code> if you want local encryption before upload.</li>
+</ul>
+
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>🛠️ Migrating from Nginx Proxy Manager to Traefik – Part 2</title>
         <author>
@@ -969,44 +1090,6 @@ chmod 600 /home/username/.ssh/authorized_keys
 <p>One practical application is subscribing to RSS feeds that distribute free and public domain content or free and open-source software. This ensures you are always updated with the latest versions of Linux distributions or newly released open-source games [[File]].</p><h3 id="staying-updated-with-trusted-sources">Staying Updated with Trusted Sources</h3>
 <p>By subscribing to trusted sources, you ensure that your downloads come from reliable origins. Websites like [l.com] offer numerous open-source projects through both individual .torrent files and RSS feeds, providing a seamless way to stay informed and updated [[File]].</p><h2 id="conclusion">Conclusion</h2>
 <p>RSS feeds revolutionize the way we consume content, whether it’s news articles or torrent files. By leveraging RSS feeds within qBittorrent, users can streamline their downloading process, ensuring they never miss out on new releases while saving valuable time. Whether you’re interested in open-source software or media content, integrating RSS feeds into your workflow can significantly enhance productivity and convenience .</p><p>With the steps outlined above, you should now be equipped to set up and utilize RSS feeds effectively in qBittorrent. Happy downloading!</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>The SSH Exploit That Shook the Erlang World: A Hacker&#x27;s Dream Come True</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://blog.ehmad.site/the-ssh-exploit-that-shook-the-erlang-world-a-hackers-dream-come-true/"/>
-        <id>https://blog.ehmad.site/the-ssh-exploit-that-shook-the-erlang-world-a-hackers-dream-come-true/</id>
-
-        <updated>2025-04-19T08:12:31+05:00</updated>
-            <summary>
-                <![CDATA[
-                    In the realm of cybersecurity, few discoveries send as many shockwaves through the community as a critical vulnerability that allows unauthorized access to servers. Recently, such an exploit was uncovered, and it is nothing short of a hacker’s dream come true . With a CVSS&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p><strong>In the realm of cybersecurity</strong>, few discoveries send as many shockwaves through the community as a critical vulnerability that allows unauthorized access to servers. Recently, such an exploit was uncovered, and it is nothing short of a hacker’s dream come true . With a CVSS score of 10, this bug exposed significant security flaws in certain SSH server implementations—specifically within the Erlang programming language.</p><h4 id="the-nature-of-the-vulnerability">The Nature of the Vulnerability</h4>
-<p>At first glance, one might think this was a flaw in OpenSSH, the widely used open-source implementation of the Secure Shell (SSH) protocol. However, this particular bug resides not in OpenSSH but within the Erlang/OTP framework—an environment lauded for building scalable, real-time systems utilized in telecoms, banking, e-commerce, and instant messaging.</p><p>Erlang, developed by Ericsson, has powered some of the most robust telecommunications infrastructure worldwide. Unfortunately, this makes the discovery of such a severe vulnerability even more alarming. The bug, identified as CVE-2025-32433, allows attackers to bypass authentication entirely, granting them unrestricted access to the server without any credentials—a scenario that could have catastrophic implications if exploited maliciously .</p><h4 id="how-it-was-discovered">How It Was Discovered</h4>
-<p>Interestingly, this entire saga began with a tweet from Horizon 3, who hinted at having a working concept for the vulnerability but refrained from disclosing a proof-of-concept exploit responsibly until patches were available. This act of restraint highlights the delicate balance between responsible disclosure and public awareness .</p><p>Enter Platform Security, a lesser-known entity that took the baton and ran with it. Leveraging AI tools like ChatGPT, they meticulously analyzed the differences between vulnerable and patched versions of OTP (Open Telecom Platform). Through this process, they identified that sending a specific message to the server could trigger arbitrary code execution before authentication took place—a glaring oversight in the logic of the SSH implementation .</p><h4 id="the-proof-of-concept">The Proof of Concept</h4>
-<p>Using insights gained from their analysis, Platform Security crafted a Python-based proof-of-concept script. This script performs a standard SSH key exchange, establishes a session, and then sends requests over the channel prior to completing authentication. In essence, it demonstrates how easily an attacker could manipulate the system to execute commands at will.</p><p>To illustrate the exploit, consider running an Erlang interpreter inside a Docker container with port 2222 forwarded locally. By initiating the exploit script, an unauthenticated user can create files on the server, exemplified by writing “troll lol” into a text file named <code>lab</code>. The simplicity and effectiveness of this attack underscore its severity [[File]].</p><h4 id="implications-beyond-erlang">Implications Beyond Erlang</h4>
-<p>While thankful that OpenSSH remains unaffected, the incident raises questions about implementing protocols in newer languages versus relying on battle-tested codebases. For instance, while Rust and other modern languages offer memory safety guarantees, they cannot inherently prevent logical errors introduced during development [[File]].</p><p>OpenSSH’s C-based implementation, despite being written in a memory-unsafe language, benefits from decades of rigorous auditing and fuzz testing. These efforts have made it one of the most secure SSH implementations available today [[File]]. Conversely, reimplementing such protocols in alternative languages introduces risks associated with reinterpreting both the spatial and logical aspects of the protocol—a task prone to human error [[File]].</p><h4 id="broader-context-and-mitigation">Broader Context and Mitigation</h4>
-<p>Google’s ongoing efforts to tackle spammy, low-quality content highlight the importance of reliable sources when researching vulnerabilities. Ensuring accurate information dissemination helps mitigate misinformation spread online . Similarly, updating knowledge bases with relevant data ensures organizations stay informed about emerging threats .</p><p>For those interested in diving deeper into cybersecurity topics, exploring courses that cover foundational programming skills and network security principles can provide valuable insights [[File]]. Stay informed, stay vigilant, and remember—the next big vulnerability might just be around the corner.</p><h4 id="references">References</h4>
-<ol>
-<li>“<a href="https://help.salesforce.com/s/articleView?id=sf.knowledge_data_loader.htm&type=5">Update Knowledge Base articles with Data Loader - Salesforce Help</a>“ </li>
-<li>“<a href="https://blog.google/products/search/new-ways-tackling-spammy-low-quality-content-search/">New ways we’re tackling spammy, low-quality content on Search</a>“ </li>
-<li>“<a href="https://pubmed.ncbi.nlm.nih.gov/help/">Help - PubMed - National Institutes of Health (NIH)</a>“ </li>
-<li>“<a href="https://support.microsoft.com/en-us/office/add-or-change-sources-citations-and-bibliographies-7e6a9c3b-2d13-4a9f-8e8c-7a2d80c7e9b3">Add or change sources, citations, and bibliographies</a>“ </li>
-<li>“<a href="https://docs.microsoft.com/en-us/dynamics365/customerengagement/on-premises/customize/add-knowledge-base-search-control-forms">Add the Knowledge Base Search control to forms - Learn Microsoft</a>“ </li>
-<li>“<a href="https://support.google.com/business/answer/13751?hl=en">Edit your Business Profile - Google Help</a>“ </li>
-<li>“<a href="https://developers.google.com/search/docs">In-Depth Guide to How Google Search Works | Documentation</a>“ </li>
-<li>“<a href="https://www.aliyun.com/security/cve/CVE-2025-32433">CVE-2025-32433 - 阿里云漏洞库</a>“ </li>
-<li>“<a href="https://platformsecurity.com/blog/CVE-2025-32433-poc">Critical Erlang/OTP SSH pre-auth RCE is ‘Surprisingly Easy’ to</a>“ </li>
-<li>“<a href="https://threatpost.com/critical-erlang-otp-ssh-flaw-exposes-many-devices-to-remote/185318/">Critical Erlang/OTP SSH Flaw Exposes Many Devices to Remote</a>“</li>
-</ol>
-
             ]]>
         </content>
     </entry>
