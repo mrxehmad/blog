@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
     <title>Ehmi</title>
-    <link href="https://blog.ehmad.site/feed.xml" rel="self" />
-    <link href="https://blog.ehmad.site" />
+    <link href="https://ehmi.se/blog/feed.xml" rel="self" />
+    <link href="https://ehmi.se/blog" />
     <updated>2025-08-24T18:59:50+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
-    <id>https://blog.ehmad.site</id>
+    <id>https://ehmi.se/blog</id>
 
     <entry>
         <title>How to Use Discord Webhook with Examples: The Ultimate Step-by-Step Guide</title>
         <author>
             <name>Ehmad</name>
         </author>
-        <link href="https://blog.ehmad.site/how-to-use-discord-webhook-with-examples-the-ultimate-step-by-step-guide/"/>
-        <id>https://blog.ehmad.site/how-to-use-discord-webhook-with-examples-the-ultimate-step-by-step-guide/</id>
-        <media:content url="https://blog.ehmad.site/media/posts/47/image_proxy-2.png" medium="image" />
+        <link href="https://ehmi.se/blog/how-to-use-discord-webhook-with-examples-the-ultimate-step-by-step-guide/"/>
+        <id>https://ehmi.se/blog/how-to-use-discord-webhook-with-examples-the-ultimate-step-by-step-guide/</id>
+        <media:content url="https://ehmi.se/blog/media/posts/47/image_proxy-2.png" medium="image" />
             <category term="webhook "/>
             <category term="tutorial"/>
             <category term="discord"/>
@@ -24,13 +24,13 @@
         <updated>2025-08-24T18:42:09+05:00</updated>
             <summary>
                 <![CDATA[
-                        <img src="https://blog.ehmad.site/media/posts/47/image_proxy-2.png" alt="" />
+                        <img src="https://ehmi.se/blog/media/posts/47/image_proxy-2.png" alt="" />
                     Introduction to Discord Webhooks Discord has grown beyond a simple voice chat platform into a full-fledged community hub for gamers, developers, and businesses alike. One of the most powerful tools it offers is webhooks. But what exactly are Discord webhooks, and how can you use&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://blog.ehmad.site/media/posts/47/image_proxy-2.png" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://ehmi.se/blog/media/posts/47/image_proxy-2.png" class="type:primaryImage" alt="" /></p>
                 <h3 id="introduction-to-discord-webhooks"><strong>Introduction to Discord Webhooks</strong></h3>
 <p>Discord has grown beyond a simple voice chat platform into a full-fledged community hub for gamers, developers, and businesses alike. One of the most powerful tools it offers is <strong>webhooks</strong>.</p><p>But what exactly are Discord webhooks, and how can you use them effectively? Whether you’re a beginner looking to send automated notifications or a developer integrating external apps, this guide will walk you through everything you need to know—complete with practical examples.</p><hr>
 <h2 id="what-are-discord-webhooks"><strong>What Are Discord Webhooks?</strong></h2>
@@ -66,7 +66,7 @@
 <li><p>Give your webhook a name and assign it to a channel.</p></li>
 <li><p>Copy the <strong>Webhook URL</strong>—this is what you’ll use to send data.</p></li>
 </ol>
-<h2 id="image-description"><figure class="post__image"><img loading="lazy" src="https://blog.ehmad.site/media/posts/47/image_proxy.png" alt="Image description" width="753" height="310" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://blog.ehmad.site/media/posts/47/responsive/image_proxy-xs.webp 640w ,https://blog.ehmad.site/media/posts/47/responsive/image_proxy-sm.webp 768w ,https://blog.ehmad.site/media/posts/47/responsive/image_proxy-md.webp 1024w ,https://blog.ehmad.site/media/posts/47/responsive/image_proxy-lg.webp 1366w ,https://blog.ehmad.site/media/posts/47/responsive/image_proxy-xl.webp 1600w ,https://blog.ehmad.site/media/posts/47/responsive/image_proxy-2xl.webp 1920w"></figure></h2>
+<h2 id="image-description"><figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/47/image_proxy.png" alt="Image description" width="753" height="310" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/47/responsive/image_proxy-xs.webp 640w ,https://ehmi.se/blog/media/posts/47/responsive/image_proxy-sm.webp 768w ,https://ehmi.se/blog/media/posts/47/responsive/image_proxy-md.webp 1024w ,https://ehmi.se/blog/media/posts/47/responsive/image_proxy-lg.webp 1366w ,https://ehmi.se/blog/media/posts/47/responsive/image_proxy-xl.webp 1600w ,https://ehmi.se/blog/media/posts/47/responsive/image_proxy-2xl.webp 1920w"></figure></h2>
 <h3 id="managing-and-customizing-your-webhook"><strong>Managing and Customizing Your Webhook</strong></h3>
 <p>You can:</p><ul>
 <li><p>Assign an avatar (custom profile picture)</p></li>
@@ -230,8 +230,8 @@ fetch(url, {
         <author>
             <name>Ehmad</name>
         </author>
-        <link href="https://blog.ehmad.site/recovering-deleted-files-from-encrypted-rclone-backups/"/>
-        <id>https://blog.ehmad.site/recovering-deleted-files-from-encrypted-rclone-backups/</id>
+        <link href="https://ehmi.se/blog/recovering-deleted-files-from-encrypted-rclone-backups/"/>
+        <id>https://ehmi.se/blog/recovering-deleted-files-from-encrypted-rclone-backups/</id>
 
         <updated>2025-08-12T12:51:04+05:00</updated>
             <summary>
@@ -332,8 +332,8 @@ By following a structured search → confirm → restore workflow, you can confi
         <author>
             <name>Ehmad</name>
         </author>
-        <link href="https://blog.ehmad.site/secure-your-backups-with-rclone-crypt-s3/"/>
-        <id>https://blog.ehmad.site/secure-your-backups-with-rclone-crypt-s3/</id>
+        <link href="https://ehmi.se/blog/secure-your-backups-with-rclone-crypt-s3/"/>
+        <id>https://ehmi.se/blog/secure-your-backups-with-rclone-crypt-s3/</id>
 
         <updated>2025-07-18T15:24:22+05:00</updated>
             <summary>
@@ -448,8 +448,8 @@ rclone copy tebi-crypt:backups/home-backup ~/restore/home --progress
         <author>
             <name>Ehmad</name>
         </author>
-        <link href="https://blog.ehmad.site/how-to-set-up-automated-server-backups-to-tebiio-with-rclone/"/>
-        <id>https://blog.ehmad.site/how-to-set-up-automated-server-backups-to-tebiio-with-rclone/</id>
+        <link href="https://ehmi.se/blog/how-to-set-up-automated-server-backups-to-tebiio-with-rclone/"/>
+        <id>https://ehmi.se/blog/how-to-set-up-automated-server-backups-to-tebiio-with-rclone/</id>
 
         <updated>2025-07-18T15:10:20+05:00</updated>
             <summary>
@@ -569,8 +569,8 @@ echo &quot;========== Backup finished at $(date) ==========&quot; &gt;&gt; &quot
         <author>
             <name>Ehmad</name>
         </author>
-        <link href="https://blog.ehmad.site/migrating-from-nginx-proxy-manager-to-traefik-part-2/"/>
-        <id>https://blog.ehmad.site/migrating-from-nginx-proxy-manager-to-traefik-part-2/</id>
+        <link href="https://ehmi.se/blog/migrating-from-nginx-proxy-manager-to-traefik-part-2/"/>
+        <id>https://ehmi.se/blog/migrating-from-nginx-proxy-manager-to-traefik-part-2/</id>
 
         <updated>2025-07-01T15:16:54+05:00</updated>
             <summary>
@@ -692,8 +692,8 @@ certificatesResolvers:
         <author>
             <name>Ehmad</name>
         </author>
-        <link href="https://blog.ehmad.site/homelab-reverse-proxy-migration-part-1/"/>
-        <id>https://blog.ehmad.site/homelab-reverse-proxy-migration-part-1/</id>
+        <link href="https://ehmi.se/blog/homelab-reverse-proxy-migration-part-1/"/>
+        <id>https://ehmi.se/blog/homelab-reverse-proxy-migration-part-1/</id>
 
         <updated>2025-06-15T09:15:34+05:00</updated>
             <summary>
@@ -857,8 +857,8 @@ entryPoints:
         <author>
             <name>Ehmad</name>
         </author>
-        <link href="https://blog.ehmad.site/how-to-use-vim-a-guide-for-dummies/"/>
-        <id>https://blog.ehmad.site/how-to-use-vim-a-guide-for-dummies/</id>
+        <link href="https://ehmi.se/blog/how-to-use-vim-a-guide-for-dummies/"/>
+        <id>https://ehmi.se/blog/how-to-use-vim-a-guide-for-dummies/</id>
 
         <updated>2025-05-07T19:30:24+05:00</updated>
             <summary>
@@ -1058,8 +1058,8 @@ entryPoints:
         <author>
             <name>Ehmad</name>
         </author>
-        <link href="https://blog.ehmad.site/gpg-for-beginners-sign-encrypt-and-verify-like-a-pro/"/>
-        <id>https://blog.ehmad.site/gpg-for-beginners-sign-encrypt-and-verify-like-a-pro/</id>
+        <link href="https://ehmi.se/blog/gpg-for-beginners-sign-encrypt-and-verify-like-a-pro/"/>
+        <id>https://ehmi.se/blog/gpg-for-beginners-sign-encrypt-and-verify-like-a-pro/</id>
 
         <updated>2025-05-07T09:15:00+05:00</updated>
             <summary>
@@ -1140,8 +1140,8 @@ entryPoints:
         <author>
             <name>Ehmad</name>
         </author>
-        <link href="https://blog.ehmad.site/fixing-ssh-login-errors-due-to-improper-home-directory-permissions/"/>
-        <id>https://blog.ehmad.site/fixing-ssh-login-errors-due-to-improper-home-directory-permissions/</id>
+        <link href="https://ehmi.se/blog/fixing-ssh-login-errors-due-to-improper-home-directory-permissions/"/>
+        <id>https://ehmi.se/blog/fixing-ssh-login-errors-due-to-improper-home-directory-permissions/</id>
 
         <updated>2025-05-07T09:13:06+05:00</updated>
             <summary>
@@ -1188,8 +1188,8 @@ chmod 600 /home/username/.ssh/authorized_keys
         <author>
             <name>Ehmad</name>
         </author>
-        <link href="https://blog.ehmad.site/how-to-enable-remote-shutdown-on-windows-1011-step-by-step/"/>
-        <id>https://blog.ehmad.site/how-to-enable-remote-shutdown-on-windows-1011-step-by-step/</id>
+        <link href="https://ehmi.se/blog/how-to-enable-remote-shutdown-on-windows-1011-step-by-step/"/>
+        <id>https://ehmi.se/blog/how-to-enable-remote-shutdown-on-windows-1011-step-by-step/</id>
 
         <updated>2025-04-29T08:28:56+05:00</updated>
             <summary>
@@ -1217,7 +1217,7 @@ chmod 600 /home/username/.ssh/authorized_keys
 <li><strong>Workstation</strong> (LanmanWorkstation)</li>
 <li><strong>Remote Registry</strong> (RemoteRegistry)</li>
 </ul>
-<figure class="post__image"><img loading="lazy" src="https://blog.ehmad.site/media/posts/38/Screenshot-2025-04-29-082211.png" alt="Remote Registry" width="389" height="268" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082211-xs.webp 640w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082211-sm.webp 768w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082211-md.webp 1024w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082211-lg.webp 1366w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082211-xl.webp 1600w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082211-2xl.webp 1920w"></figure><p>👉 <strong>If any of these are stopped</strong>, right-click → <strong>Start</strong> them.</p><p>👉 Set <strong>Startup Type = Automatic</strong> for all.</p><hr>
+<figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/38/Screenshot-2025-04-29-082211.png" alt="Remote Registry" width="389" height="268" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-xs.webp 640w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-sm.webp 768w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-md.webp 1024w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-lg.webp 1366w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-xl.webp 1600w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-2xl.webp 1920w"></figure><p>👉 <strong>If any of these are stopped</strong>, right-click → <strong>Start</strong> them.</p><p>👉 Set <strong>Startup Type = Automatic</strong> for all.</p><hr>
 <h3 id="step-3-fix-user-rights-assignment-if-broken">Step 3: Fix User Rights Assignment (If Broken)</h3>
 <p>Sometimes you’ll see errors like:</p><p>✅ In that case, reset your security policies safely:</p><p>Open <strong>Command Prompt as Administrator</strong> and run:</p><pre><code class="language-bash">secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
 </code></pre>
@@ -1228,9 +1228,9 @@ chmod 600 /home/username/.ssh/authorized_keys
 </ul>
 <p>Edit these two policies:</p><ul>
 <li><p><strong>Shut down the system</strong> → Add your user (or group like Administrators).
-<figure class="post__image"><img loading="lazy" src="https://blog.ehmad.site/media/posts/38/Screenshot-2025-04-29-082507.png" alt="Shut down the system" width="321" height="21" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082507-xs.webp 640w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082507-sm.webp 768w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082507-md.webp 1024w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082507-lg.webp 1366w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082507-xl.webp 1600w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082507-2xl.webp 1920w"></figure></p></li>
+<figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/38/Screenshot-2025-04-29-082507.png" alt="Shut down the system" width="321" height="21" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-xs.webp 640w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-sm.webp 768w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-md.webp 1024w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-lg.webp 1366w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-xl.webp 1600w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-2xl.webp 1920w"></figure></p></li>
 <li><p><strong>Force shutdown from a remote system</strong> → Add your user.
-<figure class="post__image"><img loading="lazy" src="https://blog.ehmad.site/media/posts/38/Screenshot-2025-04-29-082441-2.png" alt="Force shutdown from a remote system" width="363" height="34" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-xs.webp 640w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-sm.webp 768w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-md.webp 1024w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-lg.webp 1366w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-xl.webp 1600w ,https://blog.ehmad.site/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-2xl.webp 1920w"></figure></p></li>
+<figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/38/Screenshot-2025-04-29-082441-2.png" alt="Force shutdown from a remote system" width="363" height="34" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-xs.webp 640w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-sm.webp 768w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-md.webp 1024w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-lg.webp 1366w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-xl.webp 1600w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-2xl.webp 1920w"></figure></p></li>
 </ul>
 <p>✅ Click <strong>Apply</strong> after each.</p><hr>
 <h3 id="step-5-check-firewall-settings">Step 5: Check Firewall Settings</h3>

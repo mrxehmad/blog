@@ -6,4 +6,4 @@ User-agent: CCBot
 Disallow: /
 User-agent: *
 Disallow:
-Sitemap: https://blog.ehmad.site/sitemap.xml
+Sitemap: https://ehmi.se/blog/sitemap.xml
