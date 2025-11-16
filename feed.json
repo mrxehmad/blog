@@ -5,7 +5,7 @@
     "home_page_url": "https://ehmi.se/blog",
     "feed_url": "https://ehmi.se/blog/feed.json",
     "user_comment": "",
-    "icon": "https://ehmi.se/blog/media/website/Screenshot-from-2025-08-23-16-19-57.png",
+    "icon": "https://ehmi.se/blog/media/website/ehmi.png",
     "author": {
         "name": "Ehmad"
     },
@@ -40,7 +40,7 @@
             "tags": [
             ],
             "date_published": "2025-08-12T12:51:04+05:00",
-            "date_modified": "2025-08-12T12:51:04+05:00"
+            "date_modified": "2025-11-17T02:53:35+05:00"
         },
         {
             "id": "https://ehmi.se/blog/secure-your-backups-with-rclone-crypt-s3/",
