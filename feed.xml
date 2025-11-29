@@ -3,12 +3,585 @@
     <title>Ehmi</title>
     <link href="https://ehmi.se/blog/feed.xml" rel="self" />
     <link href="https://ehmi.se/blog" />
-    <updated>2025-11-17T02:53:35+05:00</updated>
+    <updated>2025-11-29T14:08:31+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://ehmi.se/blog</id>
 
+    <entry>
+        <title>Building a Unified Deployment Pipeline: Merging Three Applications into One Coherent Site</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://ehmi.se/blog/building-a-unified-deployment-pipeline-merging-three-applications-into-one-coherent-site/"/>
+        <id>https://ehmi.se/blog/building-a-unified-deployment-pipeline-merging-three-applications-into-one-coherent-site/</id>
+        <media:content url="https://ehmi.se/blog/media/posts/49/Screenshot-2025-11-29-140413-2.png" medium="image" />
+            <category term="tutorial"/>
+            <category term="deployment"/>
+            <category term="Devops"/>
+
+        <updated>2025-11-29T14:07:29+05:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://ehmi.se/blog/media/posts/49/Screenshot-2025-11-29-140413-2.png" alt="Git repo mrxehmad ehmi-se-unified build" />
+                    This article documents the architectural decisions and implementation strategies employed in consolidating three distinct web applications. a Next.js portfolio, a React-based tools suite, and a Publii blog into a unified deployment pipeline. The solution leverages GitHub Actions for automated builds, Git submodules for modular component&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://ehmi.se/blog/media/posts/49/Screenshot-2025-11-29-140413-2.png" class="type:primaryImage" alt="Git repo mrxehmad ehmi-se-unified build" /></p>
+                <p>This article documents the architectural decisions and implementation strategies employed in consolidating three distinct web applications. a Next.js portfolio, a React-based tools suite, and a Publii blog into a unified deployment pipeline. The solution leverages GitHub Actions for automated builds, Git submodules for modular component management, and Cloudflare Pages for hosting, whilst maintaining separation of concerns and independent development workflows.</p><h2 id="1-introduction">1. Introduction</h2>
+<p>Modern web development often necessitates the integration of multiple applications under a single domain, presenting unique challenges in build orchestration, routing, and deployment. This project addresses these challenges by implementing a streamlined continuous deployment workflow that preserves the autonomy of individual components whilst presenting them as a cohesive user experience.</p><h3 id="11-project-structure">1.1 Project Structure</h3>
+<p>The architecture comprises three principal components:</p><ul>
+<li><strong>Portfolio</strong> (<code>/</code>): A Next.js application serving as the primary landing page and professional showcase</li>
+<li><strong>Tools</strong> (<code>/tools</code>): A React single-page application providing utility features</li>
+<li><strong>Blog</strong> (<code>/blog</code>): A Publii-generated static blog with independent content management</li>
+</ul>
+<h2 id="2-technical-implementation">2. Technical Implementation</h2>
+<h3 id="21-repository-architecture">2.1 Repository Architecture</h3>
+<p>The project employs Git submodules to maintain independent repositories for each component, allowing for:</p><ul>
+<li>Isolated version control and commit history</li>
+<li>Independent development cycles</li>
+<li>Simplified testing and debugging</li>
+<li>Clear separation of concerns</li>
+</ul>
+<pre><code>main-site/
+├── portfolio/      (submodule)
+├── tools/          (submodule)
+└── blog/           (submodule, blog branch)
+</code></pre>
+<figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/49/Screenshot-2025-11-29-140227.png" alt="Git repo mrxehmad ehmi-se-unified" width="1344" height="682" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140227-xs.webp 640w ,https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140227-sm.webp 768w ,https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140227-md.webp 1024w ,https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140227-lg.webp 1366w ,https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140227-xl.webp 1600w ,https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140227-2xl.webp 1920w"></figure><h3 id="22-build-pipeline">2.2 Build Pipeline</h3>
+<p>The deployment workflow, triggered manually via GitHub Actions, executes the following sequence:</p><ol>
+<li><strong>Checkout Phase</strong>: Retrieves all repositories with their submodules, ensuring the blog submodule switches to its dedicated <code>blog</code> branch</li>
+<li><strong>Build Phase</strong>: Compiles both Node.js applications independently, with the tools application configured for a <code>/tools</code> base path</li>
+<li><strong>Integration Phase</strong>: Constructs a unified directory structure by copying built assets to their respective paths</li>
+<li><strong>Deployment Phase</strong>: Commits the compiled assets to a <code>production</code> branch, ready for hosting</li>
+</ol>
+<figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/49/Screenshot-2025-11-29-140413.png" alt="Git repo mrxehmad ehmi-se-unified build" width="1358" height="487" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140413-xs.webp 640w ,https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140413-sm.webp 768w ,https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140413-md.webp 1024w ,https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140413-lg.webp 1366w ,https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140413-xl.webp 1600w ,https://ehmi.se/blog/media/posts/49/responsive/Screenshot-2025-11-29-140413-2xl.webp 1920w"></figure><h3 id="23-routing-and-configuration">2.3 Routing and Configuration</h3>
+<p>Three critical configuration files manage site behaviour:</p><p><strong>robots.txt</strong>: Directs search engine crawlers to appropriate sitemaps for each section</p><p><strong>sitemap.xml</strong>: Provides a sitemap index coordinating discovery across all three applications</p><p><strong>_redirects</strong>: Handles legacy subdomain redirects and single-page application routing for the tools section</p><h2 id="3-key-design-decisions">3. Key Design Decisions</h2>
+<h3 id="31-submodule-strategy">3.1 Submodule Strategy</h3>
+<p>Rather than employing a monorepo approach, Git submodules were selected for their ability to maintain truly independent repositories. This proves particularly valuable when components require different deployment schedules or have distinct contributor teams.</p><h3 id="32-build-then-deploy-pattern">3.2 Build-Then-Deploy Pattern</h3>
+<p>The workflow performs all compilation in the CI environment rather than on the hosting platform. This approach offers several advantages:</p><ul>
+<li><strong>Predictability</strong>: Builds occur in a controlled environment with consistent dependencies</li>
+<li><strong>Flexibility</strong>: Different build tools and Node versions can be employed per component</li>
+<li><strong>Speed</strong>: The hosting platform simply serves pre-built assets without compilation overhead</li>
+<li><strong>Security</strong>: Build secrets and dependencies remain within the CI environment</li>
+</ul>
+<h3 id="33-branch-based-deployment">3.3 Branch-Based Deployment</h3>
+<p>Deploying to a dedicated <code>production</code> branch, rather than directly to <code>main</code>, provides:</p><ul>
+<li>Clean separation between source code and compiled assets</li>
+<li>Simplified hosting configuration (point to branch root)</li>
+<li>Ability to inspect deployed assets independently</li>
+<li>Protection of source branches from build artifacts</li>
+</ul>
+<h2 id="4-challenges-and-solutions">4. Challenges and Solutions</h2>
+<h3 id="41-spa-routing">4.1 SPA Routing</h3>
+<p>Single-page applications like the React tools require special routing considerations. The <code>_redirects</code> file instructs Cloudflare Pages to serve <code>index.html</code> for all <code>/tools/*</code> paths, enabling client-side routing whilst avoiding 404 errors.</p><h3 id="42-blog-branch-management">4.2 Blog Branch Management</h3>
+<p>The blog submodule maintains content on a separate <code>blog</code> branch to distinguish between Publii’s generated output and its configuration files. The workflow explicitly checks out this branch, ensuring the correct content is deployed.</p><h3 id="43-path-consistency">4.3 Path Consistency</h3>
+<p>React’s build process required configuration via the <code>PUBLIC_URL</code> environment variable to ensure asset paths reference <code>/tools</code> rather than the root. This prevents broken links and ensures proper resource loading.</p><h2 id="5-recommendations-and-best-practices">5. Recommendations and Best Practices</h2>
+<h3 id="51-for-similar-projects">5.1 For Similar Projects</h3>
+<p>If you’re considering a similar architecture, I’d advise:</p><ul>
+<li><strong>Start Simple</strong>: Begin with manual deployment to understand the full picture before automating</li>
+<li><strong>Test Independently</strong>: Ensure each component builds and runs correctly in isolation before integration</li>
+<li><strong>Document Paths</strong>: Maintain clear documentation of which files live where, particularly when using submodules</li>
+<li><strong>Version Lock</strong>: Pin Node versions and major dependencies to avoid unexpected build failures</li>
+</ul>
+<h3 id="52-potential-improvements">5.2 Potential Improvements</h3>
+<p>Whilst the current solution proves effective, several enhancements could be considered:</p><ul>
+<li><strong>Automated Testing</strong>: Integrate end-to-end tests before deployment to catch broken links or routing issues</li>
+<li><strong>Preview Deployments</strong>: Implement branch-based preview deployments for testing changes before production</li>
+<li><strong>Cache Optimisation</strong>: Investigate caching strategies to reduce build times for unchanged components</li>
+<li><strong>Monitoring</strong>: Add deployment notifications and uptime monitoring</li>
+</ul>
+<h3 id="53-when-not-to-use-this-approach">5.3 When Not to Use This Approach</h3>
+<p>This architecture may not suit all scenarios. Consider alternatives if:</p><ul>
+<li>Components require frequent coordinated updates (a monorepo might be preferable)</li>
+<li>Your team lacks familiarity with Git submodules (they can be tricky)</li>
+<li>You need server-side rendering or dynamic routes (static hosting has limitations)</li>
+<li>Build times become prohibitive (incremental builds might be necessary)</li>
+</ul>
+<h2 id="6-conclusion">6. Conclusion</h2>
+<p>This unified deployment pipeline successfully consolidates three independent applications whilst preserving their modularity and independence. The solution demonstrates that with careful planning and appropriate tooling, complex multi-application sites can be managed through automated workflows without sacrificing simplicity or maintainability.</p><p>The key takeaway is that modern deployment needn’t be monolithic. By combining Git submodules, GitHub Actions, and intelligent routing configuration, we can achieve the best of both worlds: the organisational benefits of separate repositories with the user experience of a unified site.</p><p>The complete workflow requires minimal ongoing maintenance. simply trigger the action when updates are ready, and the pipeline handles the rest. It’s rather elegant in its simplicity, really.</p><hr>
+<p><strong>Technical Stack</strong>: Next.js, React, Publii, GitHub Actions, Cloudflare Pages<br><strong>Repository Structure</strong>: Git submodules with independent version control<br><strong>Deployment Target</strong>: Static hosting with SPA routing support<br><strong>Build Time</strong>: Approximately 3-5 minutes for full deployment</p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Constructing a Minimal 12MB Operating System for Web Hosting: A Comprehensive Technical Guide</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://ehmi.se/blog/constructing-a-minimal-12mb-operating-system-for-web-hosting-a-comprehensive-technical-guide/"/>
+        <id>https://ehmi.se/blog/constructing-a-minimal-12mb-operating-system-for-web-hosting-a-comprehensive-technical-guide/</id>
+        <media:content url="https://ehmi.se/blog/media/posts/48/Screenshot-2025-11-29-135641.png" medium="image" />
+            <category term="tutorial"/>
+            <category term="book summery"/>
+            <category term="Linux kernel compilation"/>
+
+        <updated>2025-11-29T13:58:06+05:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://ehmi.se/blog/media/posts/48/Screenshot-2025-11-29-135641.png" alt=" Linux kernel" />
+                    This article presents a methodical approach to engineering a lightweight operating system, constrained to approximately 12 megabytes, specifically designed for Internet connectivity and web server deployment. This endeavour demonstrates the viability of creating functional networked systems without the bloat associated with contemporary operating systems, whilst&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://ehmi.se/blog/media/posts/48/Screenshot-2025-11-29-135641.png" class="type:primaryImage" alt=" Linux kernel" /></p>
+                <p>This article presents a methodical approach to engineering a lightweight operating system, constrained to approximately 12 megabytes, specifically designed for Internet connectivity and web server deployment. This endeavour demonstrates the viability of creating functional networked systems without the bloat associated with contemporary operating systems, whilst maintaining sufficient capability to serve web content reliably.</p><hr>
+<h2 id="1-introduction-and-rationale">1. Introduction and Rationale</h2>
+<h3 id="the-contemporary-problem">The Contemporary Problem</h3>
+<p>Modern operating systems, Linux distributions, Windows, macOS, typically consume several gigabytes of storage. For embedded systems, IoT devices, or legacy hardware with severely limited resources, this represents an unrealistic proposition. The question thus arises: what constitutes the absolute minimum viable system capable of connecting to the Internet and hosting a functional web server?</p><h3 id="our-objective">Our Objective</h3>
+<p>We shall construct an operating system that fulfils the following requirements:</p><ul>
+<li><strong>Total footprint:</strong> approximately 12 megabytes</li>
+<li><strong>Core functionality:</strong> networking capabilities and HTTP server functionality</li>
+<li><strong>Deployment:</strong> bootable via QEMU or physical hardware</li>
+<li><strong>Architecture:</strong> x86-64 compatible for broad hardware support</li>
+</ul>
+<p>This represents a reduction of approximately 99.9% compared to typical Linux distributions.</p><hr>
+<h2 id="2-architectural-overview">2. Architectural Overview</h2>
+<h3 id="component-breakdown">Component Breakdown</h3>
+<p>A functional operating system comprises four essential components:</p><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Size</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bootloader</td>
+<td>~0.5 MB</td>
+<td>Initial system initialisation and kernel loading</td>
+</tr>
+<tr>
+<td>Linux Kernel</td>
+<td>4–6 MB</td>
+<td>Core system, networking, and device management</td>
+</tr>
+<tr>
+<td>Busybox</td>
+<td>1–2 MB</td>
+<td>Essential command-line utilities and init system</td>
+</tr>
+<tr>
+<td>Root Filesystem</td>
+<td>&lt;1 MB</td>
+<td>Configuration files, web content, system directories</td>
+</tr>
+</tbody></table>
+<p><strong>Total: approximately 12 MB</strong></p><h3 id="design-philosophy">Design Philosophy</h3>
+<p>The approach adheres to the Unix principle of doing one thing exceedingly well. Rather than attempting to build an operating system from scratch, a Herculean undertaking, we leverage established, well-tested components and strip them to their essentials.</p><hr>
+<h2 id="3-preparation-and-environment-setup">3. Preparation and Environment Setup</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Before commencing, ensure your development system possesses:</p><ul>
+<li>A Linux-based development environment (Ubuntu, Debian, or similar)</li>
+<li>Approximately 2–3 gigabytes of free disk space for compilation artefacts</li>
+<li>Essential build tools: <code>gcc</code>, <code>make</code>, <code>git</code>, <code>wget</code></li>
+<li>Moderate technical proficiency with command-line interfaces</li>
+</ul>
+<h3 id="establishing-the-build-environment">Establishing the Build Environment</h3>
+<pre><code class="language-bash"># Install requisite dependencies
+sudo apt-get update
+sudo apt-get install build-essential wget git bc ncurses-dev \
+  flex bison openssl libssl-dev libelf-dev libdw-dev \
+  binutils-dev nasm mtools qemu-system-x86
+
+# Establish project directory structure
+mkdir -p ~/minimal-os/{kernel,busybox,syslinux,rootfs/{boot,www,etc,proc,sys,dev}}
+cd ~/minimal-os
+</code></pre>
+<p>This foundational step ensures all necessary tools are available for subsequent compilation tasks.</p><hr>
+<h2 id="4-linux-kernel-compilation">4. Linux Kernel Compilation</h2>
+<h3 id="kernel-selection-and-download">Kernel Selection and Download</h3>
+<p>The Linux kernel, the heart of any Linux-based operating system, must be compiled with minimal configuration to reduce its footprint.</p><pre><code class="language-bash">cd ~/minimal-os/kernel
+wget https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.1.158.tar.xz
+tar xf linux-6.1.158.tar.xz
+cd linux-6.1.158
+</code></pre>
+<figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/48/Screenshot-2025-11-29-135641-2.png" alt="Linux-Kernel" width="1158" height="682" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/48/responsive/Screenshot-2025-11-29-135641-2-xs.webp 640w ,https://ehmi.se/blog/media/posts/48/responsive/Screenshot-2025-11-29-135641-2-sm.webp 768w ,https://ehmi.se/blog/media/posts/48/responsive/Screenshot-2025-11-29-135641-2-md.webp 1024w ,https://ehmi.se/blog/media/posts/48/responsive/Screenshot-2025-11-29-135641-2-lg.webp 1366w ,https://ehmi.se/blog/media/posts/48/responsive/Screenshot-2025-11-29-135641-2-xl.webp 1600w ,https://ehmi.se/blog/media/posts/48/responsive/Screenshot-2025-11-29-135641-2-2xl.webp 1920w"></figure><h3 id="kernel-configuration-strategy">Kernel Configuration Strategy</h3>
+<p>Rather than including drivers for every conceivable device, we shall configure the kernel exclusively for:</p><ul>
+<li>Networking capabilities (essential for Internet connectivity)</li>
+<li>Virtual block devices (e.g., SATA, virtio for QEMU compatibility)</li>
+<li>ext4 filesystem support</li>
+<li>Serial console output (invaluable for debugging)</li>
+</ul>
+<pre><code class="language-bash"># Generate minimal configuration
+cat &gt; .config &lt;&lt; &#39;EOF&#39;
+CONFIG_64BIT=y
+CONFIG_X86=y
+CONFIG_KERNEL_GZIP=y
+CONFIG_SERIAL_8250=y
+CONFIG_SERIAL_8250_CONSOLE=y
+CONFIG_NET=y
+CONFIG_INET=y
+CONFIG_NETDEVICES=y
+CONFIG_NET_CORE=y
+CONFIG_E1000=y
+CONFIG_VIRTIO_NET=y
+CONFIG_EXT4_FS=y
+CONFIG_SYSVIPC=n
+CONFIG_SYSFS=y
+CONFIG_PROC_FS=y
+CONFIG_DEVTMPFS=y
+CONFIG_DEVTMPFS_MOUNT=y
+CONFIG_UNIX=y
+CONFIG_MODULES=n
+CONFIG_DEBUG_KERNEL=n
+CONFIG_STRIP_ASM_SYMS=y
+EOF
+
+# Populate remaining configuration with sensible defaults
+make olddefconfig
+
+# Initiate compilation
+make -j$(nproc)
+
+# Verify kernel size
+ls -lh arch/x86/boot/bzImage
+</code></pre>
+<p><strong>Expected outcome:</strong> A kernel binary of 4–6 MB.</p><h3 id="compilation-considerations">Compilation Considerations</h3>
+<p>The <code>-j$(nproc)</code> flag parallelises compilation across available CPU cores, significantly reducing compilation time. On modern hardware, anticipate 10–30 minutes of compilation time.</p><p><strong>Advisory note:</strong> Should compilation failures occur, ensure all prerequisite libraries are installed. The <code>libelf-dev</code> and <code>libdw-dev</code> packages are frequently overlooked yet essential.</p><hr>
+<h2 id="5-busybox-the-swiss-army-knife">5. Busybox: The Swiss Army Knife</h2>
+<h3 id="understanding-busybox">Understanding Busybox</h3>
+<p>Busybox consolidates numerous Unix utilities into a single, statically-linked binary. Rather than maintaining separate executables for <code>ls</code>, <code>cat</code>, <code>cp</code>, et cetera, Busybox provides all functionality within approximately 1–2 megabytes.</p><h3 id="busybox-configuration">Busybox Configuration</h3>
+<pre><code class="language-bash">cd ~/minimal-os/busybox
+wget https://busybox.net/downloads/busybox-1.36.1.tar.bz2
+tar xf busybox-1.36.1.tar.bz2
+cd busybox-1.36.1
+
+# Apply minimal configuration
+cat &gt; .config &lt;&lt; &#39;EOF&#39;
+CONFIG_SH_ASH=y
+CONFIG_INIT=y
+CONFIG_MOUNT=y
+CONFIG_UMOUNT=y
+CONFIG_HOSTNAME=y
+CONFIG_IFCONFIG=y
+CONFIG_PING=y
+CONFIG_ROUTE=y
+CONFIG_DHCPC=y
+CONFIG_WGET=y
+CONFIG_HTTPD=y
+CONFIG_HTTPD_PORT=80
+CONFIG_LS=y
+CONFIG_CP=y
+CONFIG_MV=y
+CONFIG_RM=y
+CONFIG_MKDIR=y
+CONFIG_CAT=y
+CONFIG_ECHO=y
+CONFIG_FIND=y
+CONFIG_STATIC=y
+EOF
+
+# Compile with static linking
+make oldconfig
+make -j$(nproc) LDFLAGS=&quot;-static&quot;
+
+# Verify binary size
+ls -lh busybox
+</code></pre>
+<p><strong>Static linking</strong> ensures the binary operates independently, without requiring shared libraries. This is critical for embedded systems.</p><hr>
+<h2 id="6-root-filesystem-construction">6. Root Filesystem Construction</h2>
+<h3 id="directory-structure-establishment">Directory Structure Establishment</h3>
+<pre><code class="language-bash">cd ~/minimal-os/rootfs
+
+# Create essential directories
+mkdir -p {bin,sbin,etc,proc,sys,dev,var,tmp,www,boot/syslinux}
+
+# Copy compiled binaries
+cp ~/minimal-os/kernel/linux-6.1.158/arch/x86/boot/bzImage boot/kernel
+cp ~/minimal-os/busybox/busybox-1.36.1/busybox bin/
+
+# Create symbolic link
+cd bin &amp;&amp; ln -s busybox sh &amp;&amp; cd ..
+</code></pre>
+<h3 id="system-initialisation-scripts">System Initialisation Scripts</h3>
+<pre><code class="language-bash"># Create init script
+cat &gt; etc/init.d/rcS &lt;&lt; &#39;EOF&#39;
+#!/bin/sh
+mount -t proc none /proc
+mount -t sysfs none /sys
+mount -t devtmpfs none /dev
+hostname minimal-web-server
+echo &quot;Minimal Web OS Initialising...&quot;
+ifconfig lo 127.0.0.1
+udhcpc -i eth0 &amp;
+/bin/busybox httpd -h /www
+EOF
+
+chmod +x etc/init.d/rcS
+
+# Create inittab configuration
+cat &gt; etc/inittab &lt;&lt; &#39;EOF&#39;
+::sysinit:/etc/init.d/rcS
+::askfirst:/bin/sh
+::ctrlaltdel:/bin/umount -a -r
+EOF
+
+# System user files
+cat &gt; etc/passwd &lt;&lt; &#39;EOF&#39;
+root:x:0:0:root:/root:/bin/sh
+EOF
+
+cat &gt; etc/group &lt;&lt; &#39;EOF&#39;
+root:x:0:
+EOF
+</code></pre>
+<h3 id="web-content">Web Content</h3>
+<pre><code class="language-bash"># Create sample webpage
+cat &gt; www/index.html &lt;&lt; &#39;EOF&#39;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Minimal Web Server&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: &#39;Segoe UI&#39;, Tahoma, Geneva, Verdana, sans-serif; 
+               background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+               padding: 20px; margin: 0; }
+        .container { max-width: 600px; margin: 0 auto; 
+                    background: white; padding: 30px; border-radius: 8px; 
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        h1 { color: #333; margin-top: 0; }
+        .status { background: #d4edda; color: #155724; 
+                 padding: 15px; border-radius: 4px; }
+        p { color: #666; line-height: 1.6; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;h1&gt;✓ Minimal Operating System&lt;/h1&gt;
+        &lt;div class=&quot;status&quot;&gt;
+            &lt;strong&gt;Status:&lt;/strong&gt; Web server operational
+        &lt;/div&gt;
+        &lt;p&gt;This server is executing upon a custom-engineered minimal Linux operating system, constrained to approximately 12 megabytes.&lt;/p&gt;
+        &lt;p&gt;&lt;strong&gt;System Specifications:&lt;/strong&gt;&lt;/p&gt;
+        &lt;ul&gt;
+            &lt;li&gt;Total OS size: ~12 MB&lt;/li&gt;
+            &lt;li&gt;Kernel: Linux 6.1.158 (minimal configuration)&lt;/li&gt;
+            &lt;li&gt;Utilities: Busybox 1.36.1&lt;/li&gt;
+            &lt;li&gt;Web Server: Busybox httpd&lt;/li&gt;
+            &lt;li&gt;Filesystem: ext4&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+EOF
+</code></pre>
+<hr>
+<h2 id="7-bootloader-installation">7. Bootloader Installation</h2>
+<h3 id="syslinux-the-boot-manager">Syslinux: The Boot Manager</h3>
+<p>Syslinux provides a lightweight bootloader capable of loading and executing the Linux kernel.</p><pre><code class="language-bash">cd ~/minimal-os/syslinux
+wget https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.gz
+tar xf syslinux-6.03.tar.gz
+cd syslinux-6.03
+
+# Compile Syslinux
+make -j$(nproc)
+
+# Locate the bootloader binary
+find . -name &quot;syslinux.bin&quot; -type f
+</code></pre>
+<h3 id="boot-configuration">Boot Configuration</h3>
+<pre><code class="language-bash">cd ~/minimal-os/rootfs/boot/syslinux
+
+cat &gt; syslinux.cfg &lt;&lt; &#39;EOF&#39;
+PROMPT 1
+TIMEOUT 50
+DEFAULT linux
+
+LABEL linux
+    KERNEL /boot/kernel
+    APPEND root=/dev/sda1 console=ttyS0 console=tty0 quiet
+EOF
+</code></pre>
+<hr>
+<h2 id="8-creating-the-bootable-disk-image">8. Creating the Bootable Disk Image</h2>
+<h3 id="disk-image-generation">Disk Image Generation</h3>
+<pre><code class="language-bash">cd ~/minimal-os
+
+# Create 12 MB raw disk image
+dd if=/dev/zero of=disk.img bs=1M count=12
+
+# Create partition table
+(echo o; echo n; echo p; echo 1; echo ; echo ; echo w) | fdisk disk.img
+
+# Establish loop device
+LOOP=$(sudo losetup -f)
+sudo losetup $LOOP disk.img -o 1048576
+
+# Format partition
+sudo mkfs.ext4 -F $LOOP
+
+# Mount and populate
+mkdir -p mnt
+sudo mount $LOOP mnt
+sudo cp -r rootfs/* mnt/
+sudo sync
+sudo umount mnt
+
+# Install bootloader
+SYSLINUX_BIN=$(find syslinux/syslinux-6.03 -name &quot;syslinux.bin&quot; -type f | head -1)
+sudo dd if=$SYSLINUX_BIN of=disk.img bs=1 count=440 conv=notrunc
+
+# Finalisation
+sudo losetup -d $LOOP
+
+# Verification
+ls -lh disk.img
+</code></pre>
+<hr>
+<h2 id="9-deployment-and-testing">9. Deployment and Testing</h2>
+<h3 id="qemu-emulation-recommended">QEMU Emulation (Recommended)</h3>
+<p>For initial testing, QEMU provides a safe, isolated environment:</p><pre><code class="language-bash">qemu-system-x86_64 -drive file=disk.img,format=raw \
+  -m 256 \
+  -netdev user,id=net0 \
+  -device e1000,netdev=net0 \
+  -nographic \
+  -serial mon:stdio
+</code></pre>
+<h3 id="expected-behaviour">Expected Behaviour</h3>
+<p>Upon boot, you should observe:</p><ol>
+<li>Bootloader initialisation via Syslinux</li>
+<li>Kernel loading and initialisation messages</li>
+<li>Network interface configuration via DHCP</li>
+<li>Web server activation on port 80</li>
+<li>System ready for incoming HTTP requests</li>
+</ol>
+<h3 id="testing-connectivity">Testing Connectivity</h3>
+<pre><code class="language-bash"># From your host system (in another terminal)
+# If using QEMU user networking, access at localhost
+
+# Get IP from QEMU output, then:
+curl http://192.168.x.x
+# Should return your HTML page
+</code></pre>
+<h3 id="physical-hardware-deployment-advanced">Physical Hardware Deployment (Advanced)</h3>
+<p><strong>Caution:</strong> This operation will overwrite your target storage device.</p><pre><code class="language-bash"># Write to USB drive (replace sdX with your device)
+sudo dd if=disk.img of=/dev/sdX bs=4M conv=fsync
+sudo sync
+</code></pre>
+<hr>
+<h2 id="10-optimisation-and-troubleshooting">10. Optimisation and Troubleshooting</h2>
+<h3 id="size-reduction-strategies">Size Reduction Strategies</h3>
+<p>Should your system exceed 12 MB, consider:</p><ol>
+<li><strong>Binary stripping:</strong> <code>strip ~/minimal-os/rootfs/bin/busybox</code></li>
+<li><strong>Kernel compression:</strong> Enable XZ compression in <code>CONFIG_KERNEL_XZ</code></li>
+<li><strong>Minimal configuration:</strong> Disable unused Busybox utilities</li>
+<li><strong>Filesystem optimisation:</strong> Remove unnecessary files from <code>/var</code></li>
+</ol>
+<h3 id="common-issues-and-remedies">Common Issues and Remedies</h3>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Kernel fails to compile</td>
+<td>Reinstall <code>libelf-dev</code>, <code>libdw-dev</code></td>
+</tr>
+<tr>
+<td>Network unreachable</td>
+<td>Verify <code>CONFIG_NETDEVICES=y</code> and <code>CONFIG_E1000=y</code></td>
+</tr>
+<tr>
+<td>Web server won’t start</td>
+<td>Check <code>/www/index.html</code> exists and permissions</td>
+</tr>
+<tr>
+<td>Boot hangs at Syslinux</td>
+<td>Verify kernel path in <code>syslinux.cfg</code> is correct</td>
+</tr>
+<tr>
+<td>Filesystem corruption</td>
+<td>Regenerate disk image from scratch</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="11-conclusions-and-future-considerations">11. Conclusions and Future Considerations</h2>
+<h3 id="achievements">Achievements</h3>
+<p>Through this exercise, we have demonstrated:</p><ul>
+<li>The viability of creating functional operating systems at minimal scale</li>
+<li>The efficacy of leveraging established open-source components</li>
+<li>The potential for deploying systems on severely constrained hardware</li>
+</ul>
+<h3 id="practical-applications">Practical Applications</h3>
+<p>Such minimalist systems prove invaluable for:</p><ul>
+<li>Embedded IoT devices</li>
+<li>Legacy hardware revitalisation</li>
+<li>Disaster recovery and minimal boot environments</li>
+<li>Educational purposes and systems programming study</li>
+<li>Network-attached storage (NAS) on minimal hardware</li>
+</ul>
+<h3 id="further-enhancements">Further Enhancements</h3>
+<p>For production deployment, one might consider:</p><ul>
+<li>Integration with Docker for containerised applications</li>
+<li>Implementation of systemd for more sophisticated service management</li>
+<li>SSL/TLS support for secure web communications</li>
+<li>Database integration for dynamic content generation</li>
+<li>Automated deployment via cloud-init or similar technologies</li>
+</ul>
+<hr>
+<h2 id="12-final-remarks">12. Final Remarks</h2>
+<p>The construction of a minimal operating system represents not merely a technical exercise, but a valuable reminder that contemporary bloat is not inevitable. By understanding the constituent components of an operating system and making deliberate design choices, one can create systems that are simultaneously powerful and parsimonious in their resource consumption.</p><p>This approach, building only what is necessary, remains a cornerstone principle of excellent engineering, whether applied to operating systems, software architecture, or infrastructure design.</p><hr>
+<h2 id="appendix-a-complete-build-script">Appendix A: Complete Build Script</h2>
+<p>For those preferring automation:</p><pre><code class="language-bash">#!/bin/bash
+set -e
+
+cd ~/minimal-os
+
+echo &quot;=== Compiling Linux Kernel ===&quot;
+cd kernel/linux-6.1.158
+make -j$(nproc)
+cp arch/x86/boot/bzImage ../../../rootfs/boot/kernel
+
+echo &quot;=== Compiling Busybox ===&quot;
+cd ~/minimal-os/busybox/busybox-1.36.1
+make -j$(nproc) LDFLAGS=&quot;-static&quot;
+cp busybox ../../rootfs/bin/
+cd ../../rootfs/bin &amp;&amp; ln -sf busybox sh
+
+echo &quot;=== Building Syslinux ===&quot;
+cd ~/minimal-os/syslinux/syslinux-6.03
+make -j$(nproc)
+
+echo &quot;=== Creating Disk Image ===&quot;
+cd ~/minimal-os
+dd if=/dev/zero of=disk.img bs=1M count=12
+(echo o; echo n; echo p; echo 1; echo ; echo ; echo w) | fdisk disk.img
+
+LOOP=$(sudo losetup -f)
+sudo losetup $LOOP disk.img -o 1048576
+sudo mkfs.ext4 -F $LOOP
+mkdir -p mnt
+sudo mount $LOOP mnt
+sudo cp -r rootfs/* mnt/
+sudo sync
+sudo umount mnt
+
+SYSLINUX_BIN=$(find syslinux/syslinux-6.03 -name &quot;syslinux.bin&quot; | head -1)
+sudo dd if=$SYSLINUX_BIN of=disk.img bs=1 count=440 conv=notrunc
+sudo losetup -d $LOOP
+
+echo &quot;✓ Build complete!&quot;
+ls -lh disk.img
+</code></pre>
+<hr>
+<h2 id="references">References</h2>
+<ul>
+<li>Linux Kernel Documentation: <a href="https://www.kernel.org/doc/">https://www.kernel.org/doc/</a></li>
+<li>Busybox Project: <a href="https://busybox.net/">https://busybox.net/</a></li>
+<li>Syslinux Project: <a href="https://syslinux.org/">https://syslinux.org/</a></li>
+<li>QEMU Documentation: <a href="https://www.qemu.org/documentation/">https://www.qemu.org/documentation/</a></li>
+</ul>
+
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>How to Use Discord Webhook with Examples: The Ultimate Step-by-Step Guide</title>
         <author>
@@ -1132,147 +1705,6 @@ entryPoints:
 <li>✅ Verifying protects you from lies.</li>
 </ul>
 <p>Get comfortable with these basics, and you’ll be ready for secure comms like a professional.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Fixing SSH Login Errors Due to Improper Home Directory Permissions</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://ehmi.se/blog/fixing-ssh-login-errors-due-to-improper-home-directory-permissions/"/>
-        <id>https://ehmi.se/blog/fixing-ssh-login-errors-due-to-improper-home-directory-permissions/</id>
-
-        <updated>2025-05-07T09:13:06+05:00</updated>
-            <summary>
-                <![CDATA[
-                    When configuring SSH access for a user on a Linux system, one common issue that can block login attempts is improper file or directory permissions. A real-world example of this involves the error: Authentication refused: bad ownership or modes for directory /home/username This error typically&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>When configuring SSH access for a user on a Linux system, one common issue that can block login attempts is improper file or directory permissions. A real-world example of this involves the error:</p><pre><code>Authentication refused: bad ownership or modes for directory /home/username
-</code></pre>
-<p>This error typically occurs when the SSH daemon (<code>sshd</code>) detects that the user’s home directory permissions are too permissive, which is considered a security risk. In this case, the SSH server rejects the login attempt even if the credentials or SSH keys are correct.</p><h3 id="understanding-the-problem">Understanding the Problem</h3>
-<p>The SSH daemon is configured to reject connections if the user’s home directory or <code>.ssh</code> directory is writable by group or others. This protects against unauthorized access or tampering of sensitive files such as <code>authorized_keys</code>.</p><p>In the case encountered, the user’s home directory had overly permissive ownership and permissions on files such as:</p><ul>
-<li>Files owned by <code>root</code> instead of the user.</li>
-<li>Files with <code>777</code> or <code>766</code> permissions, making them writable by group and others.</li>
-<li>A <code>.ssh</code> directory or <code>authorized_keys</code> file with insecure permissions.</li>
-</ul>
-<h3 id="solution">Solution</h3>
-<p>To resolve the issue, the following steps were taken:</p><ol>
-<li><p><strong>Corrected ownership</strong> of the user’s home directory and its contents:</p><pre><code class="language-bash">sudo chown -R username:username /home/username
-</code></pre>
-</li>
-<li><p><strong>Set the proper permissions</strong> for the home and <code>.ssh</code> directories:</p><pre><code class="language-bash">chmod 700 /home/username
-chmod 700 /home/username/.ssh
-chmod 600 /home/username/.ssh/authorized_keys
-</code></pre>
-</li>
-<li><p><strong>Restarted the SSH service</strong> to apply the changes:</p><pre><code class="language-bash">sudo systemctl restart ssh
-</code></pre>
-</li>
-</ol>
-<p>Once these corrections were made, SSH logins via key-based authentication succeeded without further issues.</p><h3 id="best-practices">Best Practices</h3>
-<ul>
-<li>Always ensure <code>.ssh</code> directories and <code>authorized_keys</code> files are owned by the user and not writable by others.</li>
-<li>Avoid placing files with <code>root</code> ownership or world-writeable permissions inside the user’s home directory when SSH access is needed.</li>
-<li>Use <code>journalctl -u ssh</code> or review <code>/var/log/auth.log</code> for specific error messages when troubleshooting SSH issues.</li>
-</ul>
-<p>By securing directory permissions appropriately, SSH can operate safely and efficiently, helping maintain the integrity of remote access setups.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>How to Enable Remote Shutdown on Windows 10/11 (Step-by-Step!)</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://ehmi.se/blog/how-to-enable-remote-shutdown-on-windows-1011-step-by-step/"/>
-        <id>https://ehmi.se/blog/how-to-enable-remote-shutdown-on-windows-1011-step-by-step/</id>
-
-        <updated>2025-04-29T08:28:56+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Hey everyone! Today, I’m going to show you exactly how to enable remote shutdown on a Windows machine — and we’ll do it the right way, step-by-step. I’ll make it simple, and practical, so you can test this in your own home lab. Let’s dive&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Hey everyone!</p><p>Today, I’m going to <strong>show you exactly</strong> how to <strong>enable remote shutdown</strong> on a Windows machine — and we’ll do it the <strong>right way</strong>, step-by-step.</p><p>I’ll make it simple, and practical, so you can <strong>test this in your own home lab</strong>.</p><p>Let’s dive right in! 🚀</p><hr>
-<h2 id="💻-why-remote-shutdown">💻 Why Remote Shutdown?</h2>
-<p>Imagine you have a <strong>Linux</strong> machine and a <strong>Windows PC</strong> on the same network.<br>You want to shut down Windows remotely — <strong>maybe for automation</strong>, <strong>maybe for saving power</strong> — whatever your reason, it’s a very useful tool for labs and real environments!</p><hr>
-<h2 id="🚨-windows-doesnt-allow-remote-shutdown-by-default">🚨 Windows doesn’t allow remote shutdown by default!</h2>
-<p>Windows, especially <strong>Windows 10/11 Pro</strong>, is <strong>secure by default</strong>.<br>You have to <strong>enable a few features</strong> manually before it accepts remote shutdown commands.</p><hr>
-<h2 id="🛠️-heres-the-full-setup">🛠️ Here’s the Full Setup</h2>
-<h3 id="step-1-make-sure-you-have-a-local-admin-account">Step 1: Make sure you have a <strong>Local Admin Account</strong></h3>
-<p>✅ If you’re using a <strong>Microsoft Online Account</strong> (your email login),<br>Windows gets <em>really strict</em> about permissions.</p><p><strong>Best Practice</strong>:</p><ul>
-<li>Create a <strong>local admin account</strong> just for remote tasks.</li>
-<li><strong>OR</strong> ensure your Microsoft account has Admin privileges.</li>
-</ul>
-<hr>
-<h3 id="step-2-enable-necessary-windows-services">Step 2: Enable Necessary Windows Services</h3>
-<p>✅ Open <strong>services.msc</strong> (<code>Win + R</code>, type <code>services.msc</code>, Enter).</p><p>✅ Make sure these services are <strong>running</strong>:</p><ul>
-<li><strong>Server</strong> (LanmanServer)</li>
-<li><strong>Workstation</strong> (LanmanWorkstation)</li>
-<li><strong>Remote Registry</strong> (RemoteRegistry)</li>
-</ul>
-<figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/38/Screenshot-2025-04-29-082211.png" alt="Remote Registry" width="389" height="268" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-xs.webp 640w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-sm.webp 768w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-md.webp 1024w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-lg.webp 1366w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-xl.webp 1600w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082211-2xl.webp 1920w"></figure><p>👉 <strong>If any of these are stopped</strong>, right-click → <strong>Start</strong> them.</p><p>👉 Set <strong>Startup Type = Automatic</strong> for all.</p><hr>
-<h3 id="step-3-fix-user-rights-assignment-if-broken">Step 3: Fix User Rights Assignment (If Broken)</h3>
-<p>Sometimes you’ll see errors like:</p><p>✅ In that case, reset your security policies safely:</p><p>Open <strong>Command Prompt as Administrator</strong> and run:</p><pre><code class="language-bash">secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
-</code></pre>
-<p>✅ <strong>Reboot</strong> your machine after running that.</p><hr>
-<h3 id="step-4-set-shutdown-permissions">Step 4: Set Shutdown Permissions</h3>
-<p>Now, let’s allow remote shutdowns <strong>explicitly</strong>.</p><p>✅ Open <strong>secpol.msc</strong> (<code>Win + R</code>, type <code>secpol.msc</code>, Enter).</p><p>Go to:</p><ul>
-<li><strong>Local Policies → User Rights Assignment</strong>.</li>
-</ul>
-<p>Edit these two policies:</p><ul>
-<li><p><strong>Shut down the system</strong> → Add your user (or group like Administrators).
-<figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/38/Screenshot-2025-04-29-082507.png" alt="Shut down the system" width="321" height="21" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-xs.webp 640w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-sm.webp 768w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-md.webp 1024w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-lg.webp 1366w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-xl.webp 1600w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082507-2xl.webp 1920w"></figure></p></li>
-<li><p><strong>Force shutdown from a remote system</strong> → Add your user.
-<figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/38/Screenshot-2025-04-29-082441-2.png" alt="Force shutdown from a remote system" width="363" height="34" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-xs.webp 640w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-sm.webp 768w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-md.webp 1024w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-lg.webp 1366w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-xl.webp 1600w ,https://ehmi.se/blog/media/posts/38/responsive/Screenshot-2025-04-29-082441-2-2xl.webp 1920w"></figure></p></li>
-</ul>
-<p>✅ Click <strong>Apply</strong> after each.</p><hr>
-<h3 id="step-5-check-firewall-settings">Step 5: Check Firewall Settings</h3>
-<p>Windows Firewall <strong>blocks remote shutdown</strong> by default.</p><p>✅ Open <strong>Windows Defender Firewall → Advanced Settings</strong>.</p><ul>
-<li>Click <strong>Inbound Rules</strong> → Find <strong>Windows Management Instrumentation (WMI-In)</strong>.</li>
-<li><strong>Enable</strong> it.</li>
-</ul>
-<p>✅ If you can’t find it, you can also <strong>create a custom inbound rule</strong> to allow ports <strong>135, 445, 139</strong> (SMB/RPC ports).</p><hr>
-<h2 id="🔥-final-test-from-linux">🔥 Final Test from Linux</h2>
-<p>From your <strong>Linux machine</strong>, you can now send a shutdown command:</p><pre><code class="language-bash">net rpc shutdown -I &lt;Windows-IP&gt; -U &quot;&lt;username&gt;%&lt;password&gt;&quot;
-</code></pre>
-<p>Example:</p><pre><code class="language-bash">net rpc shutdown -I 10.1.1.5 -U &quot;labadmin%SuperSecretPassword&quot;
-</code></pre>
-<p>✅ If you set everything up correctly, Windows will <strong>start shutting down</strong> remotely!</p><hr>
-<h1 id="💥-troubleshooting">💥 Troubleshooting</h1>
-<table>
-<thead>
-<tr>
-<th align="left">Problem</th>
-<th align="left">Solution</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">WERR_CALL_NOT_IMPLEMENTED</td>
-<td align="left">Services not running (check Server/Workstation).</td>
-</tr>
-<tr>
-<td align="left">An attempt was made to reference a token</td>
-<td align="left">Run <code>secedit /configure</code>, reboot.</td>
-</tr>
-<tr>
-<td align="left">Permission denied</td>
-<td align="left">Make sure your user is added to the shutdown rights policies.</td>
-</tr>
-<tr>
-<td align="left">Firewall blocks request</td>
-<td align="left">Allow WMI and RPC ports in Windows Firewall.</td>
-</tr>
-</tbody></table>
-<hr>
-<h1 id="🎯-conclusion">🎯 Conclusion</h1>
-<p>There you go! Now you can <strong>remotely shut down</strong> your Windows machine like a pro.<br>This is <strong>great for labs</strong>, <strong>automated environments</strong>, or even <strong>home networks</strong> where you want full control.</p><p>🔵 <strong>Remember</strong>: Always use this carefully — shutting down someone else’s PC without permission is illegal.<br>In labs = fine. In real life = be responsible.</p>
             ]]>
         </content>
     </entry>

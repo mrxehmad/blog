@@ -33,8 +33,36 @@
 <lastmod>2024-11-14T11:19:08+05:00</lastmod>
 </url>
 <url>
+<loc>https://ehmi.se/blog/building-a-unified-deployment-pipeline-merging-three-applications-into-one-coherent-site/</loc>
+<lastmod>2025-11-29T14:07:29+05:00</lastmod>
+<image:image>
+<image:loc>https://ehmi.se/blog/media/posts/49/Screenshot-2025-11-29-140413-2.png</image:loc>
+<image:title><![CDATA[Git repo mrxehmad ehmi-se-unified build]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://ehmi.se/blog/media/posts/49/Screenshot-2025-11-29-140227.png</image:loc>
+<image:title><![CDATA[Git repo mrxehmad ehmi-se-unified]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://ehmi.se/blog/media/posts/49/Screenshot-2025-11-29-140413.png</image:loc>
+<image:title><![CDATA[Git repo mrxehmad ehmi-se-unified build]]></image:title>
+</image:image>
+</url>
+<url>
 <loc>https://ehmi.se/blog/configure-nginx-with-a-self-signed-ssl-certificate-for-a-domain/</loc>
 <lastmod>2024-11-25T19:39:13+05:00</lastmod>
+</url>
+<url>
+<loc>https://ehmi.se/blog/constructing-a-minimal-12mb-operating-system-for-web-hosting-a-comprehensive-technical-guide/</loc>
+<lastmod>2025-11-29T14:08:31+05:00</lastmod>
+<image:image>
+<image:loc>https://ehmi.se/blog/media/posts/48/Screenshot-2025-11-29-135641.png</image:loc>
+<image:title><![CDATA[ Linux kernel]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://ehmi.se/blog/media/posts/48/Screenshot-2025-11-29-135641-2.png</image:loc>
+<image:title><![CDATA[Linux-Kernel]]></image:title>
+</image:image>
 </url>
 <url>
 <loc>https://ehmi.se/blog/contact-us/</loc>
