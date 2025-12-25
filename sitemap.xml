@@ -85,6 +85,18 @@
 <lastmod>2025-05-07T09:13:12+05:00</lastmod>
 </url>
 <url>
+<loc>https://ehmi.se/blog/fixing-traefik-v3-encoded-character-blocking-with-pi-hole/</loc>
+<lastmod>2025-12-25T12:59:57+05:00</lastmod>
+<image:image>
+<image:loc>https://ehmi.se/blog/media/posts/51/Screenshot-2025-12-25-125520.png</image:loc>
+<image:title><![CDATA[traefik path documantation]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://ehmi.se/blog/media/posts/51/Screenshot-2025-12-25-125856.png</image:loc>
+<image:title><![CDATA[traefik dashboard]]></image:title>
+</image:image>
+</url>
+<url>
 <loc>https://ehmi.se/blog/fixing-uefi-shell-boot-issues-on-chromebook-with-mrchromebox-firmware/</loc>
 <lastmod>2025-12-20T10:43:24+05:00</lastmod>
 </url>
@@ -182,6 +194,9 @@
 </url>
 <url>
 <loc>https://ehmi.se/blog/opera/</loc>
+</url>
+<url>
+<loc>https://ehmi.se/blog/page/10/</loc>
 </url>
 <url>
 <loc>https://ehmi.se/blog/page/2/</loc>

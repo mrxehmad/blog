@@ -3,12 +3,220 @@
     <title>Ehmi</title>
     <link href="https://ehmi.se/blog/feed.xml" rel="self" />
     <link href="https://ehmi.se/blog" />
-    <updated>2025-12-20T10:43:24+05:00</updated>
+    <updated>2025-12-25T12:59:57+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://ehmi.se/blog</id>
 
+    <entry>
+        <title>Fixing Traefik v3 Encoded Character Blocking with Pi-hole</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://ehmi.se/blog/fixing-traefik-v3-encoded-character-blocking-with-pi-hole/"/>
+        <id>https://ehmi.se/blog/fixing-traefik-v3-encoded-character-blocking-with-pi-hole/</id>
+        <media:content url="https://ehmi.se/blog/media/posts/51/Screenshot-2025-12-25-125520.png" medium="image" />
+            <category term="tutorial"/>
+            <category term="Devops"/>
+
+        <updated>2025-12-25T12:54:35+05:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://ehmi.se/blog/media/posts/51/Screenshot-2025-12-25-125520.png" alt="traefik path documantation" />
+                    If you’re running Pi-hole behind Traefik v3 as a reverse proxy, you may encounter a frustrating error when trying to manage regex-based domain blocking rules. The Pi-hole web interface returns a 400 Bad Request error, and your Traefik logs show messages like: Rejecting request because&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://ehmi.se/blog/media/posts/51/Screenshot-2025-12-25-125520.png" class="type:primaryImage" alt="traefik path documantation" /></p>
+                <p>If you’re running Pi-hole behind Traefik v3 as a reverse proxy, you may encounter a frustrating error when trying to manage regex-based domain blocking rules. The Pi-hole web interface returns a 400 Bad Request error, and your Traefik logs show messages like:</p><pre><code>Rejecting request because it contains encoded character %5C in the URL path: /api/domains/deny/regex/(%5E%7C%5C.)(cn)%24
+Rejecting request because it contains encoded character %3F in the URL path: /api/domains/deny/regex/(%3Fi)vpn
+</code></pre>
+<p>This happens when you try to enable, disable, or modify domain groups that contain regex patterns in Pi-hole’s admin interface.</p><figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/51/Screenshot-2025-12-25-125856.png" alt="traefik dashboard" width="1898" height="989" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/51/responsive/Screenshot-2025-12-25-125856-xs.webp 640w ,https://ehmi.se/blog/media/posts/51/responsive/Screenshot-2025-12-25-125856-sm.webp 768w ,https://ehmi.se/blog/media/posts/51/responsive/Screenshot-2025-12-25-125856-md.webp 1024w ,https://ehmi.se/blog/media/posts/51/responsive/Screenshot-2025-12-25-125856-lg.webp 1366w ,https://ehmi.se/blog/media/posts/51/responsive/Screenshot-2025-12-25-125856-xl.webp 1600w ,https://ehmi.se/blog/media/posts/51/responsive/Screenshot-2025-12-25-125856-2xl.webp 1920w"></figure><h2 id="why-does-this-happen">Why Does This Happen?</h2>
+<p>Traefik v3 introduced a security feature that blocks HTTP requests containing certain URL-encoded characters in the path. This is designed to prevent path traversal attacks and other security vulnerabilities. The blocked characters include:</p><ul>
+<li><code>%2F</code> - Forward slash (/)</li>
+<li><code>%5C</code> - Backslash ()</li>
+<li><code>%00</code> - Null character</li>
+<li><code>%3B</code> - Semicolon (;)</li>
+<li><code>%25</code> - Percent (%)</li>
+<li><code>%3F</code> - Question mark (?)</li>
+<li><code>%23</code> - Hash (#)</li>
+</ul>
+<p>Pi-hole’s API uses regex patterns for domain blocking, and these patterns often contain special characters like <code>(?i)</code> for case-insensitive matching or <code>\.</code> for literal dots. When the Pi-hole web interface sends these patterns to the API, they’re URL-encoded (e.g., <code>\</code> becomes <code>%5C</code>, <code>?</code> becomes <code>%3F</code>).</p><p>Traefik v3 sees these encoded characters and rejects the request before it even reaches Pi-hole, resulting in the 400 error.</p><h2 id="the-investigation">The Investigation</h2>
+<p>The issue becomes clear when comparing direct access to Pi-hole versus access through Traefik:</p><p><strong>Works (Direct HTTP access):</strong></p><pre><code class="language-bash">curl &#39;http://10.1.15.10:8000/api/domains/deny/regex/(%5E%7C%5C.)(cn)%24&#39; \
+  -X PUT \
+  -H &#39;Content-Type: application/json&#39; \
+  --data-raw &#39;{&quot;groups&quot;:[0,1,2,3],&quot;comment&quot;:&quot;cn stuff&quot;,&quot;enabled&quot;:true,&quot;type&quot;:&quot;deny&quot;,&quot;kind&quot;:&quot;regex&quot;}&#39;
+</code></pre>
+<p><strong>Fails (Through Traefik HTTPS):</strong></p><pre><code class="language-bash">curl &#39;https://pihole.example.com/api/domains/deny/regex/(%5E%7C%5C.)(cn)%24&#39; \
+  -X PUT \
+  -H &#39;Content-Type: application/json&#39; \
+  --data-raw &#39;{&quot;groups&quot;:[0,1,2,3],&quot;comment&quot;:&quot;cn stuff&quot;,&quot;enabled&quot;:true,&quot;type&quot;:&quot;deny&quot;,&quot;kind&quot;:&quot;regex&quot;}&#39;
+</code></pre>
+<p>The URL encoding is identical in both cases, confirming that Traefik is the culprit, not the client or Pi-hole.</p><h2 id="the-solution">The Solution</h2>
+<p>Traefik v3.2 and later versions include configuration options to allow specific encoded characters. You need to modify your Traefik static configuration file.</p><h3 id="step-1-update-your-traefikyaml">Step 1: Update Your traefik.yaml</h3>
+<p>Add the <code>encodedCharacters</code> configuration under your HTTPS entrypoint. This configuration was introduced in Traefik v3.2 and allows you to selectively permit encoded characters in URL paths.</p><p><strong>Reference:</strong> <a href="https://doc.traefik.io/traefik/routing/entrypoints/#requestpath">Traefik Documentation - Request Path</a></p><pre><code class="language-yaml">entryPoints:
+  web:
+    address: &quot;:80&quot;
+  websecure:
+    address: &quot;:443&quot;
+    http3: {}
+    http:
+      encodedCharacters:
+        allowEncodedSlash: true          # %2F - Forward slash
+        allowEncodedBackSlash: true      # %5C - Backslash (Required for Pi-hole)
+        allowEncodedNullCharacter: true  # %00 - Null character
+        allowEncodedSemicolon: true      # %3B - Semicolon
+        allowEncodedPercent: true        # %25 - Percent sign
+        allowEncodedQuestionMark: true   # %3F - Question mark (Required for Pi-hole)
+        allowEncodedHash: true           # %23 - Hash/pound sign
+
+api:
+  dashboard: true
+  insecure: true
+
+providers:
+  docker:
+    exposedByDefault: false
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+
+certificatesResolvers:
+  cloudflare:
+    acme:
+      email: your-email@example.com
+      storage: /letsencrypt/acme.json
+      dnsChallenge:
+        provider: cloudflare
+        delayBeforeCheck: 90
+        resolvers:
+          - &quot;1.1.1.1:53&quot;
+          - &quot;1.0.0.1:53&quot;
+
+log:
+  level: INFO
+</code></pre>
+<p><strong>Important:</strong> The most critical settings for Pi-hole are:</p><ul>
+<li><code>allowEncodedBackSlash: true</code> - Required for <code>\</code> in regex patterns</li>
+<li><code>allowEncodedQuestionMark: true</code> - Required for <code>?</code> in regex patterns like <code>(?i)</code></li>
+</ul>
+<p>All seven encoded character options are needed to fully support Pi-hole’s regex functionality.</p><h3 id="step-2-verify-your-pi-hole-dynamic-configuration">Step 2: Verify Your Pi-hole Dynamic Configuration</h3>
+<p>Your Pi-hole dynamic configuration (<code>pihole.yaml</code>) should remain simple:</p><pre><code class="language-yaml">http:
+  middlewares:
+    https-redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  routers:
+    pihole-redirect:
+      rule: &quot;Host(`pihole.example.com`)&quot;
+      entryPoints:
+        - web
+      middlewares:
+        - https-redirect
+      service: noop@internal
+    
+    pihole:
+      rule: &quot;Host(`pihole.example.com`)&quot;
+      entryPoints:
+        - websecure
+      service: pihole
+      tls:
+        certResolver: cloudflare
+
+  services:
+    pihole:
+      loadBalancer:
+        servers:
+          - url: &quot;http://pihole:80&quot;
+</code></pre>
+<h3 id="step-3-apply-the-changes">Step 3: Apply the Changes</h3>
+<p>Restart Traefik to apply the new configuration:</p><pre><code class="language-bash">docker restart traefik
+</code></pre>
+<p>Or if using docker-compose:</p><pre><code class="language-bash">docker-compose restart traefik
+</code></pre>
+<h3 id="step-4-verify-the-fix">Step 4: Verify the Fix</h3>
+<p>Check your Traefik logs to ensure the rejection messages are gone:</p><pre><code class="language-bash">docker logs traefik -f
+</code></pre>
+<p>You should no longer see messages like “Rejecting request because it contains encoded character”.</p><p>Test by trying to enable or disable a regex domain rule in Pi-hole’s web interface. It should now work without errors.</p><h2 id="important-security-considerations">Important Security Considerations</h2>
+<p>Allowing encoded characters reduces some of Traefik’s built-in security protections against path traversal and injection attacks. Consider these points:</p><ol>
+<li><strong>Understand the risks</strong>: Each allowed character opens a potential attack vector if your backend doesn’t properly validate input</li>
+<li><strong>Pi-hole validation</strong>: Pi-hole validates regex patterns, but ensure you’re running the latest version with security patches</li>
+<li><strong>Network segmentation</strong>: Keep your Pi-hole and Traefik on a trusted internal network, not directly exposed to the internet</li>
+<li><strong>Monitor logs</strong>: Regularly check Traefik and Pi-hole logs for suspicious activity</li>
+<li><strong>Regular updates</strong>: Keep both Traefik and Pi-hole updated to the latest versions</li>
+<li><strong>Alternative approach</strong>: If security is paramount, consider using the separate entrypoint method (see Alternative Solutions below) to limit the scope of allowed encoded characters</li>
+</ol>
+<h2 id="alternative-solutions">Alternative Solutions</h2>
+<p>If you prefer not to allow encoded characters globally, here are alternatives:</p><h3 id="option-1-create-a-separate-entrypoint-for-pi-hole">Option 1: Create a Separate Entrypoint for Pi-hole</h3>
+<pre><code class="language-yaml">entryPoints:
+  web:
+    address: &quot;:80&quot;
+  websecure:
+    address: &quot;:443&quot;
+    http3: {}
+  pihole-secure:
+    address: &quot;:8443&quot;
+    http3: {}
+    http:
+      encodedCharacters:
+        allowEncodedBackSlash: true
+        allowEncodedQuestionMark: true
+</code></pre>
+<p>Then update your Pi-hole router to use <code>pihole-secure</code> entrypoint and access Pi-hole at <code>https://pihole.example.com:8443</code>.</p><h3 id="option-2-use-nginx-as-an-intermediary">Option 2: Use Nginx as an Intermediary</h3>
+<p>Place an Nginx container between Traefik and Pi-hole:</p><pre><code class="language-nginx">server {
+    listen 8080;
+    location / {
+        proxy_pass http://pihole:80;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+</code></pre>
+<p>Point Traefik to Nginx instead of directly to Pi-hole.</p><h3 id="option-3-downgrade-to-traefik-v2">Option 3: Downgrade to Traefik v2</h3>
+<p>Traefik v2.11 doesn’t have this encoded character restriction and works with Pi-hole out of the box:</p><pre><code class="language-yaml">services:
+  traefik:
+    image: traefik:v2.11
+</code></pre>
+<h2 id="common-pitfalls">Common Pitfalls</h2>
+<h3 id="yaml-indentation-errors">YAML Indentation Errors</h3>
+<p>YAML is strict about indentation. Use spaces, not tabs. The <code>http:</code> section must be properly indented under <code>websecure:</code>:</p><pre><code class="language-yaml">websecure:
+  address: &quot;:443&quot;
+  http3: {}
+  http:              # Two spaces
+    encodedCharacters: # Four spaces
+      allowEncodedBackSlash: true # Six spaces
+</code></pre>
+<h3 id="configuration-not-loading">Configuration Not Loading</h3>
+<p>If you see “field not found, node: encodedPath” errors, you’re using an older Traefik version or incorrect syntax. The <code>encodedCharacters</code> configuration was introduced in Traefik v3.2. Check your version:</p><pre><code class="language-bash">docker exec traefik traefik version
+</code></pre>
+<h3 id="changes-not-taking-effect">Changes Not Taking Effect</h3>
+<p>After modifying <code>traefik.yaml</code>, you must restart Traefik. Simply reloading dynamic configuration isn’t enough for static configuration changes.</p><h2 id="testing-your-configuration">Testing Your Configuration</h2>
+<p>After applying the fix, test with a real curl command:</p><pre><code class="language-bash">curl &#39;https://pihole.example.com/api/domains/deny/regex/(%3Fi)vpn&#39; \
+  -X PUT \
+  -H &#39;Content-Type: application/json; charset=UTF-8&#39; \
+  -H &#39;Cookie: sid=YOUR_SESSION_ID&#39; \
+  -H &#39;X-CSRF-TOKEN: YOUR_CSRF_TOKEN&#39; \
+  --data-raw &#39;{&quot;groups&quot;:[0],&quot;comment&quot;:&quot;test&quot;,&quot;enabled&quot;:false,&quot;type&quot;:&quot;deny&quot;,&quot;kind&quot;:&quot;regex&quot;}&#39;
+</code></pre>
+<p>A successful response (200 OK) indicates the fix is working.</p><h2 id="conclusion">Conclusion</h2>
+<p>The encoded character blocking in Traefik v3 is a security feature that can interfere with legitimate applications like Pi-hole that use special characters in their API paths. By carefully configuring the <code>encodedCharacters</code> settings in your Traefik static configuration, you can allow Pi-hole to function properly while maintaining reasonable security.</p><p>Remember to only enable the specific encoded characters you need, keep your systems updated, and ensure your backend applications properly validate input.</p><h2 id="additional-resources">Additional Resources</h2>
+<ul>
+<li><a href="https://doc.traefik.io/traefik/">Traefik v3 Documentation</a></li>
+<li><a href="https://doc.traefik.io/traefik/routing/entrypoints/#requestpath">Traefik Request Path Documentation</a></li>
+<li><a href="https://docs.pi-hole.net/">Pi-hole Documentation</a></li>
+<li><a href="https://github.com/traefik/traefik">Traefik GitHub Repository</a></li>
+</ul>
+<hr>
+<p><em>Article last updated: December 2025 for Traefik v3.6.5 and Pi-hole v5</em> *</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Fixing UEFI Shell Boot Issues on Chromebook with MrChromebox Firmware</title>
         <author>
@@ -1495,207 +1703,6 @@ entryPoints:
 <li>🧭 Organizing the Traefik dashboard</li>
 </ul>
 <p>Ready for Part 2?</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>How to Use Vim: A Guide for Dummies</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://ehmi.se/blog/how-to-use-vim-a-guide-for-dummies/"/>
-        <id>https://ehmi.se/blog/how-to-use-vim-a-guide-for-dummies/</id>
-
-        <updated>2025-05-07T19:30:24+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Hey there! If you’re new to Vim like me and feeling a bit lost, don’t worry i am too —this guide is written just for us :3. Vim is a super powerful text editor, but it’s not like the usual ones you might be used&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Hey there! If you’re new to Vim like me and feeling a bit lost, don’t worry i am too —this guide is written just for us :3. Vim is a super powerful text editor, but it’s not like the usual ones you might be used to (like Notepad or Word). It’s got a bit of a learning curve, but once you get the hang of it, you’ll feel like a text-editing wizard. Let’s break it down step by step, and I’ll keep it simple. Plus, there’s a handy cheat sheet at the end to keep you on track!</p><h2 id="what-is-vim">What is Vim?</h2>
-<p>Vim stands for “Vi Improved.” It’s a text editor that’s been around forever and is loved by people who code or work with text a lot. Why? Because it’s fast and you don’t need a mouse—everything’s done with the keyboard. That might sound weird at first, but stick with me—it’s worth it!</p><h2 id="the-big-idea-vim-modes">The Big Idea: Vim Modes</h2>
-<p>Here’s the trickiest part about Vim: it has different “modes.” Think of them like different hats Vim wears depending on what you want to do. You’ll switch between these modes all the time, so let’s meet them:</p><ul>
-<li><strong>Normal Mode</strong>: This is where Vim starts. You use it to move around and give commands (like “delete this” or “copy that”).</li>
-<li><strong>Insert Mode</strong>: This is where you type stuff, like writing a sentence.</li>
-<li><strong>Visual Mode</strong>: This is for selecting chunks of text (like highlighting with a mouse, but cooler).</li>
-<li><strong>Command-Line Mode</strong>: This is for bigger commands, like saving your work or searching.</li>
-</ul>
-<p>Don’t panic—we’ll learn how to switch between them next!</p><h2 id="step-1-opening-and-closing-vim">Step 1: Opening and Closing Vim</h2>
-<p>Let’s get started:</p><ul>
-<li><strong>Open Vim</strong>: Open your terminal (that black box where you type commands). Type <code>vim</code> and hit Enter. Want to edit a file? Type <code>vim myfile.txt</code>.</li>
-<li><strong>Close Vim</strong>: This trips everyone up at first. Press <code>Esc</code> (to make sure you’re in Normal Mode), then type <code>:q</code> and hit Enter. If you’ve changed something and Vim won’t let you quit, type <code>:q!</code> to force it to close without saving.</li>
-</ul>
-<h2 id="step-2-switching-modes">Step 2: Switching Modes</h2>
-<p>Here’s how to move between those modes:</p><ul>
-<li><strong>Normal to Insert</strong>: Press <code>i</code>. You’ll see “– INSERT –” at the bottom. Now you can type!</li>
-<li><strong>Insert to Normal</strong>: Press <code>Esc</code>. Back to command central.</li>
-<li><strong>Normal to Visual</strong>: Press <code>v</code>. Now you can select text with arrow keys or other movement keys.</li>
-<li><strong>Normal to Command-Line</strong>: Press <code>:</code>. You’ll see a colon at the bottom where you can type commands.</li>
-</ul>
-<h2 id="step-3-moving-around-normal-mode">Step 3: Moving Around (Normal Mode)</h2>
-<p>In Normal Mode, forget your arrow keys for a sec—try these:</p><ul>
-<li><code>h</code>: Move left</li>
-<li><code>j</code>: Move down</li>
-<li><code>k</code>: Move up</li>
-<li><code>l</code>: Move right</li>
-</ul>
-<p>Want to zip around faster?</p><ul>
-<li><code>w</code>: Jump to the next word</li>
-<li><code>b</code>: Jump back to the previous word</li>
-<li><code>0</code>: Go to the start of the line</li>
-<li><code>$</code>: Go to the end of the line</li>
-</ul>
-<h2 id="step-4-typing-stuff">Step 4: Typing Stuff</h2>
-<p>To write anything:</p><ol>
-<li>Get into Normal Mode (press <code>Esc</code> if you’re not sure).</li>
-<li>Press <code>i</code> to enter Insert Mode.</li>
-<li>Type whatever you want.</li>
-<li>Press <code>Esc</code> to go back to Normal Mode.</li>
-</ol>
-<h2 id="step-5-editing-basics">Step 5: Editing Basics</h2>
-<ul>
-<li><strong>Delete a letter</strong>: In Normal Mode, put your cursor on the letter and press <code>x</code>.</li>
-<li><strong>Delete a line</strong>: Press <code>dd</code>.</li>
-<li><strong>Delete a word</strong>: Put your cursor at the start of the word and press <code>dw</code>.</li>
-</ul>
-<h2 id="step-6-copy-and-paste">Step 6: Copy and Paste</h2>
-<ul>
-<li><strong>Copy a line</strong>: In Normal Mode, press <code>yy</code>.</li>
-<li><strong>Copy a word</strong>: Cursor at the start of the word, press <code>yw</code>.</li>
-<li><strong>Paste</strong>: Press <code>p</code>. It’ll paste after your cursor.</li>
-</ul>
-<h2 id="step-7-oops-undo-and-redo">Step 7: Oops! Undo and Redo</h2>
-<ul>
-<li><strong>Undo</strong>: Press <code>u</code> in Normal Mode. Made a mistake? Fixed!</li>
-<li><strong>Redo</strong>: Press <code>Ctrl + r</code> to bring it back.</li>
-</ul>
-<h2 id="step-8-saving-and-quitting">Step 8: Saving and Quitting</h2>
-<p>To save your masterpiece:</p><ol>
-<li>Press <code>:</code> to enter Command-Line Mode.</li>
-<li>Type <code>w</code> and hit Enter (short for “write”).</li>
-<li>Want to save and quit? Type <code>:wq</code> and Enter.</li>
-<li>Changed your mind and want to ditch it? Type <code>:q!</code> and Enter.</li>
-</ol>
-<h2 id="step-9-finding-stuff">Step 9: Finding Stuff</h2>
-<p>Need to find a word?</p><ol>
-<li>In Normal Mode, press <code>/</code>.</li>
-<li>Type the word (like <code>/hello</code>) and hit Enter.</li>
-<li>Press <code>n</code> to jump to the next one, or <code>N</code> to go back.</li>
-</ol>
-<h2 id="step-10-selecting-text-visual-mode">Step 10: Selecting Text (Visual Mode)</h2>
-<ul>
-<li>Press <code>v</code> in Normal Mode to start selecting.</li>
-<li>Move around with <code>h</code>, <code>j</code>, <code>k</code>, <code>l</code> to highlight text.</li>
-<li>Then:<ul>
-<li><code>y</code> to copy it.</li>
-<li><code>d</code> to delete (cut) it.</li>
-<li><code>p</code> to paste over it.</li>
-</ul>
-</li>
-</ul>
-<h2 id="tips-to-survive-vim">Tips to Survive Vim</h2>
-<ul>
-<li>Practice a little every day—it’s like learning to ride a bike.</li>
-<li>Start small, like editing a grocery list.</li>
-<li>Keep the cheat sheet below close by!</li>
-</ul>
-<h1 id="vim-cheat-sheet">Vim Cheat Sheet</h1>
-<p>Here’s your quick guide to the basics:</p><table>
-<thead>
-<tr>
-<th>What You Want</th>
-<th>How to Do It</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Start typing</td>
-<td><code>i</code></td>
-</tr>
-<tr>
-<td>Stop typing</td>
-<td><code>Esc</code></td>
-</tr>
-<tr>
-<td>Save</td>
-<td><code>:w</code></td>
-</tr>
-<tr>
-<td>Quit</td>
-<td><code>:q</code></td>
-</tr>
-<tr>
-<td>Save and quit</td>
-<td><code>:wq</code></td>
-</tr>
-<tr>
-<td>Quit without saving</td>
-<td><code>:q!</code></td>
-</tr>
-<tr>
-<td>Undo</td>
-<td><code>u</code></td>
-</tr>
-<tr>
-<td>Redo</td>
-<td><code>Ctrl + r</code></td>
-</tr>
-<tr>
-<td>Delete a letter</td>
-<td><code>x</code></td>
-</tr>
-<tr>
-<td>Delete a line</td>
-<td><code>dd</code></td>
-</tr>
-<tr>
-<td>Delete a word</td>
-<td><code>dw</code></td>
-</tr>
-<tr>
-<td>Copy a line</td>
-<td><code>yy</code></td>
-</tr>
-<tr>
-<td>Copy a word</td>
-<td><code>yw</code></td>
-</tr>
-<tr>
-<td>Paste</td>
-<td><code>p</code></td>
-</tr>
-<tr>
-<td>Search for something</td>
-<td><code>/something</code></td>
-</tr>
-<tr>
-<td>Next search result</td>
-<td><code>n</code></td>
-</tr>
-<tr>
-<td>Previous search result</td>
-<td><code>N</code></td>
-</tr>
-<tr>
-<td>Next word</td>
-<td><code>w</code></td>
-</tr>
-<tr>
-<td>Previous word</td>
-<td><code>b</code></td>
-</tr>
-<tr>
-<td>Start of line</td>
-<td><code>0</code></td>
-</tr>
-<tr>
-<td>End of line</td>
-<td><code>$</code></td>
-</tr>
-</tbody></table>
-<p>You’ve got this! Vim might feel strange at first, but soon you’ll be zooming around your files like a pro. Happy editing!</p><h4 id="update">Update</h4>
-<p>here is a full video guide by mental outlaw showing each and every aspect of vim <a href="https://www.youtube.com/watch?v=jyhYW0qZ6oA&list=PL3cu45aM3C2DJVGfCjSBB1yD9YkC7q27-">YouTube Playlist Link</a></p>
             ]]>
         </content>
     </entry>
