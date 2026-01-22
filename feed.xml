@@ -3,12 +3,141 @@
     <title>Ehmi</title>
     <link href="https://ehmi.se/blog/feed.xml" rel="self" />
     <link href="https://ehmi.se/blog" />
-    <updated>2025-12-25T12:59:57+05:00</updated>
+    <updated>2026-01-22T15:30:21+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://ehmi.se/blog</id>
 
+    <entry>
+        <title>WebAssembly</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://ehmi.se/blog/webassembly-or-what-is-webassembly/"/>
+        <id>https://ehmi.se/blog/webassembly-or-what-is-webassembly/</id>
+            <category term="tutorial"/>
+            <category term="deployment"/>
+            <category term="Devops"/>
+
+        <updated>2026-01-22T15:30:21+05:00</updated>
+            <summary>
+                <![CDATA[
+                    WebAssembly (Wasm) is a modern, powerful technology that’s very much alive and growing! It’s quite different from Java Applets and ClickOnce - think of it as a way to run near-native speed code directly in your web browser. WebAssembly is a binary instruction format that&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p><strong>WebAssembly (Wasm)</strong> is a modern, powerful technology that’s very much alive and growing! It’s quite different from Java Applets and ClickOnce - think of it as a way to run near-native speed code directly in your web browser.</p><h2 id="what-is-webassembly">What is WebAssembly?</h2>
+<p>WebAssembly is a binary instruction format that runs in modern web browsers alongside JavaScript. It allows you to compile code from languages like C, C++, Rust, C#, and others to run at near-native speed in the browser.</p><h2 id="key-features">Key Features:</h2>
+<ul>
+<li><strong>Fast execution</strong> - Near-native performance (much faster than JavaScript for compute-heavy tasks)</li>
+<li><strong>Safe</strong> - Runs in the same sandbox as JavaScript</li>
+<li><strong>Cross-platform</strong> - Works in all modern browsers (Chrome, Firefox, Safari, Edge)</li>
+<li><strong>Language agnostic</strong> - Write in C++, Rust, C#, Go, etc., compile to Wasm</li>
+<li><strong>Works with JavaScript</strong> - Can call JavaScript functions and vice versa</li>
+</ul>
+<h2 id="real-world-examples-you-can-try-right-now">Real-World Examples You Can Try Right Now:</h2>
+<p>Let me find some publicly available WebAssembly applications:Perfect! Here are <strong>publicly available WebAssembly applications</strong> you can try right now:</p><h2 id="🎮-live-webassembly-demos-you-can-use">🎮 Live WebAssembly Demos You Can Use:</h2>
+<h3 id="1-figma---httpswwwfigmacom"><strong>1. Figma</strong> - <a href="https://www.figma.com">https://www.figma.com</a></h3>
+<p>Design tool that uses WebAssembly to achieve native-like desktop app performance in the browser</p><h3 id="2-google-earth---httpsearthgooglecomweb"><strong>2. Google Earth</strong> - <a href="https://earth.google.com/web/">https://earth.google.com/web/</a></h3>
+<p>Runs entirely in the browser powered by WebAssembly</p><h3 id="3-autocad-web---httpswebautocadcom"><strong>3. AutoCAD Web</strong> - <a href="https://web.autocad.com/">https://web.autocad.com/</a></h3>
+<p>AutoCAD’s 35-year-old C++ application compiled to WebAssembly for the web</p><h3 id="4-sandspiel---httpssandspielclub"><strong>4. Sandspiel</strong> - <a href="https://sandspiel.club/">https://sandspiel.club/</a></h3>
+<p>A falling sand game written in Rust/WebAssembly with around 2 million monthly page views</p><h3 id="5-qt-webassembly-demos---httpswwwqtioqt-examples-for-webassembly"><strong>5. Qt WebAssembly Demos</strong> - <a href="https://www.qt.io/qt-examples-for-webassembly">https://www.qt.io/qt-examples-for-webassembly</a></h3>
+<p>Interactive demos including sprite drawing apps with menus, toolbars, save/load functionality, and 3D showcases</p><h3 id="6-felgo-wasm-demos---httpsfelgocomtry-wasm"><strong>6. Felgo WASM Demos</strong> - <a href="https://felgo.com/try-wasm/">https://felgo.com/try-wasm/</a></h3>
+<p>Includes weather apps, games like OneCard, and UI showcases that run directly in your browser</p><h3 id="7-made-with-webassembly---httpsmadewithwebassemblycom"><strong>7. Made With WebAssembly</strong> - <a href="https://madewithwebassembly.com/">https://madewithwebassembly.com/</a></h3>
+<p>A showcase featuring production apps including uBlock Origin browser extension, OpenCascade CAD library, and PDF editors</p><h2 id="quick-comparison-webassembly-vs-others">Quick Comparison: WebAssembly vs Others</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>WebAssembly</th>
+<th>Java Applets</th>
+<th>ClickOnce</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Status</strong></td>
+<td>✅ Active &amp; growing</td>
+<td>❌ Dead (2017)</td>
+<td>⚠️ Declining</td>
+</tr>
+<tr>
+<td><strong>Platform</strong></td>
+<td>All browsers</td>
+<td>Java plugin</td>
+<td>Windows only</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Near-native speed</td>
+<td>Moderate</td>
+<td>Native</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Sandboxed</td>
+<td>Vulnerable</td>
+<td>Sandboxed</td>
+</tr>
+<tr>
+<td><strong>Languages</strong></td>
+<td>C++, Rust, C#, Go, etc.</td>
+<td>Java only</td>
+<td>.NET only</td>
+</tr>
+<tr>
+<td><strong>Installation</strong></td>
+<td>None needed</td>
+<td>Plugin required</td>
+<td>Desktop install</td>
+</tr>
+</tbody></table>
+<h2 id="why-webassembly-is-winning">Why WebAssembly is Winning:</h2>
+<ol>
+<li><strong>No plugins needed</strong> - runs natively in modern browsers</li>
+<li><strong>Fast</strong> - near-native performance for compute-heavy tasks</li>
+<li><strong>Secure</strong> - sandboxed execution</li>
+<li><strong>Universal</strong> - works on desktop, mobile, all platforms</li>
+<li><strong>Multi-language</strong> - write in your preferred language</li>
+</ol>
+<p>Try visiting <strong>Figma</strong> or <strong>Google Earth</strong> right now - they’re full production apps running WebAssembly in your browser!</p><p>Would you like me to show you how to create your own simple WebAssembly app?</p><p><strong>What this demo shows:</strong></p><ul>
+<li>Real-time pixel manipulation (grayscale, invert, blur, pixelate effects)</li>
+<li>Processing hundreds of thousands of pixels in milliseconds</li>
+<li>Performance metrics showing processing time</li>
+<li>The kind of operations where WebAssembly shines</li>
+</ul>
+<p><strong>Try the filters</strong> - click the buttons to see instant image processing!</p><hr>
+<h2 id="want-to-see-real-webassembly-code">Want to See REAL WebAssembly Code?</h2>
+<p>Here’s what actual Rust → WebAssembly code looks like:## How to Build &amp; Use This:</p><p><strong>1. Install Rust &amp; wasm-pack:</strong></p><pre><code class="language-bash">curl --proto &#39;=https&#39; --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cargo install wasm-pack
+</code></pre>
+<p><strong>2. Create project:</strong></p><pre><code class="language-bash">cargo new --lib my-wasm-project
+cd my-wasm-project
+</code></pre>
+<p><strong>3. Add to Cargo.toml:</strong></p><pre><code class="language-toml">[lib]
+crate-type = [&quot;cdylib&quot;]
+
+[dependencies]
+wasm-bindgen = &quot;0.2&quot;
+</code></pre>
+<p><strong>4. Build:</strong></p><pre><code class="language-bash">wasm-pack build --target web
+</code></pre>
+<p><strong>5. Use in HTML:</strong></p><pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
+    import init, { grayscale } from &#39;./pkg/my_wasm_project.js&#39;;
+    
+    await init();
+    
+    // Now you can call the Rust function!
+    const imageData = ctx.getImageData(0, 0, 800, 600);
+    grayscale(imageData.data);
+    ctx.putImageData(imageData, 0, 0);
+&lt;/script&gt;
+</code></pre>
+<p>The beauty of WebAssembly is that this Rust code runs at <strong>near-native C++ speed</strong> in your browser - typically 10-20x faster than equivalent JavaScript for compute-heavy tasks!</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Fixing Traefik v3 Encoded Character Blocking with Pi-hole</title>
         <author>
@@ -1538,171 +1667,6 @@ certificatesResolvers:
 <li><strong>Exposing internal-only services publicly</strong> is easily preventable with proper Docker port binding (<code>127.0.0.1:port</code>).</li>
 </ul>
 
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Homelab Reverse Proxy Migration — Part 1</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://ehmi.se/blog/homelab-reverse-proxy-migration-part-1/"/>
-        <id>https://ehmi.se/blog/homelab-reverse-proxy-migration-part-1/</id>
-
-        <updated>2025-06-15T09:15:34+05:00</updated>
-            <summary>
-                <![CDATA[
-                    From Nginx Proxy Manager to Traefik: Hardening and Streamlining Services 📦 Introduction This guide documents the process of migrating from Nginx Proxy Manager (NPM) to Traefik v2, while self-hosting several internal apps like: This migration is aimed at: Nginx Proxy Manager is a great GUI-based&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h2 id="from-nginx-proxy-manager-to-traefik-hardening-and-streamlining-services">From Nginx Proxy Manager to Traefik: Hardening and Streamlining Services</h2>
-<hr>
-<h2 id="📦-introduction">📦 Introduction</h2>
-<p>This guide documents the process of migrating from <strong>Nginx Proxy Manager (NPM)</strong> to <strong>Traefik v2</strong>, while self-hosting several internal apps like:</p><ul>
-<li><strong>Pi-hole</strong> (network-level DNS filtering)</li>
-<li><strong>Vaultwarden</strong> (Bitwarden-compatible password manager)</li>
-<li>Static sites served via <strong>Apache</strong></li>
-<li>Other services like WOL dashboards, API endpoints, and file managers</li>
-</ul>
-<p>This migration is aimed at:</p><ul>
-<li>Improving <strong>TLS automation</strong> with Let’s Encrypt</li>
-<li>Enabling <strong>fine-grained routing</strong></li>
-<li>Reducing open ports and <strong>tightening external access</strong></li>
-</ul>
-<hr>
-<h2 id="🔁-why-migrate-from-npm-to-traefik">🔁 Why Migrate from NPM to Traefik?</h2>
-<p>Nginx Proxy Manager is a great GUI-based solution but has limitations when:</p><ul>
-<li>Running <strong>multiple services on different ports</strong></li>
-<li>Needing <strong>automatic wildcard certificates</strong></li>
-<li>Enforcing <strong>advanced routing or middlewares</strong></li>
-<li>Wanting <strong>CLI/scriptable configuration</strong></li>
-</ul>
-<p><strong>Traefik</strong> offers:</p><ul>
-<li>Native <strong>Docker integration</strong></li>
-<li>Automatic <strong>Let’s Encrypt TLS</strong></li>
-<li>Fine control over access and routing</li>
-<li>Better <strong>performance</strong> and flexibility</li>
-</ul>
-<hr>
-<h2 id="🧱-architecture-overview">🧱 Architecture Overview</h2>
-<p>Here’s the general layout of the stack:</p><table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Purpose</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Apache2</strong></td>
-<td>Hosts legacy apps on non-standard ports</td>
-<td>e.g., 9001, 9002, 85</td>
-</tr>
-<tr>
-<td><strong>Traefik v2</strong></td>
-<td>Reverse proxy and TLS termination</td>
-<td>Replaces Nginx Proxy Manager</td>
-</tr>
-<tr>
-<td><strong>Pi-hole</strong></td>
-<td>Network-wide ad/DNS blocking</td>
-<td>Forwarded to port 53 internally</td>
-</tr>
-<tr>
-<td><strong>Vaultwarden</strong></td>
-<td>Password manager</td>
-<td>Secured via HTTPS proxying</td>
-</tr>
-<tr>
-<td><strong>Docker</strong></td>
-<td>Containerized services</td>
-<td>Shared network across services</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="🏗️-apache-config-non-standard-ports">🏗️ Apache Config (Non-Standard Ports)</h2>
-<p>You had several legacy apps hosted via Apache on specific ports like:</p><pre><code class="language-apache">&lt;VirtualHost *:9001&gt;
-  DocumentRoot /var/www/hear
-&lt;/VirtualHost&gt;
-
-&lt;VirtualHost *:9002&gt;
-  DocumentRoot /var/www/wol
-&lt;/VirtualHost&gt;
-
-&lt;VirtualHost *:85&gt;
-  ServerName file.domain.local
-  DocumentRoot /var/www/html/tinyfilemanager
-&lt;/VirtualHost&gt;
-</code></pre>
-<hr>
-<h2 id="❌-problems-with-exposed-ports">❌ Problems with Exposed Ports</h2>
-<p>Some apps were exposed on ports like <code>:85</code>, <code>:82</code>, <code>:9001</code>, etc. which could be accessed externally unless firewalled.</p><p>To secure them <strong>without using iptables or UFW</strong>, we moved to this trick:</p><pre><code class="language-apache">&lt;VirtualHost 127.0.0.1:85&gt;
-</code></pre>
-<p>Binding Apache to <strong>127.0.0.1</strong> ensures only localhost (and Traefik) can access those services. Docker containers can’t hit <code>127.0.0.1</code> of the host directly, so these are effectively isolated unless routed.</p><hr>
-<h2 id="🔐-traefik-now-handles-all-public-access">🔐 Traefik Now Handles All Public Access</h2>
-<p>Traefik is set up with:</p><pre><code class="language-yaml">entryPoints:
-  web:
-    address: &quot;:80&quot;
-  websecure:
-    address: &quot;:443&quot;
-  traefik:
-    address: &quot;:8080&quot;
-</code></pre>
-<p>Any apps exposed via Traefik now get:</p><ul>
-<li>Automatic TLS via Let’s Encrypt</li>
-<li>Pretty subdomains (e.g., <code>vault.domain.local</code>)</li>
-<li>Protected routing (optionally via middleware/auth)</li>
-</ul>
-<p>You had to stop Apache from binding to <code>:80</code>/<code>:443</code> to prevent port conflicts:</p><pre><code class="language-bash">sudo systemctl stop apache2
-</code></pre>
-<p>Now Apache only handles internal routes; Traefik handles external.</p><hr>
-<h2 id="📊-about-traefiks-port-8080">📊 About Traefik’s Port 8080</h2>
-<p>Port <code>:8080</code> is for the <strong>Traefik dashboard</strong>, useful for debugging during setup. You can restrict it later.</p><pre><code class="language-yaml">api:
-  dashboard: true
-
-entryPoints:
-  traefik:
-    address: &quot;:8080&quot;
-</code></pre>
-<p>To disable it in production, set <code>api.dashboard: false</code> and remove port 8080 from published ports in Docker.</p><hr>
-<h2 id="🚧-limitation-docker-containers-cant-access-hosts-127001">🚧 Limitation: Docker Containers Can’t Access Host’s 127.0.0.1</h2>
-<p>You noticed this error inside a container:</p><pre><code class="language-bash">wget http://127.0.0.1:85
-# → connection refused
-</code></pre>
-<p>That’s expected — <code>127.0.0.1</code> inside Docker refers to the container itself, not the host.</p><p>To let Docker containers access the host:</p><ul>
-<li>Use the host’s internal bridge IP (e.g., <code>172.17.0.1</code>)</li>
-<li>Or on Linux, use <code>extra_hosts</code> in Docker Compose to map <code>host.docker.internal</code></li>
-</ul>
-<pre><code class="language-yaml">extra_hosts:
-  - &quot;host.docker.internal:172.17.0.1&quot;
-</code></pre>
-<hr>
-<h2 id="🌐-dns--pi-hole-on-port-53">🌐 DNS &amp; Pi-hole on Port 53</h2>
-<p>To make Pi-hole handle DNS for your network:</p><h3 id="option-a-use-dockers-published-port">Option A: Use Docker’s published port</h3>
-<p>If Pi-hole is containerized:</p><pre><code class="language-yaml">ports:
-  - &quot;53:53/tcp&quot;
-  - &quot;53:53/udp&quot;
-</code></pre>
-<h3 id="option-b-forward-using-iptables-if-dns-needs-to-stay-centralized">Option B: Forward using iptables (if DNS needs to stay centralized)</h3>
-<pre><code class="language-bash">sudo iptables -t nat -A PREROUTING -p udp --dport 53 -j DNAT --to-destination &lt;PIHOLE_IP&gt;:53
-</code></pre>
-<hr>
-<h2 id="🧪-next-steps">🧪 Next Steps</h2>
-<p>You’re now at the halfway point of your migration. What’s working so far:</p><p>✅ Traefik is running and binds to ports 80/443
-✅ Apache is hidden from the outside
-✅ TLS routing via Traefik is active
-✅ Docker containers are network-isolated
-✅ Pi-hole DNS is optionally routed</p><hr>
-<h2 id="📝-coming-up-in-part-2">📝 Coming Up in Part 2</h2>
-<p>In the next section, we’ll cover:</p><ul>
-<li>📂 Dynamic Traefik configuration (for Vaultwarden, Pi-hole, WOL, etc.)</li>
-<li>🔒 Basic auth / IP filtering middlewares</li>
-<li>🧼 Access logs, metrics, tracing</li>
-<li>🧭 Organizing the Traefik dashboard</li>
-</ul>
-<p>Ready for Part 2?</p>
             ]]>
         </content>
     </entry>
