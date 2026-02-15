@@ -9,6 +9,14 @@
 <lastmod>2024-11-14T11:48:53+05:00</lastmod>
 </url>
 <url>
+<loc>https://ehmi.se/blog/accidentally-pushing-credentials-to-github-a-technical-post-mortem/</loc>
+<lastmod>2026-02-15T18:20:58+05:00</lastmod>
+<image:image>
+<image:loc>https://ehmi.se/blog/media/posts/53/Screenshot-2026-02-15-181737.png</image:loc>
+<image:title><![CDATA[github commits]]></image:title>
+</image:image>
+</url>
+<url>
 <loc>https://ehmi.se/blog/analysis-of-the-recent-4chan-hack-motivations-methods-and-perpetrators/</loc>
 <lastmod>2025-04-24T16:17:51+05:00</lastmod>
 </url>
@@ -175,6 +183,18 @@
 <url>
 <loc>https://ehmi.se/blog/how-to-use-vim-a-guide-for-dummies/</loc>
 <lastmod>2025-05-07T19:30:24+05:00</lastmod>
+</url>
+<url>
+<loc>https://ehmi.se/blog/implementing-cve-monitoring-for-docker-containers-without-auto-patching/</loc>
+<lastmod>2026-02-15T18:28:04+05:00</lastmod>
+<image:image>
+<image:loc>https://ehmi.se/blog/media/posts/54/1712320809-open-source-container-security-tools-landscape.webp</image:loc>
+<image:title><![CDATA[Docker Containers]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://ehmi.se/blog/media/posts/54/1712320809-open-source-container-security-tools-landscape-2.webp</image:loc>
+<image:title><![CDATA[Docker CVE Workflow]]></image:title>
+</image:image>
 </url>
 <url>
 <loc>https://ehmi.se/blog/introduction-to-network-layer/</loc>
