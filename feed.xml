@@ -3,7 +3,7 @@
     <title>Ehmi</title>
     <link href="https://ehmi.se/blog/feed.xml" rel="self" />
     <link href="https://ehmi.se/blog" />
-    <updated>2026-04-26T19:31:54+05:00</updated>
+    <updated>2026-04-26T19:40:42+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
@@ -24,7 +24,7 @@
             <summary>
                 <![CDATA[
                         <img src="https://ehmi.se/blog/media/posts/55/Screenshot-385-2.png" alt="adguard-dns-ehmi.se" />
-                    Router: OpenWrt (homerouter) Date: April 2026 Client └──▶ Pihole (10.1.1.5) — primary DNS, ad blocking └──▶ AdGuard (10.1.1.2) — secondary DNS └──▶ dnsmasq (10.1.1.1) — router, knows all local hosts └──▶ Internet (upstream) Subnets Network Interface Subnet Gateway trusted br-trusted 10.1.0.0/24 10.1.0.1 mgmt br-mgmt 10.1.1.0/24&hellip;
+                    Router: OpenWrt (homerouter) Date: April 2026 The goal was to resolve local hostnames in the format {hostname}.h1.ehmi.se across the network (e.g. auron.h1.ehmi.se → 10.1.0.2). This was incorrectly referred to as “mDNS” but is actually local unicast DNS resolution using the existing DNS infrastructure. Client └──▶&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -32,8 +32,7 @@
                     <p><img src="https://ehmi.se/blog/media/posts/55/Screenshot-385-2.png" class="type:primaryImage" alt="adguard-dns-ehmi.se" /></p>
                 <p><strong>Router:</strong> OpenWrt (<code>homerouter</code>)<br><strong>Date:</strong> April 2026  </p><hr>
 <h2 id="overview">Overview</h2>
-<h2 id="the-goal-was-to-resolve-local-hostnames-in-the-format-hostnameh1ehmise-across-the-network-eg-auronh1ehmise-→-10102-this-was-incorrectly-referred-to-as-mdns-but-is-actually-local-unicast-dns-resolution-using-the-existing-dns-infrastructure-image-description">The goal was to resolve local hostnames in the format <code>{hostname}.h1.ehmi.se</code> across the network (e.g. <code>auron.h1.ehmi.se</code> → <code>10.1.0.2</code>). This was incorrectly referred to as “mDNS” but is actually <strong>local unicast DNS resolution</strong> using the existing DNS infrastructure.
-<figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/55/Screenshot-385.png" alt="Image description" width="1920" height="1080" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-xs.webp 640w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-sm.webp 768w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-md.webp 1024w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-lg.webp 1366w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-xl.webp 1600w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-2xl.webp 1920w"></figure></h2>
+<p>The goal was to resolve local hostnames in the format <code>{hostname}.h1.ehmi.se</code> across the network (e.g. <code>auron.h1.ehmi.se</code> → <code>10.1.0.2</code>). This was incorrectly referred to as “mDNS” but is actually <strong>local unicast DNS resolution</strong> using the existing DNS infrastructure.</p><figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/55/Screenshot-385.png" alt="Image description" width="1920" height="1080" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-xs.webp 640w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-sm.webp 768w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-md.webp 1024w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-lg.webp 1366w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-xl.webp 1600w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-2xl.webp 1920w"></figure><hr>
 <h2 id="network-topology">Network Topology</h2>
 <pre><code>Client
   └──▶ Pihole (10.1.1.5)          — primary DNS, ad blocking
