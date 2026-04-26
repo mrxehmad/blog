@@ -3,12 +3,227 @@
     <title>Ehmi</title>
     <link href="https://ehmi.se/blog/feed.xml" rel="self" />
     <link href="https://ehmi.se/blog" />
-    <updated>2026-02-15T18:28:04+05:00</updated>
+    <updated>2026-04-26T19:31:54+05:00</updated>
     <author>
         <name>Ehmad</name>
     </author>
     <id>https://ehmi.se/blog</id>
 
+    <entry>
+        <title>Local Hostname Resolution Setup  &#x60;h1.ehmi.se&#x60;</title>
+        <author>
+            <name>Ehmad</name>
+        </author>
+        <link href="https://ehmi.se/blog/local-hostname-resolution-setup-h1ehmise/"/>
+        <id>https://ehmi.se/blog/local-hostname-resolution-setup-h1ehmise/</id>
+        <media:content url="https://ehmi.se/blog/media/posts/55/Screenshot-385-2.png" medium="image" />
+            <category term="mdns"/>
+            <category term="dns"/>
+
+        <updated>2026-04-26T19:31:54+05:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://ehmi.se/blog/media/posts/55/Screenshot-385-2.png" alt="adguard-dns-ehmi.se" />
+                    Router: OpenWrt (homerouter) Date: April 2026 Client └──▶ Pihole (10.1.1.5) — primary DNS, ad blocking └──▶ AdGuard (10.1.1.2) — secondary DNS └──▶ dnsmasq (10.1.1.1) — router, knows all local hosts └──▶ Internet (upstream) Subnets Network Interface Subnet Gateway trusted br-trusted 10.1.0.0/24 10.1.0.1 mgmt br-mgmt 10.1.1.0/24&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://ehmi.se/blog/media/posts/55/Screenshot-385-2.png" class="type:primaryImage" alt="adguard-dns-ehmi.se" /></p>
+                <p><strong>Router:</strong> OpenWrt (<code>homerouter</code>)<br><strong>Date:</strong> April 2026  </p><hr>
+<h2 id="overview">Overview</h2>
+<h2 id="the-goal-was-to-resolve-local-hostnames-in-the-format-hostnameh1ehmise-across-the-network-eg-auronh1ehmise-→-10102-this-was-incorrectly-referred-to-as-mdns-but-is-actually-local-unicast-dns-resolution-using-the-existing-dns-infrastructure-image-description">The goal was to resolve local hostnames in the format <code>{hostname}.h1.ehmi.se</code> across the network (e.g. <code>auron.h1.ehmi.se</code> → <code>10.1.0.2</code>). This was incorrectly referred to as “mDNS” but is actually <strong>local unicast DNS resolution</strong> using the existing DNS infrastructure.
+<figure class="post__image"><img loading="lazy" src="https://ehmi.se/blog/media/posts/55/Screenshot-385.png" alt="Image description" width="1920" height="1080" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-xs.webp 640w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-sm.webp 768w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-md.webp 1024w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-lg.webp 1366w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-xl.webp 1600w ,https://ehmi.se/blog/media/posts/55/responsive/Screenshot-385-2xl.webp 1920w"></figure></h2>
+<h2 id="network-topology">Network Topology</h2>
+<pre><code>Client
+  └──▶ Pihole (10.1.1.5)          — primary DNS, ad blocking
+         └──▶ AdGuard (10.1.1.2)  — secondary DNS
+               └──▶ dnsmasq (10.1.1.1) — router, knows all local hosts
+                     └──▶ Internet (upstream)
+</code></pre>
+<h3 id="subnets">Subnets</h3>
+<table>
+<thead>
+<tr>
+<th>Network</th>
+<th>Interface</th>
+<th>Subnet</th>
+<th>Gateway</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>trusted</td>
+<td>br-trusted</td>
+<td>10.1.0.0/24</td>
+<td>10.1.0.1</td>
+</tr>
+<tr>
+<td>mgmt</td>
+<td>br-mgmt</td>
+<td>10.1.1.0/24</td>
+<td>10.1.1.1</td>
+</tr>
+</tbody></table>
+<h3 id="dns-servers">DNS Servers</h3>
+<table>
+<thead>
+<tr>
+<th>Server</th>
+<th>IP</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dnsmasq</td>
+<td>10.1.1.1</td>
+<td>Router DNS, knows local hosts</td>
+</tr>
+<tr>
+<td>AdGuard</td>
+<td>10.1.1.2</td>
+<td>Secondary DNS</td>
+</tr>
+<tr>
+<td>Pihole</td>
+<td>10.1.1.5</td>
+<td>Primary DNS, ad blocking</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="problem">Problem</h2>
+<p>Clients could not resolve local hostnames like <code>auron.h1.ehmi.se</code>. All DNS traffic was hijacked by a firewall rule to go to Pihole, but Pihole had no knowledge of local hosts.</p><hr>
+<h2 id="changes-made">Changes Made</h2>
+<h3 id="1-openwrt--dnsmasq-etcconfigdhcp">1. OpenWrt — dnsmasq (<code>/etc/config/dhcp</code>)</h3>
+<p>Configured dnsmasq to serve the <code>h1.ehmi.se</code> domain and auto-expand hostnames from existing DHCP host entries.</p><pre><code class="language-bash">uci set dhcp.@dnsmasq[0].local=&#39;/h1.ehmi.se/&#39;
+uci set dhcp.@dnsmasq[0].domain=&#39;h1.ehmi.se&#39;
+uci commit dhcp
+service dnsmasq restart
+</code></pre>
+<p><strong>Effect:</strong> dnsmasq now answers <code>auron.h1.ehmi.se → 10.1.0.2</code> automatically from the static host entries already defined in <code>/etc/config/dhcp</code>.</p><hr>
+<h3 id="2-pihole--conditional-forwarding">2. Pihole — Conditional Forwarding</h3>
+<p>Told Pihole to forward all <code>h1.ehmi.se</code> queries to dnsmasq on the router instead of trying to resolve them itself.</p><p><strong>Location:</strong> Pihole Admin → Settings → DNS → Advanced → Reverse servers</p><pre><code>true,10.1.0.0/24,10.1.1.1,h1.ehmi.se
+</code></pre>
+<p><strong>Effect:</strong> Pihole now correctly returns <code>10.1.0.2</code> for <code>auron.h1.ehmi.se</code> instead of returning its own IP (<code>10.1.1.5</code>).</p><hr>
+<h3 id="3-adguard--upstream-dns-rule">3. AdGuard — Upstream DNS Rule</h3>
+<p>Told AdGuard to forward all <code>h1.ehmi.se</code> queries to dnsmasq on the router.</p><p><strong>Location:</strong> AdGuard Admin → Settings → DNS settings → Upstream DNS servers</p><pre><code>[/h1.ehmi.se/]10.1.1.1
+</code></pre>
+<p><strong>Effect:</strong> AdGuard now correctly returns <code>10.1.0.2</code> for <code>auron.h1.ehmi.se</code>.</p><hr>
+<h2 id="verification">Verification</h2>
+<p>All three DNS servers now return the correct answer:</p><pre><code>nslookup auron.h1.ehmi.se 10.1.1.1   →  10.1.0.2  ✅  (dnsmasq)
+nslookup auron.h1.ehmi.se 10.1.1.5   →  10.1.0.2  ✅  (Pihole)
+nslookup auron.h1.ehmi.se 10.1.1.2   →  10.1.0.2  ✅  (AdGuard)
+nslookup auron.h1.ehmi.se            →  10.1.0.2  ✅  (default DNS)
+</code></pre>
+<hr>
+<h2 id="how-it-works-flow">How It Works (Flow)</h2>
+<pre><code>Client asks: &quot;where is auron.h1.ehmi.se?&quot;
+        ↓
+DNS Hijack firewall rule → Pihole (10.1.1.5)
+        ↓
+Pihole: &quot;h1.ehmi.se is forwarded to 10.1.1.1&quot;
+        ↓
+dnsmasq on router: &quot;auron is in my host list → 10.1.0.2&quot;
+        ↓
+Client gets: 10.1.0.2 ✅
+</code></pre>
+<hr>
+<h2 id="existing-host-entries-from-etcconfigdhcp">Existing Host Entries (from <code>/etc/config/dhcp</code>)</h2>
+<p>These are automatically resolvable as <code>{name}.h1.ehmi.se</code>:</p><table>
+<thead>
+<tr>
+<th>Hostname</th>
+<th>IP</th>
+<th>MAC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>birdy</td>
+<td>10.1.1.5</td>
+<td>00:80:64:DD:16:13</td>
+</tr>
+<tr>
+<td>auron</td>
+<td>10.1.0.2</td>
+<td>6c:29:95:b7:fd:31</td>
+</tr>
+<tr>
+<td>Pixel-6-pro</td>
+<td>10.1.0.3</td>
+<td>dc:e5:5b:eb:0c:30</td>
+</tr>
+<tr>
+<td>DESKTOP-O05GPKT</td>
+<td>10.1.0.4</td>
+<td>54:bf:64:61:45:55</td>
+</tr>
+<tr>
+<td>ESP-DC8109</td>
+<td>10.1.0.6</td>
+<td>ec:64:c9:dc:81:09</td>
+</tr>
+<tr>
+<td>Tenda-AP</td>
+<td>10.1.0.7</td>
+<td>08:40:f3:49:46:f0</td>
+</tr>
+<tr>
+<td>Ayesha</td>
+<td>10.1.0.21</td>
+<td>54:67:06:8a:ed:25</td>
+</tr>
+<tr>
+<td>Abdullah</td>
+<td>10.1.0.48</td>
+<td>c8:b1:cd:9d:59:38</td>
+</tr>
+</tbody></table>
+<p><em>(and many more defined in the router config)</em></p><hr>
+<h2 id="what-this-is-not">What This Is NOT</h2>
+<p>This setup is <strong>not mDNS</strong>. The differences:</p><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>mDNS</th>
+<th>This setup</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Protocol</td>
+<td>Multicast UDP</td>
+<td>Unicast DNS</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td><code>.local</code> only</td>
+<td><code>h1.ehmi.se</code> (custom)</td>
+</tr>
+<tr>
+<td>Crosses VLANs</td>
+<td>❌ No</td>
+<td>✅ Yes</td>
+</tr>
+<tr>
+<td>Needs server</td>
+<td>❌ No (peer to peer)</td>
+<td>✅ Yes (dnsmasq)</td>
+</tr>
+<tr>
+<td>Works here</td>
+<td>Partial (same subnet only)</td>
+<td>✅ Fully working</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>The DNS hijack firewall rule (<code>DNAT</code> on port 53) forces all clients to use Pihole regardless of their configured DNS. This is why both Pihole and AdGuard needed to be configured — depending on which server a query reaches first, it must know to forward <code>h1.ehmi.se</code> to dnsmasq.</li>
+<li>No changes were needed to client devices.</li>
+<li>Adding new hosts to <code>/etc/config/dhcp</code> on the router will automatically make them resolvable as <code>{name}.h1.ehmi.se</code> with no further changes needed.</li>
+</ul>
+
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Implementing CVE Monitoring for Docker Containers Without Auto-Patching</title>
         <author>
@@ -1849,122 +2064,6 @@ rclone --config=/path/to/rclone.conf copy my-backup-crypt:backups/var-www/html/i
 <h2 id="final-thoughts"><strong>Final Thoughts</strong></h2>
 <p>Using <code>rclone crypt</code> for encrypted backups gives you <strong>security, privacy, and flexibility</strong> — but recovery still requires you to know your backup layout and tools.
 By following a structured search → confirm → restore workflow, you can confidently recover lost files without exposing sensitive data or disrupting production services.</p><p>And remember: <strong>backups are only as good as your ability to restore them</strong>. Test them before you actually need them.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Secure Your Backups with Rclone Crypt + S3</title>
-        <author>
-            <name>Ehmad</name>
-        </author>
-        <link href="https://ehmi.se/blog/secure-your-backups-with-rclone-crypt-s3/"/>
-        <id>https://ehmi.se/blog/secure-your-backups-with-rclone-crypt-s3/</id>
-
-        <updated>2025-07-18T15:24:22+05:00</updated>
-            <summary>
-                <![CDATA[
-                    Overview Backing up critical data is essential, but encrypting that backup adds a much-needed layer of security. This guide will walk you through setting up automated, encrypted backups using rclone with the crypt backend and an S3-compatible storage like Tebi, Wasabi, or MinIO. Run: rclone&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h2 id="overview">Overview</h2>
-<p>Backing up critical data is essential, but encrypting that backup adds a much-needed layer of security. This guide will walk you through setting up automated, encrypted backups using <code>rclone</code> with the <code>crypt</code> backend and an S3-compatible storage like <strong>Tebi</strong>, <strong>Wasabi</strong>, or <strong>MinIO</strong>.</p><hr>
-<h2 id="✅-prerequisites">✅ Prerequisites</h2>
-<ul>
-<li><code>rclone</code> installed (<code>sudo apt install rclone</code>)</li>
-<li>Access to an S3-compatible storage service (e.g., Tebi)</li>
-<li>Linux user with permission to run backups</li>
-<li>A list of directories to back up (<code>/etc</code>, <code>/home</code>, <code>/var/www</code>, etc.)</li>
-</ul>
-<hr>
-<h2 id="🔧-step-1-configure-the-s3-remote">🔧 Step 1: Configure the S3 Remote</h2>
-<ol>
-<li><p>Run:</p><pre><code class="language-bash">rclone config
-</code></pre>
-</li>
-<li><p>Select <code>n</code> to create a <strong>new remote</strong>.</p></li>
-<li><p>Name: <code>tebi-backup</code> (or any name you like)</p></li>
-<li><p>Select storage type: <code>s3</code></p></li>
-<li><p>Configure as follows:</p><ul>
-<li><strong>Provider</strong>: <code>Other</code></li>
-<li><strong>Access Key ID / Secret Access Key</strong>: As provided by your S3 host</li>
-<li><strong>Endpoint</strong>: <code>https://s3.tebi.io</code></li>
-<li><strong>Region / Location constraint</strong>: Leave blank or default</li>
-<li><strong>ACL</strong>: <code>private</code></li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="🔐-step-2-create-the-encrypted-remote-crypt-layer">🔐 Step 2: Create the Encrypted Remote (Crypt Layer)</h2>
-<ol>
-<li><p>In the same <code>rclone config</code>, create a <strong>new remote</strong> (name it e.g., <code>tebi-crypt</code>)</p></li>
-<li><p>Storage type: <code>crypt</code></p></li>
-<li><p>When prompted for the remote, enter:</p><pre><code>tebi-backup:crypted-storage-01
-</code></pre>
-<p>Replace <code>crypted-storage-01</code> with your encrypted bucket name.</p></li>
-<li><p>Choose encryption mode:</p><ul>
-<li><strong>Filename encryption</strong>: <code>standard</code></li>
-<li><strong>Directory name encryption</strong>: <code>true</code></li>
-<li>Set a <strong>strong password</strong></li>
-<li>Leave salt password blank or enter a second one for added security</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="📂-step-3-backup-script">📂 Step 3: Backup Script</h2>
-<p>Here’s an example bash script for encrypted backups:</p><pre><code class="language-bash">#!/bin/bash
-
-# Variables
-REMOTE=&quot;tebi-crypt:backups&quot;
-LOG_FILE=&quot;/var/log/rclone-encrypted-backup.log&quot;
-TIMESTAMP=$(date &quot;+%Y-%m-%d_%H-%M&quot;)
-
-# Create log directory if it doesn&#39;t exist
-mkdir -p &quot;$(dirname &quot;$LOG_FILE&quot;)&quot;
-
-# Back up directories
-rclone -P sync /home &quot;$REMOTE/home-backup&quot; &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
-rclone -P sync /etc &quot;$REMOTE/etc-backup&quot; &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
-rclone -P sync /var/www &quot;$REMOTE/var-www-backup&quot; &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
-rclone -P sync /DATA &quot;$REMOTE/DATA-backup&quot; &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
-</code></pre>
-<hr>
-<h2 id="⏰-step-4-automate-with-cron">⏰ Step 4: Automate with Cron</h2>
-<p>Edit the crontab:</p><pre><code class="language-bash">sudo crontab -e
-</code></pre>
-<p>Add:</p><pre><code>30 2 * * * /usr/local/bin/backup-encrypted.sh
-</code></pre>
-<p>Ensure the script is executable:</p><pre><code class="language-bash">chmod +x /usr/local/bin/backup-encrypted.sh
-</code></pre>
-<hr>
-<h2 id="🔍-step-5-verifying-backups">🔍 Step 5: Verifying Backups</h2>
-<p>To browse or retrieve files from the encrypted remote:</p><pre><code class="language-bash">rclone ls tebi-crypt:backups/etc-backup
-rclone copy tebi-crypt:backups/home-backup ~/restore/home --progress
-</code></pre>
-<hr>
-<h2 id="📦-optional-mount-the-encrypted-remote">📦 Optional: Mount the Encrypted Remote</h2>
-<p>To mount the encrypted bucket locally:</p><pre><code class="language-bash">rclone mount tebi-crypt:backups /mnt/encrypted-backups --daemon
-</code></pre>
-<p>Install <code>fuse3</code> if needed:</p><pre><code class="language-bash">sudo apt install fuse3
-</code></pre>
-<p>To auto-mount at boot, add to <code>rc.local</code> or systemd.</p><hr>
-<h2 id="🔐-why-use-rclone-crypt">🔐 Why Use Rclone Crypt?</h2>
-<ul>
-<li><strong>Zero-knowledge</strong>: Your cloud provider never sees your plaintext</li>
-<li><strong>Encrypt filenames + contents</strong></li>
-<li>Works with any backend (S3, Google Drive, etc.)</li>
-<li>Easy to integrate with automation</li>
-</ul>
-<hr>
-<h2 id="🧹-tips">🧹 Tips</h2>
-<ul>
-<li>Test restore periodically</li>
-<li>Rotate logs or archive monthly</li>
-<li>Store rclone config securely (<code>chmod 600 ~/.rclone.conf</code>)</li>
-<li>Backup your <code>rclone.conf</code> file!</li>
-</ul>
-
             ]]>
         </content>
     </entry>
