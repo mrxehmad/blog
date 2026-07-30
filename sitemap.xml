@@ -10,7 +10,7 @@
 </url>
 <url>
 <loc>https://ehmi.se/blog/accidentally-pushing-credentials-to-github-a-technical-post-mortem/</loc>
-<lastmod>2026-02-15T18:20:58+05:00</lastmod>
+<lastmod>2026-07-30T15:07:36+05:00</lastmod>
 <image:image>
 <image:loc>https://ehmi.se/blog/media/posts/53/Screenshot-2026-02-15-181737.png</image:loc>
 <image:title><![CDATA[github commits]]></image:title>
@@ -42,7 +42,7 @@
 </url>
 <url>
 <loc>https://ehmi.se/blog/building-a-unified-deployment-pipeline-merging-three-applications-into-one-coherent-site/</loc>
-<lastmod>2025-11-29T14:07:29+05:00</lastmod>
+<lastmod>2026-07-30T15:07:39+05:00</lastmod>
 <image:image>
 <image:loc>https://ehmi.se/blog/media/posts/49/Screenshot-2025-11-29-140413-2.png</image:loc>
 <image:title><![CDATA[Git repo mrxehmad ehmi-se-unified build]]></image:title>
@@ -62,7 +62,7 @@
 </url>
 <url>
 <loc>https://ehmi.se/blog/constructing-a-minimal-12mb-operating-system-for-web-hosting-a-comprehensive-technical-guide/</loc>
-<lastmod>2025-11-29T14:08:31+05:00</lastmod>
+<lastmod>2026-07-30T15:07:43+05:00</lastmod>
 <image:image>
 <image:loc>https://ehmi.se/blog/media/posts/48/Screenshot-2025-11-29-135641.png</image:loc>
 <image:title><![CDATA[ Linux kernel]]></image:title>
@@ -213,6 +213,10 @@
 </image:image>
 </url>
 <url>
+<loc>https://ehmi.se/blog/making-an-esp8266-survive-in-the-wild/</loc>
+<lastmod>2026-07-30T15:07:31+05:00</lastmod>
+</url>
+<url>
 <loc>https://ehmi.se/blog/migrating-from-nginx-proxy-manager-to-traefik-part-2/</loc>
 <lastmod>2025-07-01T15:16:54+05:00</lastmod>
 </url>
@@ -229,6 +233,9 @@
 </url>
 <url>
 <loc>https://ehmi.se/blog/page/10/</loc>
+</url>
+<url>
+<loc>https://ehmi.se/blog/page/11/</loc>
 </url>
 <url>
 <loc>https://ehmi.se/blog/page/2/</loc>
